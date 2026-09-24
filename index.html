@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="gu" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ધોરણ ૯ કમ્પ્યુટર અધ્યયન - શ્રી એમ. જી. સિંગાપુરી ગર્લ્સ હાઈસ્કૂલ, સુરત</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { gujarati: ['"Hind Vadodara"', 'sans-serif'] }
+        }
+      }
+    };
+  </script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Hind Vadodara', sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #fdf4ff 100%);
+    }
+    .bubble-btn {
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 0 rgba(0,0,0,0.08), 0 8px 15px -3px rgba(0,0,0,0.05);
+    }
+    .bubble-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.08);
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col text-slate-800 antialiased selection:bg-purple-200">
+
+  <!-- ================= TOP HEADER ================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-2 border-indigo-100 shadow-sm px-3 py-2.5 sm:px-6">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      
+      <!-- School & Teacher Branding -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchMainTab('quiz')">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-purple-700 via-indigo-600 to-pink-500 flex items-center justify-center text-white shadow-md text-xl">
+          💻
+        </div>
+        <div>
+          <h1 class="text-sm sm:text-base font-extrabold text-indigo-950 tracking-tight leading-snug">
+            શ્રી એમ. જી. સિંગાપુરી ગર્લ્સ હાઈસ્કૂલ, સુરત
+          </h1>
+          <div class="flex items-center gap-2 flex-wrap text-xs text-slate-600 font-semibold">
+            <span class="text-purple-700 font-bold">ધોરણ ૯ • કમ્પ્યુટર અધ્યયન</span>
+            <span>•</span>
+            <span class="inline-flex items-center gap-1 text-pink-700 bg-pink-50 px-2 py-0.5 rounded-full border border-pink-200 text-[11px]">
+              <i class="fa-solid fa-chalkboard-user"></i> વિષય શિક્ષક: Hemantsir
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls, Stars & Admin Button -->
+      <div class="flex items-center gap-2">
+        <button onclick="toggleSoundMute()" id="muteBtn" class="w-9 h-9 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center transition" title="અવાજ ચાલુ / બંધ">
+          <i class="fa-solid fa-volume-high text-sm"></i>
+        </button>
+
+        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-amber-100 border-2 border-amber-300 text-amber-900 shadow-sm font-black text-xs sm:text-sm">
+          <i class="fa-solid fa-star text-amber-500 animate-spin" style="animation-duration: 6s;"></i>
+          <span id="scoreStars">૦</span>
+        </div>
+
+        <!-- Admin Control Button -->
+        <button onclick="openAdminModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs flex items-center gap-1 shadow transition">
+          <i class="fa-solid fa-lock text-amber-400"></i> એડમિન
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= MOTIVATIONAL BANNER ================= -->
+  <section class="max-w-6xl w-full mx-auto px-3 sm:px-6 pt-4">
+    <div class="bg-gradient-to-r from-purple-700 via-indigo-700 to-pink-600 rounded-3xl p-4 sm:p-5 text-white shadow-lg relative overflow-hidden">
+      <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-black bg-white/20 backdrop-blur-sm mb-1.5 text-pink-200">
+            <span>🌸 હેમંત સરનો વિદ્યાર્થિનીઓને પ્રેરક સંદેશ</span>
+          </div>
+          <h2 class="text-base sm:text-xl font-extrabold leading-snug">
+            "પ્રિય દીકરીઓ, ટેક્નોલોજી ક્ષેત્રે તમે પણ વિશ્વમાં ડંકો વગાડી શકો છો!"
+          </h2>
+          <p class="text-xs text-purple-100 mt-1 max-w-2xl leading-relaxed">
+            કમ્પ્યુટર વિષય તમારી તાર્કિક ક્ષમતા અને આત્મવિશ્વાસ વધારે છે. દરરોજ એક નવું કૌશલ્ય શીખી આગળ વધો.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 bg-white/15 p-2 rounded-2xl backdrop-blur-sm shrink-0 border border-white/20 text-xs font-black">
+          <span class="text-2xl">🚀</span> ૧૦૦% પરિણામ લક્ષ્ય
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= NAVIGATION & CHAPTER FILTER ================= -->
+  <div class="max-w-6xl w-full mx-auto px-3 sm:px-6 pt-4">
+    <div class="flex items-center justify-between border-b border-slate-200 pb-2 flex-wrap gap-2">
+      <div class="flex items-center gap-2">
+        <button onclick="switchMainTab('quiz')" id="tabBtnQuiz" class="px-4 py-2 rounded-2xl font-extrabold text-xs sm:text-sm bg-indigo-600 text-white shadow-md transition flex items-center gap-2">
+          <i class="fa-solid fa-gamepad"></i> MCQ ગેમ
+        </button>
+        <button onclick="switchMainTab('study')" id="tabBtnStudy" class="px-4 py-2 rounded-2xl font-extrabold text-xs sm:text-sm bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition flex items-center gap-2">
+          <i class="fa-solid fa-book-open"></i> સમજૂતી & રિવિઝન
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 text-xs font-bold text-slate-600">
+        <span>પસંદ કરો:</span>
+        <select id="chapterFilterSelect" onchange="handleChapterFilterChange()" class="bg-white border border-indigo-200 rounded-xl px-2.5 py-1.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          <option value="all">સંપૂર્ણ અભ્યાસક્રમ (તમામ MCQs)</option>
+          <option value="combine50">🔥 Combine Mega Test (૫૦ પ્રશ્નો)</option>
+          <option value="ch1">પ્રકરણ ૧ : કમ્પ્યૂટરનો પરિચય</option>
+          <option value="ch2">પ્રકરણ ૨ : કમ્પ્યૂટરના પ્રકારો & ડેટા નિરૂપણ</option>
+          <option value="ch3">પ્રકરણ ૩ : ઓપરેટિંગ સિસ્ટમનો પરિચય</option>
+          <option value="ch4">પ્રકરણ ૪ : ઉબુન્ટુનો પરિચય</option>
+          <option value="ch5">પ્રકરણ ૫ : ઉબુન્ટુની યુટીલીટીઝ</option>
+          <option value="ch6">પ્રકરણ ૬ : વર્ડ પ્રોસેસિંગના મૂળભૂત ખ્યાલો</option>
+          <option value="ch7">પ્રકરણ ૭ : ડોક્યુમેન્ટ સાથે કામગીરી (Writer)</option>
+          <option value="ch8">પ્રકરણ ૮ : ટેબલ, પિક્ચર & મેઈલ મર્જ</option>
+          <option value="ch9">પ્રકરણ ૯ : પ્રેઝન્ટેશન સોફ્ટવેર (Impress)</option>
+          <option value="ch10">પ્રકરણ ૧૦ : પ્રેઝન્ટેશનમાં અન્ય સુધારા</option>
+          <option value="ch11">પ્રકરણ ૧૧ : કમ્પ્યૂટર સુરક્ષાનો પરિચય</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN QUIZ / STUDY ================= -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-6">
+
+    <!-- TAB 1: MCQ QUIZ -->
+    <div id="sectionQuiz" class="space-y-4 max-w-3xl mx-auto">
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-indigo-100 shadow-xl relative overflow-hidden">
+        <div class="flex items-center justify-between text-xs text-slate-500 font-bold mb-3">
+          <span class="flex items-center gap-1 text-indigo-700">
+            પ્રશ્ન: <strong id="quizCurrentIndex" class="text-sm text-indigo-950">૧</strong> / <span id="quizTotalCount">૧૧૦</span>
+          </span>
+          <span id="quizCategoryBadge" class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-[11px] font-bold border border-indigo-100"></span>
+        </div>
+
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-5">
+          <div id="quizProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-pink-500 w-5 transition-all duration-300"></div>
+        </div>
+
+        <h3 id="quizQuestionText" class="text-base sm:text-lg font-black text-slate-900 leading-snug mb-5"></h3>
+        <div id="quizOptionsBox" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5"></div>
+
+        <div id="quizFeedbackBox" class="hidden p-4 rounded-2xl border transition-all text-xs sm:text-sm font-semibold mb-4">
+          <div class="flex items-start gap-2.5">
+            <span id="quizFeedbackIcon" class="text-xl shrink-0"></span>
+            <div>
+              <p id="quizFeedbackTitle" class="font-extrabold"></p>
+              <p id="quizFeedbackExplain" class="text-slate-600 mt-1 leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+          <button onclick="speakQuestionText()" class="px-3 py-2 rounded-xl bg-purple-50 text-purple-700 font-bold text-xs hover:bg-purple-100 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-volume-high"></i> સાંભળો
+          </button>
+          <button id="btnNextQuiz" onclick="nextQuizQuestion()" disabled class="px-6 py-2.5 rounded-2xl font-black text-xs sm:text-sm bg-indigo-600 hover:bg-indigo-700 text-white disabled:opacity-40 bubble-btn transition flex items-center gap-1.5 shadow-md">
+            આગળનો પ્રશ્ન <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: STUDY BANK -->
+    <div id="sectionStudy" class="hidden space-y-4">
+      <div class="bg-white rounded-3xl p-5 border-2 border-indigo-100 shadow-md">
+        <h3 class="text-base font-black text-indigo-950 mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-indigo-600"></i> પ્રશ્નો અને વિસ્તૃત સમજૂતી બેંક
+        </h3>
+        <div id="studyCardsContainer" class="space-y-3"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= ADMIN LOGIN & MANAGEMENT MODAL ================= -->
+  <div id="adminModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+      
+      <!-- Login View -->
+      <div id="adminLoginForm">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+          <h3 class="font-extrabold text-base text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-indigo-600"></i> એડમિન લૉગિન (Hemantsir)
+          </h3>
+          <button onclick="closeAdminModal()" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">લૉગિન ID:</label>
+            <input type="text" id="adminUserInput" placeholder="ID દાખલ કરો..." class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">પાસવર્ડ:</label>
+            <input type="password" id="adminPassInput" placeholder="પાસવર્ડ..." class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+          </div>
+          <p id="adminLoginErr" class="text-xs text-rose-600 font-bold hidden">અમાન્ય લૉગિન ID અથવા પાસવર્ડ!</p>
+          <button onclick="handleAdminLogin()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm transition">
+            પ્રવેશ કરો
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Dashboard (Visible after login) -->
+      <div id="adminDashboard" class="hidden space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div>
+            <h3 class="font-black text-slate-900 text-base">શિક્ષક કંટ્રોલ પેનલ</h3>
+            <p class="text-xs text-emerald-600 font-bold">● અધિકૃત: Hemantsir</p>
+          </div>
+          <button onclick="logoutAdmin()" class="text-xs bg-rose-50 text-rose-600 px-3 py-1.5 rounded-xl font-bold border border-rose-200">લૉગ આઉટ</button>
+        </div>
+
+        <!-- Action 1: Permanent Update & Export Code -->
+        <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4">
+          <h4 class="font-black text-xs text-indigo-950 mb-1 flex items-center gap-1.5">
+            <i class="fa-solid fa-cloud-arrow-down"></i> કાયમી સોર્સ કોડ ડાઉનલોડ કરો (Export For Netlify)
+          </h4>
+          <p class="text-[11px] text-indigo-800 mb-3">
+            નવા પ્રશ્નો ઉમેર્યા પછી આ બટન પર ક્લિક કરો. આખી નવી ફાઇલ ડાઉનલોડ થશે જેને Netlify પર મૂકવાથી કાયમી અપડેટ થઈ જશે!
+          </p>
+          <button onclick="exportUpdatedCodeFile()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black rounded-xl shadow transition flex items-center gap-2">
+            <i class="fa-solid fa-file-code"></i> અપડેટેડ ફાઇલ ડાઉનલોડ કરો (.html)
+          </button>
+        </div>
+
+        <!-- Action 2: Add New Question -->
+        <div class="border border-slate-200 rounded-2xl p-4 space-y-3">
+          <h4 class="font-black text-xs text-slate-800">નવો પ્રશ્ન ઉમેરો:</h4>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">પ્રકરણ:</label>
+            <select id="newQChapter" class="w-full text-xs p-2 border rounded-xl outline-none font-semibold">
+              <option value="ch1">પ્રકરણ ૧ : કમ્પ્યૂટરનો પરિચય</option>
+              <option value="ch2">પ્રકરણ ૨ : કમ્પ્યૂટરના પ્રકારો & ડેટા નિરૂપણ</option>
+              <option value="ch3">પ્રકરણ ૩ : ઓપરેટિંગ સિસ્ટમનો પરિચય</option>
+              <option value="ch4">પ્રકરણ ૪ : ઉબુન્ટુનો પરિચય</option>
+              <option value="ch5">પ્રકરણ ૫ : ઉબુન્ટુની યુટીલીટીઝ</option>
+              <option value="ch6">પ્રકરણ ૬ : વર્ડ પ્રોસેસિંગના મૂળભૂત ખ્યાલો</option>
+              <option value="ch7">પ્રકરણ ૭ : ડોક્યુમેન્ટ સાથે કામગીરી (Writer)</option>
+              <option value="ch8">પ્રકરણ ૮ : ટેબલ, પિક્ચર & મેઈલ મર્જ</option>
+              <option value="ch9">પ્રકરણ ૯ : પ્રેઝન્ટેશન સોફ્ટવેર (Impress)</option>
+              <option value="ch10">પ્રકરણ ૧૦ : પ્રેઝન્ટેશનમાં અન્ય સુધારા</option>
+              <option value="ch11">પ્રકરણ ૧૧ : કમ્પ્યૂટર સુરક્ષાનો પરિચય</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">પ્રશ્નનું લખાણ:</label>
+            <input type="text" id="newQText" placeholder="પ્રશ્ન અહીં લખો..." class="w-full text-xs p-2 border rounded-xl outline-none">
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <input type="text" id="newOptA" placeholder="વિકલ્પ A" class="text-xs p-2 border rounded-xl outline-none">
+            <input type="text" id="newOptB" placeholder="વિકલ્પ B" class="text-xs p-2 border rounded-xl outline-none">
+            <input type="text" id="newOptC" placeholder="વિકલ્પ C" class="text-xs p-2 border rounded-xl outline-none">
+            <input type="text" id="newOptD" placeholder="વિકલ્પ D" class="text-xs p-2 border rounded-xl outline-none">
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">સાચો જવાબ:</label>
+              <select id="newQAnswer" class="w-full text-xs p-2 border rounded-xl outline-none font-bold">
+                <option value="0">વિકલ્પ A</option>
+                <option value="1">વિકલ્પ B</option>
+                <option value="2">વિકલ્પ C</option>
+                <option value="3">વિકલ્પ D</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">સમજૂતી (Explanation):</label>
+              <input type="text" id="newQExplain" placeholder="સાચા જવાબનું કારણ..." class="w-full text-xs p-2 border rounded-xl outline-none">
+            </div>
+          </div>
+          <button onclick="handleAddNewQuestion()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition">
+            + પ્રશ્ન સેવ કરો
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT ENGINE ================= -->
+  <script>
+    // એડમિન સિક્રેટ લોગિન વિગતો (તમે બદલી શકો છો)
+    const ADMIN_CREDENTIALS = {
+      user: "hemantsir",
+      pass: "singapuri@2026"
+    };
+
+    // ૧ થી ૧૧ પ્રકરણોનો મૂળભૂત ડેટાબેઝ
+    let CURRENT_DATABASE = [
+      {
+        chapterId: "ch1",
+        chapterName: "પ્રકરણ ૧ : કમ્પ્યૂટરનો પરિચય",
+        questions: [
+          { id: "c1_1", question: "કમ્પ્યૂટર કઈ ભાષા સીધી સમજી શકે છે?", options: ["એસેમ્બલી ભાષા", "મશીન ભાષા (બાઇનરી)", "હાઇ લેવલ ભાષા", "સી ભાષા"], answer: 1, explanation: "કમ્પ્યૂટર માત્ર 0 અને 1 ધરાવતી બાઇનરી ભાષા જ સીધી સમજી શકે છે." },
+          { id: "c1_2", question: "ડેટા પ્રોસેસિંગના મુખ્ય ત્રણ તબક્કા કયા છે?", options: ["મોનિટર, સીપીયુ, પ્રિન્ટર", "ઇનપુટ, પ્રોસેસિંગ, આઉટપુટ", "કીબોર્ડ, માઉસ, સ્પીકર", "હાર્ડવેર, સોફ્ટવેર, લાઇવવેર"], answer: 1, explanation: "કમ્પ્યૂટર ઇનપુટ મેળવી પ્રોસેસ કરીને આઉટપુટ આપે છે." },
+          { id: "c1_3", question: "કમ્પ્યૂટરની પ્રથમ પેઢીમાં શેનો ઉપયોગ થયો હતો?", options: ["ટ્રાન્ઝિસ્ટર", "વેક્યુમ ટ્યુબ (નિર્વાત નલિકા)", "ઇન્ટિગ્રેટેડ સર્કિટ (IC)", "માઇક્રોપ્રોસેસર"], answer: 1, explanation: "પ્રથમ પેઢીના કમ્પ્યૂટરમાં મુખ્ય ભાગ તરીકે વેક્યુમ ટ્યુબ વપરાતી હતી." },
+          { id: "c1_4", question: "નીચેનામાંથી કયું ઇનપુટ સાધન નથી?", options: ["કીબોર્ડ", "માઉસ", "પ્રિન્ટર", "સ્કેનર"], answer: 2, explanation: "પ્રિન્ટર એ આઉટપુટ આપવા માટેનું સાધન છે." },
+          { id: "c1_5", question: "ROM નું પૂરું નામ શું છે?", options: ["Read Only Memory", "Random Only Memory", "Run On Memory", "Real Operation Memory"], answer: 0, explanation: "ROM એ કાયમી અને નોન-વોલેટાઇલ મેમરી છે." },
+          { id: "c1_6", question: "કમ્પ્યૂટરનું મગજ કોને કહેવાય છે?", options: ["RAM", "Hard Disk", "CPU", "Monitor"], answer: 2, explanation: "CPU તમામ ગણતરીઓ અને પ્રક્રિયાઓનું નિયંત્રણ કરે છે." },
+          { id: "c1_7", question: "બીજી પેઢીના કમ્પ્યૂટરમાં વેક્યુમ ટ્યુબના સ્થાને શેનો ઉપયોગ થયો?", options: ["IC", "ટ્રાન્ઝિસ્ટર", "માઇક્રોપ્રોસેસર", "વેક્યુમ ટ્યુબ"], answer: 1, explanation: "બીજી પેઢીના કમ્પ્યૂટરમાં ટ્રાન્ઝિસ્ટરનો ઉપયોગ થયો હતો." },
+          { id: "c1_8", question: "અસ્થાયી (Volatile) મેમરીનું ઉદાહરણ કયું છે?", options: ["ROM", "RAM", "Hard Disk", "Pen Drive"], answer: 1, explanation: "પાવર બંધ થતાં RAM માં રહેલો ડેટા ભૂંસાઈ જાય છે." },
+          { id: "c1_9", question: "આઉટપુટનું કાગળ પર પ્રિન્ટ થયેલું સ્વરૂપ શું કહેવાય છે?", options: ["સોફ્ટ કોપી", "હાર્ડ કોપી", "ડ્રાફ્ટ કોપી", "ડિજિટલ કોપી"], answer: 1, explanation: "કાગળ પર છાપેલી માહિતીને હાર્ડ કોપી કહે છે." },
+          { id: "c1_10", question: "કમ્પ્યૂટર સિસ્ટમમાં કીબોર્ડ એ કયા પ્રકારનું સાધન છે?", options: ["આઉટપુટ", "પ્રોસેસિંગ", "ઈનપુટ", "સ્ટોરેજ"], answer: 2, explanation: "કીબોર્ડ વડે ડેટા કમ્પ્યૂટરમાં દાખલ કરવામાં આવે છે." }
+        ]
+      },
+      {
+        chapterId: "ch2",
+        chapterName: "પ્રકરણ ૨ : કમ્પ્યૂટરના પ્રકારો અને ડેટાની રજૂઆતનો પરિચય",
+        questions: [
+          { id: "c2_1", question: "બાઇનરી પદ્ધતિમાં કયા બે અંકોનો ઉપયોગ થાય છે?", options: ["1 અને 2", "0 અને 1", "0 અને 2", "1 અને 10"], answer: 1, explanation: "બાઈનરી સંખ્યા પદ્ધતિ બે નો આધાર (Base-2) ધરાવે છે." },
+          { id: "c2_2", question: "1 બાઇટ (Byte) એટલે કેટલા બિટ્સ (Bits)?", options: ["4 બિટ્સ", "8 બિટ્સ", "16 બિટ્સ", "32 બિટ્સ"], answer: 1, explanation: "8 બિટ્સના સમૂહને 1 બાઇટ કહે છે." },
+          { id: "c2_3", question: "4 બિટ્સના સમૂહને શું કહેવામાં આવે છે?", options: ["બાઇટ", "કિલોબાઇટ", "નિબલ (Nibble)", "શબ્દ"], answer: 2, explanation: "4 બિટ્સ ભેગા મળીને 1 નિબલ બનાવે છે." },
+          { id: "c2_4", question: "કદ અને કાર્યક્ષમતાની દ્રષ્ટિએ સૌથી ઝડપી કમ્પ્યૂટર કયા છે?", options: ["માઇક્રો કમ્પ્યૂટર", "સુપર કમ્પ્યૂટર", "મેઇનફ્રેમ કમ્પ્યૂટર", "મિની કમ્પ્યૂટર"], answer: 1, explanation: "જટિલ ગણતરીઓ માટે સૌથી ઝડપી કમ્પ્યૂટર સુપર કમ્પ્યૂટર છે." },
+          { id: "c2_5", question: "પર્સનલ કમ્પ્યૂટર (PC) એ કયા વર્ગનું કમ્પ્યૂટર છે?", options: ["માઇક્રો કમ્પ્યૂટર", "મેઇનફ્રેમ કમ્પ્યૂટર", "સુપર કમ્પ્યૂટર", "મિની કમ્પ્યૂટર"], answer: 0, explanation: "ઘરેલું અને ઓફિસ ઉપયોગ માટે માઇક્રો કમ્પ્યૂટર વપરાય છે." },
+          { id: "c2_6", question: "ડેસિમાલ (દશાંશ) સંખ્યા પદ્ધતિનો આધાર કેટલો હોય છે?", options: ["2", "8", "10", "16"], answer: 2, explanation: "દશાંશ સંખ્યા પદ્ધતિમાં 0 થી 9 એમ કુલ 10 અંકો હોય છે." },
+          { id: "c2_7", question: "હેક્ઝાડેસિમાલ સંખ્યા પદ્ધતિમાં કેટલા સંકેતો વપરાય છે?", options: ["8", "10", "12", "16"], answer: 3, explanation: "તેમાં 0-9 અંકો અને A-F સુધીના અક્ષરો વપરાય છે." },
+          { id: "c2_8", question: "ASCII નું પૂરું નામ શું છે?", options: ["American Standard Code for Information Interchange", "All System Code for Input Information", "Asian Standard Code for Interchange Information", "Automated System Code for Internet Interchange"], answer: 0, explanation: "ASCII એટલે American Standard Code for Information Interchange." },
+          { id: "c2_9", question: "કમ્પ્યૂટરમાં ચિત્ર કે ઈમેજ નાના બિંદુઓના સમૂહથી બને છે, તેને શું કહે છે?", options: ["બાઇટ", "પિક્સેલ (Pixel)", "રેઝોલ્યુશન", "ગ્રીડ"], answer: 1, explanation: "પિક્સેલ એ ડિજિટલ ઈમેજનો સૌથી નાનો એકમ છે." },
+          { id: "c2_10", question: "૧ કિલોબાઇટ (1 KB) એટલે કેટલા બાઇટ્સ?", options: ["1000 Bytes", "1024 Bytes", "512 Bytes", "2048 Bytes"], answer: 1, explanation: "2^10 = 1024 બાઇટ્સ થાય." }
+        ]
+      },
+      {
+        chapterId: "ch3",
+        chapterName: "પ્રકરણ ૩ : ઓપરેટિંગ સિસ્ટમનો પરિચય",
+        questions: [
+          { id: "c3_1", question: "કમ્પ્યૂટર હાર્ડવેર અને વપરાશકર્તા વચ્ચે મધ્યસ્થી તરીકે કોણ કાર્ય કરે છે?", options: ["એપ્લિકેશન સોફ્ટવેર", "ઓપરેટિંગ સિસ્ટમ", "કમ્પાઇલર", "બ્રાઉઝર"], answer: 1, explanation: "OS હાર્ડવેર અને યુઝર વચ્ચે સેતુ બને છે." },
+          { id: "c3_2", question: "GUI નું પૂરું નામ શું છે?", options: ["Graphical User Interface", "General User Interaction", "Global Utility Interface", "Group User Instruction"], answer: 0, explanation: "Graphical User Interface - ગ્રાફિક્સ આધારિત સુવિધા." },
+          { id: "c3_3", question: "CLI આધારિત ઓપરેટિંગ સિસ્ટમનું ઉદાહરણ કયું છે?", options: ["Windows 10", "DOS (Disk Operating System)", "Ubuntu", "Android"], answer: 1, explanation: "DOS એ કમાન્ડ લાઈન ઇન્ટરફેસ આધારિત સિસ્ટમ છે." },
+          { id: "c3_4", question: "કમ્પ્યૂટર ચાલુ થાય ત્યારે ઓપરેટિંગ સિસ્ટમ મેમરીમાં લોડ થવાની પ્રક્રિયાને શું કહે છે?", options: ["લોડિંગ", "બૂટિંગ (Booting)", "પ્રોસેસિંગ", "ફોર્મેટિંગ"], answer: 1, explanation: "બૂટિંગ (Booting) - કમ્પ્યૂટર ચાલુ થવાની પ્રારંભિક પ્રક્રિયા છે." },
+          { id: "c3_5", question: "નીચેનામાંથી કયું ઓપરેટિંગ સિસ્ટમનું કાર્ય નથી?", options: ["મેમરી મેનેજમેન્ટ", "ફાઇલ મેનેજમેન્ટ", "પ્રોસેસ મેનેજમેન્ટ", "વિડીયો રેકોર્ડિંગ"], answer: 3, explanation: "વિડીયો રેકોર્ડિંગ એ એપ્લિકેશન સોફ્ટવેરનું કાર્ય છે." },
+          { id: "c3_6", question: "એક કરતાં વધુ યુઝર્સ એકસાથે કામ કરી શકે તેવી સિસ્ટમને શું કહે છે?", options: ["સિંગલ-યુઝર OS", "મલ્ટી-યુઝર OS", "મલ્ટી-ટાસ્કિંગ OS", "રીઅલ-ટાઇમ OS"], answer: 1, explanation: "મલ્ટી-યુઝર OS માં એકથી વધુ વપરાશકર્તાઓ એકસાથે કાર્ય કરી શકે છે." },
+          { id: "c3_7", question: "ઓપરેટિંગ સિસ્ટમના મુખ્ય હૃદય સમાન ભાગને શું કહે છે?", options: ["શેલ (Shell)", "કર્નલ (Kernel)", "ડ્રાઇવર", "ડેસ્કટોપ"], answer: 1, explanation: "કર્નલ (Kernel) એ ઓપરેટિંગ સિસ્ટમનો મુખ્ય પ્રોગ્રામ છે." },
+          { id: "c3_8", question: "વપરાશકર્તા પાસેથી આદેશ મેળવી તેને કર્નલ સુધી પહોંચાડવાનું કામ કોણ કરે છે?", options: ["શેલ (Shell)", "બાયોસ (BIOS)", "કમ્પાઇલર", "રેમ"], answer: 0, explanation: "શેલ (Shell) યુઝર ઇન્ટરફેસ પૂરું પાડતો ભાગ છે." },
+          { id: "c3_9", question: "કમ્પ્યૂટર ચાલુ કરતી વખતે BIOS નું પૂરું નામ શું છે?", options: ["Basic Input Output System", "Base Internal Operating System", "Binary Input Output Software", "Basic Interface Operating Service"], answer: 0, explanation: "BIOS એટલે Basic Input Output System." },
+          { id: "c3_10", question: "સ્માર્ટફોનમાં વ્યાપકપણે વપરાતી ઓપરેટિંગ સિસ્ટમ કઈ છે?", options: ["Windows 7", "Android", "MS-DOS", "RedHat"], answer: 1, explanation: "મોબાઇલ સ્માર્ટફોન માટે Android સૌથી લોકપ્રિય OS છે." }
+        ]
+      },
+      {
+        chapterId: "ch4",
+        chapterName: "પ્રકરણ ૪ : ઉબુન્ટુનો પરિચય",
+        questions: [
+          { id: "c4_1", question: "ઉબુન્ટુ લિનક્સ એ કયા પ્રકારનું સોફ્ટવેર છે?", options: ["કમર્શિયલ (પેઇડ)", "ફ્રી અને ઓપન-સોર્સ (FOSS)", "ટ્રાયલવેર", "શેરવેર"], answer: 1, explanation: "ઉબુન્ટુ વિનામૂલ્યે અને સોર્સ કોડ સાથે ઉપલબ્ધ છે." },
+          { id: "c4_2", question: "ઉબુન્ટુ ડેસ્કટોપમાં ડાબી બાજુએ આવેલી આડી કે ઊભી પટ્ટીને શું કહે છે?", options: ["સ્ટેટસ બાર", "લૉન્ચર (Launcher)", "ટાસ્ક બાર", "સ્ક્રોલ બાર"], answer: 1, explanation: "એપ્લિકેશન્સ ઝડપથી ખોલવા માટે ડાબી પટ્ટીને લૉન્ચર કહે છે." },
+          { id: "c4_3", question: "ઉબુન્ટુમાં ફાઇલો અને ફોલ્ડર્સ શોધવા માટે કયા બટનનો ઉપયોગ થાય છે?", options: ["Dash Home", "Trash", "Settings", "Terminal"], answer: 0, explanation: "Dash Home વડે એપ્લિકેશન અને ફાઈલો સર્ચ કરી શકાય છે." },
+          { id: "c4_4", question: "ડિલીટ કરેલી ફાઇલો ઉબુન્ટુમાં ક્યાં જઈને સ્ટોર થાય છે?", options: ["Documents", "Trash", "Downloads", "Home"], answer: 1, explanation: "Trash એ વિન્ડોઝના રિસાયકલ બિન જેવું કામ કરે છે." },
+          { id: "c4_5", question: "ઉબુન્ટુ લિનક્સમાં મુખ્ય સુપર-યુઝર કે એડમિનિસ્ટ્રેટર એકાઉન્ટને શું કહે છે?", options: ["Admin", "Root", "Master", "System"], answer: 1, explanation: "Root એ સર્વોચ્ચ એડમિનિસ્ટ્રેટિવ પરમિશન ધરાવતું એકાઉન્ટ છે." },
+          { id: "c4_6", question: "લિનક્સ સિસ્ટમ કઈ લિનક્સ કર્નલ પર આધારિત છે?", options: ["લિનસ તોરવાલ્ડ્સ દ્વારા વિકસિત કર્નલ", "બિલ ગેટ્સ દ્વારા વિકસિત કર્નલ", "સ્ટીવ જોબ્સ દ્વારા વિકસિત કર્નલ", "ગૂગલ કર્નલ"], answer: 0, explanation: "Linus Torvalds એ ૧૯૯૧ માં લિનક્સ કર્નલ બનાવ્યું હતું." },
+          { id: "c4_7", question: "ઉબુન્ટુ ડેસ્કટોપ એન્વાયરનમેન્ટમાં બિલ્ટ-ઇન વેબ બ્રાઉઝર કયું હોય છે?", options: ["Internet Explorer", "Mozilla Firefox", "Safari", "Opera"], answer: 1, explanation: "ઉબુન્ટુમાં Mozilla Firefox ડિફોલ્ટ બ્રાઉઝર છે." },
+          { id: "c4_8", question: "ઉબુન્ટુમાં નવા સોફ્ટવેર ડાઉનલોડ અને ઇન્સ્ટોલ કરવા કયા ટૂલનો ઉપયોગ થાય છે?", options: ["Ubuntu Software Center", "Google Play Store", "Windows Store", "App Manager"], answer: 0, explanation: "સોફ્ટવેર શોધવા અને ઇન્સ્ટોલ કરવા Ubuntu Software Center વપરાય છે." },
+          { id: "c4_9", question: "ઉબુન્ટુ કયા આફ્રિકન શબ્દ પરથી નામ આપવામાં આવ્યું છે?", options: ["Ubuntu", "Linux", "Debian", "Fedora"], answer: 0, explanation: "Ubuntu નો અર્થ 'અન્યો પ્રત્યે માનવતા' (Humanity to others) થાય છે." },
+          { id: "c4_10", question: "ઉબુન્ટુમાં વિન્ડોઝ ટાઇટલ બારમાં મિનિમાઇઝ, મેક્સિમાઇઝ અને ક્લોઝ બટન કઈ બાજુ હોય છે?", options: ["જમણી બાજુ", "ડાબી બાજુ (ડિફોલ્ટ રુપે)", "વચ્ચે", "નીચે"], answer: 1, explanation: "ઉબુન્ટુના પરંપરાગત વિન્ડોમાં કંટ્રોલ બટનો ડાબી બાજુ હોય છે." }
+        ]
+      },
+      {
+        chapterId: "ch5",
+        chapterName: "પ્રકરણ ૫ : ઉબુન્ટુની યુટીલીટીઝ",
+        questions: [
+          { id: "c5_1", question: "ઉબુન્ટુમાં નોટીલસ (Nautilus) કયા નામે ઓળખાય છે?", options: ["ટેક્સ્ટ એડિટર", "ફાઇલ મેનેજર (Files)", "ઈમેજ વ્યુઅર", "મ્યુઝિક પ્લેયર"], answer: 1, explanation: "ફાઇલો અને ફોલ્ડર્સના સંચાલન માટે નોટીલસ ફાઇલ મેનેજર વપરાય છે." },
+          { id: "c5_2", question: "ઉબુન્ટુ લિનક્સમાં ડિફોલ્ટ પ્લેન ટેક્સ્ટ એડિટર કયું છે?", options: ["Notepad", "Gedit", "LibreOffice Writer", "MS Word"], answer: 1, explanation: "Gedit એ ઉબુન્ટુનું પ્લેન ટેક્સ્ટ એડિટર સોફ્ટવેર છે." },
+          { id: "c5_3", question: "ઈમેજ એડિટિંગ અને ચિત્રો સુધારવા માટે ઉબુન્ટુમાં કયું સોફ્ટવેર વપરાય છે?", options: ["GIMP", "VLC", "Calculator", "Rhythmbox"], answer: 0, explanation: "GIMP (GNU Image Manipulation Program) ગ્રાફિક્સ સુધારવા માટે વપરાય છે." },
+          { id: "c5_4", question: "કમાન્ડ લાઇન ઇન્ટરફેસ (CLI) માં આદેશો ટાઇપ કરવા માટે કયું યુટિલિટી સોફ્ટવેર વપરાય છે?", options: ["Terminal", "Software Center", "Settings", "Files"], answer: 0, explanation: "ટર્મિનલ દ્વારા વિવિધ કમાન્ડ્સ આપી શકાય છે." },
+          { id: "c5_5", question: "ઉબુન્ટુમાં મ્યુઝિક પ્લેયર તરીકે કયું સોફ્ટવેર ઉપલબ્ધ હોય છે?", options: ["Rhythmbox", "Gedit", "Shotwell", "Calc"], answer: 0, explanation: "Rhythmbox ઑડિયો ફાઈલો વગાડવા માટે વપરાય છે." },
+          { id: "c5_6", question: "ફોટોગ્રાફ્સનું ઓર્ગેનાઇઝેશન અને મેનેજમેન્ટ કરવા કયું એપ્લિકેશન સોફ્ટવેર વપરાય છે?", options: ["Shotwell Photo Manager", "Gedit", "Terminal", "Calculator"], answer: 0, explanation: "Shotwell વડે ફોટા સંગ્રહિત અને એડિટ કરી શકાય છે." },
+          { id: "c5_7", question: "નોટીલસ ફાઇલ મેનેજરમાં ફાઇલોને વિગતો સાથે યાદી સ્વરૂપે જોવા કયો વ્યૂ પસંદ કરાય છે?", options: ["Icon View", "List View", "Compact View", "Grid View"], answer: 1, explanation: "List View ફાઇલોની સાઈઝ અને પ્રકાર સાથે યાદી દર્શાવે છે." },
+          { id: "c5_8", question: "ટર્મિનલ ખોલવા માટેની શોર્ટકટ કી કઈ છે?", options: ["Ctrl + Alt + T", "Ctrl + Shift + T", "Alt + F2", "Ctrl + T"], answer: 0, explanation: "Ctrl + Alt + T વડે સીધું ટર્મિનલ ખોલી શકાય છે." },
+          { id: "c5_9", question: "કમ્પ્યૂટર સ્ક્રીનનો ફોટો (સ્ક્રીનશોટ) પાડવા માટે કઈ કી દબાવવામાં આવે છે?", options: ["Print Screen (PrtScn)", "F5", "Esc", "Ctrl + P"], answer: 0, explanation: "Print Screen (PrtScn) કી આખી સ્ક્રીનનો સ્નેપશોટ લે છે." },
+          { id: "c5_10", question: "નોટીલસમાં નવી ફાઇલ કે ફોલ્ડર બનાવવા કયો શોર્ટકટ વપરાય છે?", options: ["Ctrl + Shift + N", "Ctrl + N", "Alt + N", "F2"], answer: 0, explanation: "નવું ફોલ્ડર બનાવવા માટે Ctrl + Shift + N નો ઉપયોગ થાય છે." }
+        ]
+      },
+      {
+        chapterId: "ch6",
+        chapterName: "પ્રકરણ ૬ : વર્ડ પ્રોસેસિંગના મૂળભૂત ખ્યાલો",
+        questions: [
+          { id: "c6_1", question: "નીચેનામાંથી કયું વર્ડ પ્રોસેસરનું ઉદાહરણ છે?", options: ["એમએસ પેઇન્ટ (MS Paint)", "લિબ્રેઓફિસ રાઇટર (LibreOffice Writer)", "વીએલસી પ્લેયર (VLC Player)", "ગૂગલ ક્રોમ (Google Chrome)"], answer: 1, explanation: "લિબ્રેઓફિસ રાઇટર એ ઓપન-સોર્સ વર્ડ પ્રોસેસર છે." },
+          { id: "c6_2", question: "વર્ડ પ્રોસેસરનું પ્રાથમિક કાર્ય શું છે?", options: ["ઑડિયો ફાઈલ વગાડવી", "ટેક્સ્ટ ડોક્યુમેન્ટ બનાવવા અને એડિટ કરવા", "વેબસાઈટ્સ ડિઝાઇન કરવી", "ઈન્ટરનેટ બ્રાઉઝ કરવું"], answer: 1, explanation: "ટેક્સ્ટ આધારિત દસ્તાવેજો તૈયાર કરવાનું પ્રાથમિક કાર્ય છે." },
+          { id: "c6_3", question: "નીચેનામાંથી કઈ વર્ડ પ્રોસેસરની લાક્ષણિકતા નથી?", options: ["સ્પેલ ચેક", "ટેક્સ્ટ ફોર્મેટિંગ", "વિડીયો એડિટિંગ", "કોપી અને પેસ્ટ"], answer: 2, explanation: "વિડીયો એડિટિંગ એ વિડીયો એડિટરનું કાર્ય છે, રાઇટરનું નહીં." },
+          { id: "c6_4", question: "લિબ્રેઓફિસ રાઇટર સોફ્ટવેરની કઈ કેટેગરીમાં આવે છે?", options: ["વેબ બ્રાઉઝર", "ઓપન-સોર્સ ઑફિસ સૂટ", "ઈમેજ એડિટર", "ડેટાબેઝ મેનેજર"], answer: 1, explanation: "લિબ્રેઓફિસ એ સંપૂર્ણ ઓપન-સોર્સ ઓફિસ પેકેજ છે." },
+          { id: "c6_5", question: "લિબ્રેઓફિસ રાઇટરનો કયો ઘટક પેજ નંબર, શબ્દ ની સંખ્યા અને ભાષા સેટિંગ્સ દર્શાવે છે?", options: ["સાઇડબાર", "ફોર્મેટિંગ ટૂલબાર", "સ્ટેટસ બાર", "મેનુ બાર"], answer: 2, explanation: "સ્ટેટસ બાર ડોક્યુમેન્ટની વર્તમાન સ્થિતિ નીચે દર્શાવે છે." },
+          { id: "c6_6", question: "લિબ્રેઓફિસ રાઇટરમાં ટેમ્પલેટનો ઉપયોગ કરવાનો હેતુ શું છે?", options: ["બેકગ્રાઉન્ડમાં સંગીત વગાડવા માટે", "પ્રિ-ફોર્મેટેડ ડોક્યુમેન્ટ લેઆઉટ મેળવવા માટે", "ફોન્ટ સાઇઝ વધારવા માટે", "ફાઈલને પીડીએફમાં ફેરવવા માટે"], answer: 1, explanation: "પહેલેથી તૈયાર કરેલા લેઆઉટનો સીધો ઉપયોગ ટેમ્પલેટ આપે છે." },
+          { id: "c6_7", question: "કયો વિકલ્પ આપણને રાઇટરમાં ડોક્યુમેન્ટને અલગ નામ અથવા અલગ જગ્યા પર સેવ કરવાની સવલત આપે છે?", options: ["સેવ (Save)", "ક્લોઝ (Close)", "સેવ એઝ (Save As)", "એક્સપોર્ટ (Export)"], answer: 2, explanation: "Save As વડે નવું નામ અથવા ફાઈલનું લોકેશન બદલી શકાય છે." },
+          { id: "c6_8", question: "લિબ્રેઓફિસ રાઇટરમાં મેક્સિમાઇઝ બટન શું કરે છે?", options: ["ડોક્યુમેન્ટ બંધ કરે છે", "વિન્ડોને મિનિમાઇઝ કરે છે", "હેલ્પ મેનુ ખોલે છે", "વિન્ડોને ફુલ સ્ક્રીન કરે છે"], answer: 3, explanation: "વિન્ડોને મોનિટરની પૂર્ણ સાઇઝ પર લાવે છે." },
+          { id: "c6_9", question: "રાઇટરમાં લાંબા ડોક્યુમેન્ટના પેજિસમાં ઉપર-નીચે ફરવા માટે નીચેનામાંથી કોનો ઉપયોગ થાય છે?", options: ["ટાઇટલ બાર", "સર્ચ બાર", "સ્ટેટસ બાર", "સ્ક્રોલ બાર"], answer: 3, explanation: "સ્ક્રોલ બાર (Scroll Bar) પેજમાં ઉપર-નીચે ખસવા માટે વપરાય છે." },
+          { id: "c6_10", question: "રાઇટરમાં ટેમ્પલેટ વિન્ડો ખોલવા માટે નીચેનામાંથી કયા શોર્ટકટનો ઉપયોગ કરી શકાય છે?", options: ["Ctrl + S", "Ctrl + Shift + N", "Ctrl + P", "Ctrl + O"], answer: 1, explanation: "Ctrl + Shift + N ટેમ્પલેટ મેનેજર ડાયલોગ બોક્સ ખોલે છે." }
+        ]
+      },
+      {
+        chapterId: "ch7",
+        chapterName: "પ્રકરણ ૭ : ડોક્યુમેન્ટ સાથે કામગીરી (LibreOffice Writer)",
+        questions: [
+          { id: "c7_1", question: "લિબ્રેઓફિસ રાઇટરમાં શબ્દને સિલેક્ટ કરવા માટે નીચેનામાંથી કઈ તકનીકનો ઉપયોગ થાય છે?", options: ["સિંગલ ક્લિક", "ડબલ ક્લિક", "ટ્રિપલ ક્લિક", "રાઇટ ક્લિક"], answer: 1, explanation: "ડબલ ક્લિક કરવાથી આખો શબ્દ સિલેક્ટ થાય છે." },
+          { id: "c7_2", question: "નીચેનામાંથી અનડૂ (Undo) ઓપરેશન માટેની શોર્ટકટ કી કઈ છે?", options: ["Ctrl + X", "Ctrl + Y", "Ctrl + Z", "Ctrl + R"], answer: 2, explanation: "છેલ્લી ક્રિયા પાછી ખેંચવા Ctrl + Z વપરાય છે." },
+          { id: "c7_3", question: "ફોન્ટ સાઇઝ વધારવા માટે નીચેનામાંથી કઈ શોર્ટકટ કી છે?", options: ["Ctrl + Shift + P", "Ctrl + Shift + B", "Ctrl + ]", "Ctrl + ["], answer: 2, explanation: "Ctrl + ] દબાવવાથી ફોન્ટનું કદ વધે છે." },
+          { id: "c7_4", question: "નીચેનામાંથી કયું ફીચર સ્પેલિંગને આપમેળે સુધારવાની સવલત આપે છે?", options: ["ઓટો કમ્પલીટ", "ઓટો કરેક્ટ", "ઓટો ટેક્સ્ટ", "ઓટો ફિલ"], answer: 1, explanation: "ઓટો કરેક્ટ (AutoCorrect) ટાઇપિંગ ભૂલોને આપમેળે સુધારે છે." },
+          { id: "c7_5", question: "નીચેનામાંથી કયો વાઇલ્ડકાર્ડ કેરેક્ટર સર્ચમાંથી એક અક્ષરને દર્શાવવા માટે વપરાય છે?", options: ["#", ".", "^", "$"], answer: 1, explanation: "રેગ્યુલર એક્સપ્રેશનમાં ડોટ (.) કોઈપણ સિંગલ અક્ષર સાથે મેચ થાય છે." },
+          { id: "c7_6", question: "નીચેનામાંથી કયું પેજ સેટિંગ લિબ્રેઓફિસ રાઇટરમાં ડિફોલ્ટ પેજ સેટિંગ હોય છે?", options: ["લીગલ (Legal)", "A4", "લેટર (Letter)", "A3"], answer: 2, explanation: "રાઇટરમાં ડિફોલ્ટ પેજ સાઇઝ લેટર (Letter) હોય છે." },
+          { id: "c7_7", question: "નીચેનામાંથી કયા ઓરિએન્ટેશનમાં ડોક્યુમેન્ટ તેની ઊંચાઈ કરતાં પહોળાઈમાં વધુ હોય છે?", options: ["પોર્ટ્રેટ", "લેન્ડસ્કેપ", "વિન્ડો", "બ્લોક"], answer: 1, explanation: "લેન્ડસ્કેપમાં પેજ આડું (પહોળાઈ વધુ) હોય છે." },
+          { id: "c7_8", question: "ટેક્સ્ટને સેન્ટર અલાઇન કરવા માટે નીચેનામાંથી કઈ શોર્ટકટ કીનો ઉપયોગ થાય છે?", options: ["Ctrl + L", "Ctrl + E", "Ctrl + R", "Ctrl + J"], answer: 1, explanation: "લખાણને પેજની મધ્યમાં લાવવા Ctrl + E વપરાય છે." },
+          { id: "c7_9", question: "જે બાજુએ ડોક્યુમેન્ટને બાઇન્ડ કરવાનું હોય તે બાજુ કયું માર્જિન ઉમેરવામાં આવે છે?", options: ["લેફ્ટ (Left)", "રાઇટ (Right)", "બોટમ (Bottom)", "ગટર (Gutter)"], answer: 3, explanation: "બુક બાઇન્ડિંગ માટે ગટર (Gutter) માર્જિન રખાય છે." },
+          { id: "c7_10", question: "જ્યારે આઇટમનો ક્રમ મહત્વનો ન હોય ત્યારે નીચેનામાંથી શું ઉપયોગમાં લેવાય છે?", options: ["અલાઇનમેન્ટ", "અન-ઓર્ડર્ડ બુલેટ્સ", "ઓર્ડર્ડ બુલેટ્સ", "ઈમેજીસ"], answer: 1, explanation: "ક્રમ વગરની વિગતો માટે બુલેટ્સ (Unordered) વપરાય છે." }
+        ]
+      },
+      {
+        chapterId: "ch8",
+        chapterName: "પ્રકરણ ૮ : ટેબલ અને પિક્ચર સાથેનાં કાર્યો તથા મેઈલ મર્જ",
+        questions: [
+          { id: "c8_1", question: "કયા સાધન દ્વારા જટિલ વિગતોને રો અને કોલમમાં વહેંચીને સુવ્યવસ્થિત ગોઠવી શકાય છે?", options: ["ઈમેજ", "ટેબલ", "મેઈલ મર્જ", "પ્રિન્ટ"], answer: 1, explanation: "ટેબલ રો અને કોલમ સ્વરૂપે માહિતીનું વ્યવસ્થાપન કરે છે." },
+          { id: "c8_2", question: "પસંદ કરેલ લખાણના બ્લોકને પ્રિન્ટ કરવા માટે પ્રિન્ટ ડાયલોગ બોક્સના કયા વિકલ્પનો ઉપયોગ થાય છે?", options: ["Pages", "All pages", "Selection", "Block"], answer: 2, explanation: "Selection વિકલ્પ માત્ર પસંદ કરેલો ભાગ જ છાપે છે." },
+          { id: "c8_3", question: "રો અને કોલમના છેદથી બનતા ભાગને શું કહે છે?", options: ["બ્લોક", "ઓટોફોર્મેટ", "સેલ", "નેસ્ટેડ ટેબલ"], answer: 2, explanation: "આડી રો અને ઊભી કોલમ મળવાથી 'સેલ' (Cell) બને છે." },
+          { id: "c8_4", question: "ટેબલમાં નવી રો કયા સ્થાને ઉમેરી શકાય છે?", options: ["વર્તમાન રોની ઉપર", "વર્તમાન રોની નીચે", "વર્તમાન કોલમની ડાબી બાજુ", "(A) અને (B) બંને"], answer: 3, explanation: "નવી રો ઉપર કે નીચે બંને જગ્યાએ ઉમેરી શકાય છે." },
+          { id: "c8_5", question: "એક ટેબલમાં આવેલ અન્ય ટેબલની રચનાને શું કહે છે?", options: ["ડુપ્લિકેટ ટેબલ", "પ્રોમોટેડ ટેબલ", "ઇક્વલ ટેબલ", "નેસ્ટેડ ટેબલ"], answer: 3, explanation: "ટેબલની અંદર અન્ય ટેબલ એટલે નેસ્ટેડ ટેબલ (Nested Table)." },
+          { id: "c8_6", question: "પસંદ કરેલ પિક્ચરની આજુબાજુમાં દેખાતા નાના લીલા ચોરસ આકારોને શું કહે છે?", options: ["ડક્સ", "એડિટ પોઇન્ટ્સ", "પ્લેસહોલ્ડર", "સિલેક્શન પોઇન્ટ્સ"], answer: 3, explanation: "ચિત્રને રિસાઇઝ કરવા સિલેક્શન પોઇન્ટ્સ / હેન્ડલ્સ વપરાય છે." },
+          { id: "c8_7", question: "રાઇટરમાં કયા ટૂલબારની મદદથી મૂળભૂત આકારો ઉમેરી શકાય છે?", options: ["પિક્ચર ટૂલબાર", "ઈમેજ ટૂલબાર", "ડાયાગ્રામ ટૂલબાર", "ડ્રોઇંગ ટૂલબાર"], answer: 3, explanation: "ડ્રોઇંગ ટૂલબારમાં રેખા, ચોરસ, વર્તુળ જેવા આકારો હોય છે." },
+          { id: "c8_8", question: "પ્રિન્ટ ડાયલોગ બોક્સ ખોલવા માટેનો કીબોર્ડ શોર્ટકટ કયો છે?", options: ["Ctrl + P", "Alt + P", "Ctrl + Alt + P", "Ctrl + Space + P"], answer: 0, explanation: "પ્રિન્ટ કરવા માટે યુનિવર્સલ શોર્ટકટ Ctrl + P છે." },
+          { id: "c8_9", question: "કાગળ પર પ્રિન્ટ થયેલ ડોક્યુમેન્ટને અન્ય કયા નામથી ઓળખવામાં આવે છે?", options: ["ચાર્ટ કોપી", "હાર્ડ કોપી", "સોફ્ટ કોપી", "ડુપ્લિકેટ કોપી"], answer: 1, explanation: "પ્રિન્ટ થયેલા કાગળને હાર્ડ કોપી કહે છે." },
+          { id: "c8_10", question: "સરળતાથી અનેક વ્યક્તિઓ માટેના અંગત ડોક્યુમેન્ટ બનાવવા માટે શેનો ઉપયોગ થાય છે?", options: ["ટેબલ", "ઓટોફોર્મેટ", "ઓટોમેઈલ", "મેઈલ મર્જ"], answer: 3, explanation: "મેઈલ મર્જ વડે સમાન પત્ર અનેક સરનામે એકસાથે બને છે." }
+        ]
+      },
+      {
+        chapterId: "ch9",
+        chapterName: "પ્રકરણ ૯ : પ્રેઝન્ટેશન સોફ્ટવેરનો પરિચય (LibreOffice Impress)",
+        questions: [
+          { id: "c9_1", question: "નીચેનામાંથી કયું પ્રેઝન્ટેશન સોફ્ટવેર છે?", options: ["Impress", "Writer", "Base", "Calc"], answer: 0, explanation: "LibreOffice Impress સ્લાઇડ શો અને પ્રેઝન્ટેશન બનાવવા માટે વપરાય છે." },
+          { id: "c9_2", question: "ઈમ્પ્રેસ વિન્ડોમાં સૌથી ઉપર આવેલા આડા પટ્ટાને શું કહે છે?", options: ["સ્ટેટસ બાર", "સ્ટેન્ડર્ડ ટૂલબાર", "ટાઇટલ બાર", "ડ્રોઇંગ ટૂલબાર"], answer: 2, explanation: "ટાઇટલ બાર ફાઇલ અને સોફ્ટવેરનું નામ દર્શાવે છે." },
+          { id: "c9_3", question: "કયા ટૂલબાર પર New, Open અને Save ટૂલ બટન આપવામાં આવ્યા છે?", options: ["ડ્રોઇંગ ટૂલબાર", "લાઇન એન્ડ ફીલિંગ ટૂલબાર", "સ્ટેન્ડર્ડ ટૂલબાર", "પિક્ચર ટૂલબાર"], answer: 2, explanation: "સામાન્ય કમાન્ડ્સ સ્ટેન્ડર્ડ ટૂલબાર પર હોય છે." },
+          { id: "c9_4", question: "પ્રેઝન્ટેશનમાં આવેલ સ્લાઇડના થમ્બનેલ વ્યૂ કયા વિભાગમાં જોવા મળે છે?", options: ["ટાસ્કસ પૅન", "સ્લાઇડ પેન", "વર્કસપેસ", "સ્ટેટસ બાર"], answer: 1, explanation: "ડાબી બાજુ આવેલ સ્લાઇડ પેનમાં બધી સ્લાઇડ ક્રમબદ્ધ દેખાય છે." },
+          { id: "c9_5", question: "કઈ પેનલમાં માસ્ટર પેજ, લેઆઉટ અને ટેબલ ડિઝાઇન જેવા પેટાવિભાગ આપવામાં આવ્યા છે?", options: ["ટાસ્કસ પૅન", "સ્લાઇડ પેન", "વર્કસપેસ", "સ્ટેટસ બાર"], answer: 0, explanation: "જમણી બાજુની Tasks Pane માં આ તમામ સેટિંગ્સ ઉપલબ્ધ હોય છે." },
+          { id: "c9_6", question: "નીચેનામાંથી કયું સ્લાઇડ માસ્ટર પૂર્વનિર્ધારિત છે?", options: ["Designed", "Bordered", "Blank", "Highlighted"], answer: 2, explanation: "ડિફોલ્ટ માસ્ટર સ્લાઇડ હંમેશા Blank (કોરી) હોય છે." },
+          { id: "c9_7", question: "સમય સાથે કરવામાં આવતા વિઝ્યુઅલ ફેરફારોને શું કહે છે?", options: ["Image", "Audio", "Text", "Animation"], answer: 3, explanation: "ચિત્રો કે લખાણમાં ગતિશીલ ફેરફાર એટલે એનિમેશન." },
+          { id: "c9_8", question: "એક સ્લાઇડ પછી બીજી સ્લાઇડ રજૂ કરવામાં આવે ત્યારે દર્શાવવામાં આવતી વિઝ્યુઅલ અસરને શું કહે છે?", options: ["સ્લાઈડ ટ્રાન્ઝિશન", "કસ્ટમ એનિમેશન", "સ્લાઇડ ડાઇનેમિઝમ", "સ્લાઇડ ટ્રાન્સફોર્મેશન"], answer: 0, explanation: "સ્લાઇડ બદલાતી વખતે થતી અસર Slide Transition કહેવાય છે." },
+          { id: "c9_9", question: "ઈમ્પ્રેસ ઇન્ટરફેસમાં કયા બારમાં ઝૂમ સ્લાઇડર દર્શાવવામાં આવે છે?", options: ["ટાઇટલ બાર", "મેનુ બાર", "સ્ટેન્ડર્ડ ટૂલબાર", "સ્ટેટસ બાર"], answer: 3, explanation: "સૌથી નીચે રહેલા સ્ટેટસ બારમાં ઝૂમ કંટ્રોલ હોય છે." },
+          { id: "c9_10", question: "આખા સ્ક્રીન પર સ્લાઇડ શો શરૂ કરવા માટે કઈ શોર્ટકટ કીનો ઉપયોગ કરવામાં આવે છે?", options: ["F3", "F5", "F7", "F10"], answer: 1, explanation: "સ્લાઇડ શો શરૂ કરવાનો ફંક્શન કી શોર્ટકટ F5 છે." }
+        ]
+      },
+      {
+        chapterId: "ch10",
+        chapterName: "પ્રકરણ ૧૦ : પ્રેઝન્ટેશનમાં અન્ય સુધારા",
+        questions: [
+          { id: "c10_1", question: "ઈમ્પ્રેસમાં સેવ કરેલ પ્રેઝન્ટેશન ખોલવા માટે કઈ શોર્ટકટ કીનો ઉપયોગ થાય છે?", options: ["Ctrl + P", "Ctrl + S", "Ctrl + X", "Ctrl + O"], answer: 3, explanation: "અગાઉ સેવ કરેલી ફાઇલ ખોલવા Ctrl + O વપરાય છે." },
+          { id: "c10_2", question: "સ્લાઇડના ઘટકોને એનિમેશન અસર આપવા માટે 'Tasks Pane'ના કયા વિભાગનો ઉપયોગ થાય છે?", options: ["સ્લાઇડ ટ્રાન્ઝિશન", "માસ્ટર સ્લાઇડ", "ટેબલ ડિઝાઇન", "કસ્ટમ એનિમેશન"], answer: 3, explanation: "ઓબ્જેક્ટ પર એનિમેશન આપવા Custom Animation વપરાય છે." },
+          { id: "c10_3", question: "કયા મેનુમાં 'Master > Slide Master' વિકલ્પ આપવામાં આવ્યો છે?", options: ["Slide Master menu", "View menu", "Slide menu", "Slideshow menu"], answer: 1, explanation: "View મેનુમાં Slide Master વિકલ્પ મળે છે." },
+          { id: "c10_4", question: "'Drawing' ટૂલબારના કયા ટૂલ દ્વારા વર્તુળ/ગોળ આકાર દોરી શકાય છે?", options: ["Circle", "Ellipse", "Rectangle", "Arrow"], answer: 1, explanation: "ઈમ્પ્રેસમાં લંબગોળ અને વર્તુળ માટે Ellipse ટૂલ હોય છે." },
+          { id: "c10_5", question: "કલાત્મક લખાણ ઉમેરવા માટે કયા ટૂલનો ઉપયોગ કરવામાં આવે છે?", options: ["Slide Transition", "Custom Animation", "Slide Master", "Fontwork Gallery"], answer: 3, explanation: "Fontwork Gallery વડે સ્ટાઇલિશ આર્ટ ટેક્સ્ટ ઉમેરી શકાય છે." },
+          { id: "c10_6", question: "સ્લાઇડના હાંસિયા અને લેઆઉટ નક્કી કરવા માટે કયા વિકલ્પનો ઉપયોગ થાય છે?", options: ["Print Setup", "Slide Setup", "Show Setup", "Page Setup"], answer: 3, explanation: "પેજ માર્જિન માટે Page Setup વિકલ્પ વપરાય છે." },
+          { id: "c10_7", question: "'Background' ટેબના કયા વિકલ્પ દ્વારા સ્લાઈડના બેકગ્રાઉન્ડમાં ઈમેજ મૂકી શકાય છે?", options: ["Hatching", "Color", "Bitmap", "Gradient"], answer: 2, explanation: "બેકગ્રાઉન્ડમાં ફોટો/ઈમેજ ગોઠવવા Bitmap વપરાય છે." },
+          { id: "c10_8", question: "પ્રેઝન્ટેશનમાં પસંદ કરેલી સ્લાઇડ દર્શાવવા માટે કઈ સુવિધાનો ઉપયોગ થાય છે?", options: ["Slide Show", "Slide Transition", "Custom Show", "Rehearse Timings"], answer: 2, explanation: "ચોક્કસ સ્લાઇડ્સ જ દર્શાવવા કસ્ટમ સ્લાઇડ શો બનાવાય છે." },
+          { id: "c10_9", question: "'Define Custom Slide Show' ડાયલોગ બોક્સમાં કયા બટન દ્વારા સ્લાઇડ ઉમેરી શકાય છે?", options: [">", "<", ">>", "<<"], answer: 0, explanation: "જમણી બાજુ ખસેડવા '>' બટન દબાવવામાં આવે છે." },
+          { id: "c10_10", question: "'Rehearse Timings' વિકલ્પ કયા મેનુમાં આપવામાં આવ્યો છે?", options: ["Edit", "Slide", "Slide Show", "Tools"], answer: 2, explanation: "Slide Show મેનુમાં રિહર્સલ ટાઇમિંગ સેટિંગ્સ હોય છે." }
+        ]
+      },
+      {
+        chapterId: "ch11",
+        chapterName: "પ્રકરણ ૧૧ : કમ્પ્યૂટર સુરક્ષાનો પરિચય",
+        questions: [
+          { id: "c11_1", question: "સાઇબર સુરક્ષાનો પ્રાથમિક ઉદ્દેશ શું છે?", options: ["કમ્પ્યૂટરની ઝડપ વધારવી", "ડિજિટલ ડેટાને અનધિકૃત એક્સેસથી સુરક્ષા આપવી", "ઈન્ટરનેટ બેન્ડવિડ્થ વધારવી", "ગ્રાફિક્સની ગુણવત્તા સુધારવી"], answer: 1, explanation: "સાઇબર સુરક્ષા ડેટાને હેકિંગ અને ચોરીથી બચાવે છે." },
+          { id: "c11_2", question: "સુરક્ષિત બ્રાઉઝિંગ ટેવ શા માટે મહત્વપૂર્ણ છે?", options: ["ઈન્ટરનેટ કનેક્શન ઝડપી બનાવવા", "સાઇબર જોખમોથી બચવા અને વ્યક્તિગત માહિતીનું રક્ષણ કરવા", "વધુ વેબસાઈટની મુલાકાત લેવા", "કમ્પ્યૂટર ગ્રાફિક્સ સુધારવા"], answer: 1, explanation: "ડિજિટલ ગોપનીયતા અને ફ્રોડથી બચવા માટે સુરક્ષિત બ્રાઉઝિંગ અનિવાર્ય છે." },
+          { id: "c11_3", question: "કાયદેસર સોફ્ટવેર જેવું લાગે પરંતુ સક્રિય થયા પછી નુકસાન કરે તેવું જોખમ કયું છે?", options: ["વાયરસ", "વોર્મ", "ટ્રોજન", "રેન્સમવેર"], answer: 2, explanation: "ટ્રોજન હોર્સ (Trojan) પોતાનો અસલ દૂષિત ઇરાદો છુપાવે છે." },
+          { id: "c11_4", question: "ડેટાને અનલોક કરવા માટે પૈસાની ખંડણી માંગતી જોખમી કેટેગરી કઈ છે?", options: ["રેન્સમવેર", "વાયરસ", "ટ્રોજન", "એડવેર"], answer: 0, explanation: "Ransomware ડેટા એન્ક્રિપ્ટ કરી મુક્તિ માટે પૈસા માંગે છે." },
+          { id: "c11_5", question: "નીચેનામાંથી કઈ સાઇબર સુરક્ષા માટે ભલામણ કરેલ 'કરવા યોગ્ય (Do)' બાબત છે?", options: ["બધા એકાઉન્ટ માટે સમાન પાસવર્ડ રાખવો", "વારંવાર પોપ-અપ જાહેરાતો પર ક્લિક કરવું", "તમારા સોફ્ટવેરને નિયમિતપણે અપડેટ કરવું", "મિત્રો સાથે પાસવર્ડ શેર કરવો"], answer: 2, explanation: "સોફ્ટવેર અપડેટ્સ સિક્યોરિટી ખામીઓને દૂર કરે છે." },
+          { id: "c11_6", question: "મૂળભૂત સાઇબર સુરક્ષા પ્રથાઓમાં 'ન કરવા યોગ્ય (Don't)' શું છે?", options: ["મજબૂત પાસવર્ડનો ઉપયોગ કરવો", "અસુરક્ષિત વેબસાઇટ પર વ્યક્તિગત ડેટા શેર કરવો", "સાર્વજનિક કમ્પ્યૂટરમાંથી લોગ આઉટ કરવું", "ટુ-ફેક્ટર ઓથેન્ટિકેશન ચાલુ રાખવું"], answer: 1, explanation: "અસુરક્ષિત (HTTP) સાઇટ્સ પર સંવેદનશીલ ડેટા ન આપવો જોઈએ." },
+          { id: "c11_7", question: "સાઇબર બુલિંગમાં સામાન્ય રીતે શાનો સમાવેશ થાય છે?", options: ["શારીરિક નુકસાન", "કોઈને હેરાન કરવા માટે ટેકનોલોજીનો ઉપયોગ કરવો", "કાનૂની કાર્યવાહી", "શૈક્ષણિક અપ્રમાણિકતા"], answer: 1, explanation: "ડિજિટલ માધ્યમો દ્વારા ત્રાસ આપવો તે સાયબર બુલિંગ છે." },
+          { id: "c11_8", question: "પબ્લિક Wi-Fi નેટવર્કનો ઉપયોગ કરવો શા માટે જોખમી છે?", options: ["હેકર આપણો ડેટા ચોરી શકે છે", "આવી લિંક પર ક્લિક કરવું સલામત છે", "તેને પાસવર્ડની જરૂર પડે છે", "તે વધુ મોંઘું છે"], answer: 0, explanation: "અસુરક્ષિત વાઇફાઇ પર ડેટા સ્નિફિંગ અને ચોરીનું જોખમ વધુ રહે છે." },
+          { id: "c11_9", question: "નીચેનામાંથી કયું શંકાસ્પદ લિંક સાથે સંબંધિત છે?", options: ["તેમાં સ્પષ્ટ અને વાંચી શકાય તેવું URL હોય છે", "તે વિશ્વસનીય સ્રોત પરથી આવેલી જણાય છે", "તેની વારંવાર મુલાકાત લેવાય છે", "આવી લિંક્સ પર ક્લિક કરવાથી માલવેર ડાઉનલોડ થાય છે"], answer: 3, explanation: "અજાણી ફિશિંગ લિંક ડિવાઇસમાં માલવેર ડાઉનલોડ કરી શકે છે." },
+          { id: "c11_10", question: "નીચેનામાંથી કયો માલવેરનો એક પ્રકાર છે?", options: ["ફાયરવોલ", "વાયરસ", "એન્ક્રિપ્શન", "બ્રાઉઝર"], answer: 1, explanation: "વાયરસ (Computer Virus) એ નુકસાનકારક માલવેર છે." }
+        ]
+      }
+    ];
+
+    // LocalStorage ચેક કરીને ડેટાબેઝ મર્જ કરવો
+    function loadSavedDatabase() {
+      const localData = localStorage.getItem('singapuri_std9_db');
+      if (localData) {
+        try {
+          CURRENT_DATABASE = JSON.parse(localData);
+        } catch(e) {}
+      }
+    }
+    loadSavedDatabase();
+
+    function getAllQuestions() {
+      let list = [];
+      CURRENT_DATABASE.forEach(ch => {
+        ch.questions.forEach(q => {
+          list.push({ ...q, chId: ch.chapterId, chName: ch.chapterName });
+        });
+      });
+      return list;
+    }
+
+    let activeFilter = 'all';
+    let currentQuestions = getAllQuestions();
+    let currentQuizIndex = 0;
+    let earnedStars = 0;
+    let isMuted = false;
+    let audioCtx = null;
+
+    function playTone(freq, type = 'sine', duration = 0.15, vol = 0.2) {
+      if (isMuted) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch(e) {}
+    }
+
+    function playSound(type) {
+      if (type === 'click') playTone(600, 'triangle', 0.08, 0.15);
+      else if (type === 'correct') {
+        playTone(523.25, 'sine', 0.1, 0.25);
+        setTimeout(() => playTone(659.25, 'sine', 0.12, 0.25), 90);
+        setTimeout(() => playTone(783.99, 'sine', 0.2, 0.25), 180);
+      } else if (type === 'wrong') {
+        playTone(280, 'sawtooth', 0.18, 0.2);
+        setTimeout(() => playTone(210, 'sawtooth', 0.22, 0.2), 110);
+      }
+    }
+
+    function toggleSoundMute() {
+      isMuted = !isMuted;
+      document.getElementById('muteBtn').innerHTML = isMuted ? '<i class="fa-solid fa-volume-xmark text-sm"></i>' : '<i class="fa-solid fa-volume-high text-sm"></i>';
+    }
+
+    function switchMainTab(tab) {
+      playSound('click');
+      const secQuiz = document.getElementById('sectionQuiz');
+      const secStudy = document.getElementById('sectionStudy');
+      const btnQuiz = document.getElementById('tabBtnQuiz');
+      const btnStudy = document.getElementById('tabBtnStudy');
+
+      if (tab === 'quiz') {
+        secQuiz.classList.remove('hidden');
+        secStudy.classList.add('hidden');
+        btnQuiz.className = "px-4 py-2 rounded-2xl font-extrabold text-xs sm:text-sm bg-indigo-600 text-white shadow-md transition flex items-center gap-2";
+        btnStudy.className = "px-4 py-2 rounded-2xl font-extrabold text-xs sm:text-sm bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition flex items-center gap-2";
+      } else {
+        secStudy.classList.remove('hidden');
+        secQuiz.classList.add('hidden');
+        btnStudy.className = "px-4 py-2 rounded-2xl font-extrabold text-xs sm:text-sm bg-indigo-600 text-white shadow-md transition flex items-center gap-2";
+        btnQuiz.className = "px-4 py-2 rounded-2xl font-extrabold text-xs sm:text-sm bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition flex items-center gap-2";
+        renderStudyCards();
+      }
+    }
+
+    function handleChapterFilterChange() {
+      const val = document.getElementById('chapterFilterSelect').value;
+      activeFilter = val;
+      const all = getAllQuestions();
+
+      if (val === 'all') {
+        currentQuestions = all;
+      } else if (val === 'combine50') {
+        currentQuestions = [...all].sort(() => Math.random() - 0.5).slice(0, 50);
+      } else {
+        currentQuestions = all.filter(q => q.chId === val);
+      }
+
+      currentQuizIndex = 0;
+      renderQuiz();
+      renderStudyCards();
+    }
+
+    function renderQuiz() {
+      const total = currentQuestions.length;
+      if (total === 0) return;
+      const q = currentQuestions[currentQuizIndex];
+
+      document.getElementById('quizCurrentIndex').innerText = (currentQuizIndex + 1).toLocaleString('gu-IN');
+      document.getElementById('quizTotalCount').innerText = total.toLocaleString('gu-IN');
+      document.getElementById('quizCategoryBadge').innerText = q.chName;
+      document.getElementById('quizQuestionText').innerText = q.question;
+
+      document.getElementById('quizProgressBar').style.width = `${((currentQuizIndex + 1) / total) * 100}%`;
+      document.getElementById('quizFeedbackBox').classList.add('hidden');
+      document.getElementById('btnNextQuiz').disabled = true;
+
+      const box = document.getElementById('quizOptionsBox');
+      box.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.id = `optBtn_${idx}`;
+        btn.className = "p-3.5 sm:p-4 rounded-2xl bg-slate-50 hover:bg-indigo-50 border-2 border-slate-200 hover:border-indigo-300 text-left font-bold text-xs sm:text-sm text-slate-800 transition bubble-btn flex items-start gap-2.5";
+        btn.onclick = () => handleAnswer(idx);
+        btn.innerHTML = `<span class="w-7 h-7 rounded-xl bg-white border border-slate-300 flex items-center justify-center text-xs font-black text-indigo-700 shrink-0">${letters[idx]}</span><span class="mt-0.5">${opt}</span>`;
+        box.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selectedIdx) {
+      const q = currentQuestions[currentQuizIndex];
+      const feedbackBox = document.getElementById('quizFeedbackBox');
+      feedbackBox.classList.remove('hidden');
+
+      q.options.forEach((_, i) => {
+        const b = document.getElementById(`optBtn_${i}`);
+        if (b) b.disabled = true;
+      });
+
+      if (selectedIdx === q.answer) {
+        playSound('correct');
+        earnedStars++;
+        document.getElementById('scoreStars').innerText = earnedStars.toLocaleString('gu-IN');
+        document.getElementById(`optBtn_${selectedIdx}`).className = "p-3.5 sm:p-4 rounded-2xl bg-emerald-500 border-2 border-emerald-600 text-white font-black text-xs sm:text-sm shadow-md flex items-start gap-2.5";
+
+        feedbackBox.className = "p-4 rounded-2xl border transition-all text-xs sm:text-sm font-semibold mb-4 bg-emerald-50 border-emerald-300 text-emerald-950";
+        document.getElementById('quizFeedbackIcon').innerText = "🎉";
+        document.getElementById('quizFeedbackTitle').innerText = "ખૂબ સરસ! સાચો જવાબ છે!";
+        document.getElementById('quizFeedbackExplain').innerText = q.explanation;
+      } else {
+        playSound('wrong');
+        document.getElementById(`optBtn_${selectedIdx}`).className = "p-3.5 sm:p-4 rounded-2xl bg-rose-100 border-2 border-rose-300 text-rose-900 font-bold text-xs sm:text-sm flex items-start gap-2.5";
+        document.getElementById(`optBtn_${q.answer}`).className = "p-3.5 sm:p-4 rounded-2xl bg-emerald-100 border-2 border-emerald-400 text-emerald-900 font-black text-xs sm:text-sm flex items-start gap-2.5";
+
+        feedbackBox.className = "p-4 rounded-2xl border transition-all text-xs sm:text-sm font-semibold mb-4 bg-rose-50 border-rose-200 text-rose-950";
+        document.getElementById('quizFeedbackIcon').innerText = "💡";
+        document.getElementById('quizFeedbackTitle').innerText = `સાચો જવાબ: (${['A','B','C','D'][q.answer]}) ${q.options[q.answer]}`;
+        document.getElementById('quizFeedbackExplain').innerText = q.explanation;
+      }
+      document.getElementById('btnNextQuiz').disabled = false;
+    }
+
+    function nextQuizQuestion() {
+      playSound('click');
+      if (currentQuizIndex < currentQuestions.length - 1) {
+        currentQuizIndex++;
+        renderQuiz();
+      } else {
+        if (typeof confetti === 'function') confetti({ particleCount: 70, spread: 80 });
+        alert(`અભિનંદન દીકરીઓ! તમે કુલ ${earnedStars} સ્ટાર્સ પ્રાપ્ત કર્યા છે! - Hemantsir`);
+        currentQuizIndex = 0;
+        renderQuiz();
+      }
+    }
+
+    function speakQuestionText() {
+      const q = currentQuestions[currentQuizIndex];
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(q.question);
+      utter.lang = 'gu-IN';
+      window.speechSynthesis.speak(utter);
+    }
+
+    function renderStudyCards() {
+      const container = document.getElementById('studyCardsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      currentQuestions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = "border border-slate-200 rounded-2xl p-4 bg-slate-50/70 hover:bg-white transition shadow-sm";
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="text-[10px] font-black uppercase text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full">${item.chName}</span>
+              <h4 class="font-black text-sm sm:text-base text-slate-900 mt-1">${index + 1}. ${item.question}</h4>
+            </div>
+            <span class="text-xs font-black text-emerald-700 bg-emerald-100 px-2 py-1 rounded-xl shrink-0">
+              જવાબ: (${['A','B','C','D'][item.answer]}) ${item.options[item.answer]}
+            </span>
+          </div>
+          <p class="text-xs text-slate-600 mt-2 pt-2 border-t border-slate-200">
+            <strong>સમજૂતી:</strong> ${item.explanation}
+          </p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    /* ================= ADMIN AUTH & CONTROLS ================= */
+    function openAdminModal() {
+      document.getElementById('adminModal').classList.remove('hidden');
+      document.getElementById('adminLoginForm').classList.remove('hidden');
+      document.getElementById('adminDashboard').classList.add('hidden');
+      document.getElementById('adminLoginErr').classList.add('hidden');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.add('hidden');
+    }
+
+    function handleAdminLogin() {
+      const u = document.getElementById('adminUserInput').value.trim();
+      const p = document.getElementById('adminPassInput').value.trim();
+
+      if (u === ADMIN_CREDENTIALS.user && p === ADMIN_CREDENTIALS.pass) {
+        document.getElementById('adminLoginForm').classList.add('hidden');
+        document.getElementById('adminDashboard').classList.remove('hidden');
+      } else {
+        document.getElementById('adminLoginErr').classList.remove('hidden');
+      }
+    }
+
+    function logoutAdmin() {
+      document.getElementById('adminUserInput').value = '';
+      document.getElementById('adminPassInput').value = '';
+      openAdminModal();
+    }
+
+    function handleAddNewQuestion() {
+      const chId = document.getElementById('newQChapter').value;
+      const qText = document.getElementById('newQText').value.trim();
+      const a = document.getElementById('newOptA').value.trim();
+      const b = document.getElementById('newOptB').value.trim();
+      const c = document.getElementById('newOptC').value.trim();
+      const d = document.getElementById('newOptD').value.trim();
+      const ans = parseInt(document.getElementById('newQAnswer').value);
+      const exp = document.getElementById('newQExplain').value.trim();
+
+      if (!qText || !a || !b || !c || !d) {
+        alert("કૃપા કરીને પ્રશ્ન અને ચારેય વિકલ્પો ભરો!");
+        return;
+      }
+
+      const chapter = CURRENT_DATABASE.find(item => item.chapterId === chId);
+      if (chapter) {
+        chapter.questions.push({
+          id: `custom_${Date.now()}`,
+          question: qText,
+          options: [a, b, c, d],
+          answer: ans,
+          explanation: exp || "સાચો વિકલ્પ."
+        });
+
+        localStorage.setItem('singapuri_std9_db', JSON.stringify(CURRENT_DATABASE));
+        alert("પ્રશ્ન સફળતાપૂર્વક ઉમેરાઈ ગયો!");
+        handleChapterFilterChange();
+
+        // રીસેટ ફોર્મ
+        document.getElementById('newQText').value = '';
+        document.getElementById('newOptA').value = '';
+        document.getElementById('newOptB').value = '';
+        document.getElementById('newOptC').value = '';
+        document.getElementById('newOptD').value = '';
+        document.getElementById('newQExplain').value = '';
+      }
+    }
+
+    // કાયમી અપડેટેડ ફાઇલ ડાઉનલોડ કરવી
+    function exportUpdatedCodeFile() {
+      const currentDocHtml = document.documentElement.outerHTML;
+      // ફાઇલના CURRENT_DATABASE ને નવા ડેટા સાથે રિપ્લેસ કરવું
+      const regex = /let CURRENT_DATABASE = \[[\s\S]*?\];\s*\/\/\s*LocalStorage/m;
+      const replacement = `let CURRENT_DATABASE = ${JSON.stringify(CURRENT_DATABASE, null, 2)};\n\n    // LocalStorage`;
+      
+      let finalHtml = currentDocHtml.replace(regex, replacement);
+
+      const blob = new Blob([finalHtml], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderQuiz();
+      renderStudyCards();
+    });
+  </script>
+</body>
+</html>
