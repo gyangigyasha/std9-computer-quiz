@@ -66,8 +66,7 @@
 
       <!-- Controls, Stars, Sync & Admin Button -->
       <div class="flex items-center gap-2">
-        <!-- Live Google Sheet Sync Button -->
-        <button onclick="syncWithGoogleSheet()" id="syncBtn" class="px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 font-bold text-xs flex items-center gap-1 transition shadow-sm" title="ગૂગલ શીટમાંથી નવો ડેટા સિંક કરો">
+        <button onclick="syncWithGoogleSheet(true)" id="syncBtn" class="px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 font-bold text-xs flex items-center gap-1 transition shadow-sm" title="ગૂગલ શીટમાંથી લાઈવ ડેટા ફરી સિંક કરો">
           <i class="fa-solid fa-arrows-rotate text-indigo-600"></i> <span class="hidden sm:inline">રિફ્રેશ શીટ</span>
         </button>
 
@@ -80,7 +79,6 @@
           <span id="scoreStars">૦</span>
         </div>
 
-        <!-- Admin Control Button -->
         <button onclick="openAdminModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs flex items-center gap-1 shadow transition">
           <i class="fa-solid fa-lock text-amber-400"></i> એડમિન
         </button>
@@ -126,19 +124,8 @@
       <div class="flex items-center gap-2 text-xs font-bold text-slate-600">
         <span>પસંદ કરો:</span>
         <select id="chapterFilterSelect" onchange="handleChapterFilterChange()" class="bg-white border border-indigo-200 rounded-xl px-2.5 py-1.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400">
-          <option value="all">સંપૂર્ણ અભ્યાસક્રમ (તમામ ૧૧૦ MCQs)</option>
+          <option value="all">સંપૂર્ણ અભ્યાસક્રમ (તમામ MCQs)</option>
           <option value="combine50">🔥 Combine Mega Test (૫૦ પ્રશ્નો)</option>
-          <option value="ch1">પ્રકરણ 1 : કમ્પ્યૂટરનો પરિચય</option>
-          <option value="ch2">પ્રકરણ 2 : કમ્પ્યૂટરના પ્રકારો અને ડેટાની રજૂઆતનો પરિચય</option>
-          <option value="ch3">પ્રકરણ 3 : ઑપરેટિંગ સિસ્ટમનો પરિચય</option>
-          <option value="ch4">પ્રકરણ 4 : ઉબુન્ટુનો પરિચય</option>
-          <option value="ch5">પ્રકરણ 5 : ઉબુન્ટુની યુટિલિટીઝ</option>
-          <option value="ch6">પ્રકરણ 6 : વર્ડ પ્રોસેસિંગના મૂળભૂત ખ્યાલો</option>
-          <option value="ch7">પ્રકરણ 7 : ડૉક્યુમેન્ટ સાથે કામગીરી</option>
-          <option value="ch8">પ્રકરણ 8 : ટેબલ અને પિક્ચર સાથેનાં કાર્યો તથા મેઈલ મર્જ</option>
-          <option value="ch9">પ્રકરણ 9 : પ્રેઝન્ટેશન સોફ્ટવેરનો પરિચય</option>
-          <option value="ch10">પ્રકરણ 10 : પ્રેઝન્ટેશનમાં અન્ય સુધારા</option>
-          <option value="ch11">પ્રકરણ 11 : કમ્પ્યૂટર સુરક્ષાનો પરિચય</option>
         </select>
       </div>
     </div>
@@ -150,18 +137,22 @@
     <!-- TAB 1: MCQ QUIZ -->
     <div id="sectionQuiz" class="space-y-4 max-w-3xl mx-auto">
       <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-indigo-100 shadow-xl relative overflow-hidden">
+        
         <div class="flex items-center justify-between text-xs text-slate-500 font-bold mb-3">
           <span class="flex items-center gap-1 text-indigo-700">
-            પ્રશ્ન: <strong id="quizCurrentIndex" class="text-sm text-indigo-950">૧</strong> / <span id="quizTotalCount">૧૧૦</span>
+            પ્રશ્ન: <strong id="quizCurrentIndex" class="text-sm text-indigo-950">૧</strong> / <span id="quizTotalCount">૦</span>
           </span>
           <span id="quizCategoryBadge" class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-[11px] font-bold border border-indigo-100"></span>
         </div>
 
         <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-5">
-          <div id="quizProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-pink-500 w-5 transition-all duration-300"></div>
+          <div id="quizProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-pink-500 w-0 transition-all duration-300"></div>
         </div>
 
-        <h3 id="quizQuestionText" class="text-base sm:text-lg font-black text-slate-900 leading-snug mb-5"></h3>
+        <h3 id="quizQuestionText" class="text-base sm:text-lg font-black text-slate-900 leading-snug mb-5">
+          ગૂગલ શીટમાંથી પ્રશ્નો લોડ થઈ રહ્યા છે...
+        </h3>
+        
         <div id="quizOptionsBox" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5"></div>
 
         <div id="quizFeedbackBox" class="hidden p-4 rounded-2xl border transition-all text-xs sm:text-sm font-semibold mb-4">
@@ -174,13 +165,19 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+        <!-- Navigation Buttons: Previous and Next -->
+        <div class="flex items-center justify-between pt-2 border-t border-slate-100 flex-wrap gap-2">
           <button onclick="speakQuestionText()" class="px-3 py-2 rounded-xl bg-purple-50 text-purple-700 font-bold text-xs hover:bg-purple-100 transition flex items-center gap-1.5">
             <i class="fa-solid fa-volume-high"></i> સાંભળો
           </button>
-          <button id="btnNextQuiz" onclick="nextQuizQuestion()" disabled class="px-6 py-2.5 rounded-2xl font-black text-xs sm:text-sm bg-indigo-600 hover:bg-indigo-700 text-white disabled:opacity-40 bubble-btn transition flex items-center gap-1.5 shadow-md">
-            આગળનો પ્રશ્ન <i class="fa-solid fa-arrow-right"></i>
-          </button>
+          <div class="flex items-center gap-2">
+            <button id="btnPrevQuiz" onclick="prevQuizQuestion()" disabled class="px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-40 bubble-btn transition flex items-center gap-1.5 shadow-sm">
+              <i class="fa-solid fa-arrow-left"></i> પાછળનો પ્રશ્ન
+            </button>
+            <button id="btnNextQuiz" onclick="nextQuizQuestion()" disabled class="px-5 sm:px-6 py-2.5 rounded-2xl font-black text-xs sm:text-sm bg-indigo-600 hover:bg-indigo-700 text-white disabled:opacity-40 bubble-btn transition flex items-center gap-1.5 shadow-md">
+              આગળનો પ્રશ્ન <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -189,7 +186,7 @@
     <div id="sectionStudy" class="hidden space-y-4">
       <div class="bg-white rounded-3xl p-5 border-2 border-indigo-100 shadow-md">
         <h3 class="text-base font-black text-indigo-950 mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-indigo-600"></i> પાઠ્યપુસ્તક સ્વાધ્યાય પ્રશ્નો અને સંદર્ભ સહિત સમજૂતી બેંક
+          <i class="fa-solid fa-list-check text-indigo-600"></i> પ્રશ્નો અને વિસ્તૃત સમજૂતી બેંક
         </h3>
         <div id="studyCardsContainer" class="space-y-3"></div>
       </div>
@@ -238,7 +235,7 @@
         <!-- Google Sheet Live Link Config -->
         <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 space-y-2">
           <h4 class="font-black text-xs text-indigo-950 flex items-center gap-1.5">
-            <i class="fa-solid fa-table-cells text-indigo-600"></i> Google Sheet Live CSV Link સેટ કરો
+            <i class="fa-solid fa-table-cells text-indigo-600"></i> Google Sheet Live CSV Link
           </h4>
           <p class="text-[11px] text-indigo-800 leading-relaxed">
             Google Sheets માં <strong>File ➔ Share ➔ Publish to web ➔ CSV</strong> પસંદ કરી મળેલી લિંક અહીં પેસ્ટ કરો:
@@ -246,74 +243,12 @@
           <input type="url" id="sheetUrlInput" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?output=csv" class="w-full text-xs p-2.5 border rounded-xl outline-none font-mono">
           <div class="flex gap-2 pt-1">
             <button onclick="saveGoogleSheetUrl()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black rounded-xl transition">
-              લિંક સેવ કરો & ડેટા લાવો
+              લિંક સેવ કરો & ડેટા ઓટો-સિંક કરો
             </button>
-            <button onclick="resetToDefaultData()" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl transition">
-              મૂળ ડેટા રીસેટ કરો
+            <button onclick="clearCacheAndReload()" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl transition">
+              કેશ સાફ કરો
             </button>
           </div>
-        </div>
-
-        <!-- Action 1: Permanent Update & Export Code -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
-          <h4 class="font-black text-xs text-slate-900 mb-1 flex items-center gap-1.5">
-            <i class="fa-solid fa-cloud-arrow-down text-indigo-600"></i> કાયમી સોર્સ કોડ ડાઉનલોડ કરો (GitHub માટે)
-          </h4>
-          <p class="text-[11px] text-slate-600 mb-3">
-            નવા પ્રશ્નો ઉમેર્યા પછી આ બટન પર ક્લિક કરો. આખી નવી ફાઇલ ડાઉનલોડ થશે જેને GitHub પર `index.html` તરીકે અપલોડ કરવાથી કાયમી સેવ થઈ જશે!
-          </p>
-          <button onclick="exportUpdatedCodeFile()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black rounded-xl shadow transition flex items-center gap-2">
-            <i class="fa-solid fa-file-code"></i> અપડેટેડ ફાઇલ ડાઉનલોડ કરો (.html)
-          </button>
-        </div>
-
-        <!-- Action 2: Add New Question Manually -->
-        <div class="border border-slate-200 rounded-2xl p-4 space-y-3">
-          <h4 class="font-black text-xs text-slate-800">મેન્યુઅલી નવો પ્રશ્ન ઉમેરો:</h4>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-600 mb-1">પ્રકરણ:</label>
-            <select id="newQChapter" class="w-full text-xs p-2 border rounded-xl outline-none font-semibold">
-              <option value="ch1">પ્રકરણ 1 : કમ્પ્યૂટરનો પરિચય</option>
-              <option value="ch2">પ્રકરણ 2 : કમ્પ્યૂટરના પ્રકારો અને ડેટાની રજૂઆતનો પરિચય</option>
-              <option value="ch3">પ્રકરણ 3 : ઑપરેટિંગ સિસ્ટમનો પરિચય</option>
-              <option value="ch4">પ્રકરણ 4 : ઉબુન્ટુનો પરિચય</option>
-              <option value="ch5">પ્રકરણ 5 : ઉબુન્ટુની યુટિલિટીઝ</option>
-              <option value="ch6">પ્રકરણ 6 : વર્ડ પ્રોસેસિંગના મૂળભૂત ખ્યાલો</option>
-              <option value="ch7">પ્રકરણ 7 : ડૉક્યુમેન્ટ સાથે કામગીરી</option>
-              <option value="ch8">પ્રકરણ 8 : ટેબલ અને પિક્ચર સાથેનાં કાર્યો તથા મેઈલ મર્જ</option>
-              <option value="ch9">પ્રકરણ 9 : પ્રેઝન્ટેશન સોફ્ટવેરનો પરિચય</option>
-              <option value="ch10">પ્રકરણ 10 : પ્રેઝન્ટેશનમાં અન્ય સુધારા</option>
-              <option value="ch11">પ્રકરણ 11 : કમ્પ્યૂટર સુરક્ષાનો પરિચય</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-600 mb-1">પ્રશ્નનું લખાણ:</label>
-            <input type="text" id="newQText" placeholder="પ્રશ્ન અહીં લખો..." class="w-full text-xs p-2 border rounded-xl outline-none">
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            <input type="text" id="newOptA" placeholder="વિકલ્પ A" class="text-xs p-2 border rounded-xl outline-none">
-            <input type="text" id="newOptB" placeholder="વિકલ્પ B" class="text-xs p-2 border rounded-xl outline-none">
-            <input type="text" id="newOptC" placeholder="વિકલ્પ C" class="text-xs p-2 border rounded-xl outline-none">
-            <input type="text" id="newOptD" placeholder="વિકલ્પ D" class="text-xs p-2 border rounded-xl outline-none">
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">સાચો જવાબ:</label>
-              <select id="newQAnswer" class="w-full text-xs p-2 border rounded-xl outline-none font-bold">
-                <option value="0">વિકલ્પ A</option>
-                <option value="1">વિકલ્પ B</option>
-                <option value="2">વિકલ્પ C</option>
-                <option value="3">વિકલ્પ D</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">સમજૂતી (Explanation):</label>
-              <input type="text" id="newQExplain" placeholder="સાચા જવાબનું કારણ / સંદર્ભ..." class="w-full text-xs p-2 border rounded-xl outline-none">
-            </div>
-          </div>
-          <button onclick="handleAddNewQuestion()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition">
-            + પ્રશ્ન સેવ કરો
-          </button>
         </div>
 
       </div>
@@ -341,197 +276,8 @@
       pass: "singapuri@2026"
     };
 
-    // ૧ થી ૧૧ પ્રકરણોનો સચોટ પાઠ્યપુસ્તક સ્વાધ્યાય ડેટાબેઝ (કુલ ૧૧૦ MCQs)
-    const DEFAULT_COMPUTER_DB = [
-      {
-        chapterId: "ch1",
-        chapterName: "પ્રકરણ 1 : કમ્પ્યૂટરનો પરિચય",
-        questions: [
-          { id: "c1_1", question: "નીચેનામાંથી કઈ લાક્ષણિકતા પાંચમી પેઢીના કમ્પ્યૂટરમાં આવેલ છે?", options: ["વેક્યુમ ટ્યૂબનો ઉપયોગ", "એસેમ્બલી ભાષા", "કૃત્રિમ બુદ્ધિ (Artifical Intelligence)", "ચુંબકીય પટ્ટી"], answer: 2, explanation: "પાંચમી પેઢીના કમ્પ્યૂટરમાં આર્ટિફિશિયલ ઇન્ટેલિજન્સ (કૃત્રિમ બુદ્ધિ - AI), ક્લાઉડ અને ક્વોન્ટમ કમ્પ્યુટિંગ જેવી અદ્યતન તકનીકોનો સમાવેશ થાય છે. (સંદર્ભ: પાનું ૫, ૧૧)" },
-          { id: "c1_2", question: "એરીથમેટીક એન્ડ લોજિક એકમ (ALU)નું કાર્ય શું છે?", options: ["વિગતોનો સંગ્રહ", "હાર્ડવેરનું નિયંત્રણ", "ગણતરી અને તર્ક સંબંધિત કાર્યો", "ઇનપુટ સાધનનું વ્યવસ્થાપન"], answer: 2, explanation: "ALU તમામ ગાણિતિક ગણતરીઓ (સરવાળો, બાદબાકી વગેરે) અને તાર્કિક સરખામણીઓ/નિર્ણયો લેવાનું કાર્ય કરે છે. (સંદર્ભ: પાનું ૬, ૯)" },
-          { id: "c1_3", question: "લખાણ કે ચિત્ર સ્વરૂપે રહેલી માહિતીને ડિજિટલ સ્વરૂપમાં રૂપાંતરિત કરવા કયું સાધન વપરાય છે?", options: ["મોનિટર", "સ્કેનર", "પ્રિન્ટર", "પ્લોટર"], answer: 1, explanation: "સ્કેનર (Scanner) કાગળ પર રહેલા દસ્તાવેજો કે ચિત્રોને ઇમેજ/ડિજિટલ સ્વરૂપે કમ્પ્યૂટરમાં દાખલ કરે છે. (સંદર્ભ: પાનું ૭)" },
-          { id: "c1_4", question: "નીચેનામાંથી કઈ મેમરી અસ્થાયી (Volatile) છે?", options: ["ROM", "RAM", "હાર્ડ ડિસ્ક", "પેન ડ્રાઇવ"], answer: 1, explanation: "RAM (Random Access Memory) અસ્થાયી મેમરી છે; કમ્પ્યૂટરનો વીજપ્રવાહ બંધ થતાં જ તેમાં રહેલી માહિતી ભૂંસાઈ જાય છે. (સંદર્ભ: પાનું ૯)" },
-          { id: "c1_5", question: "કમ્પ્યૂટરની સ્મૃતિમાં રહેલા ડેટા અને સૂચનાઓ સુધી સીધા પહોંચવા માટે કઈ મેમરી વપરાય છે?", options: ["સેકન્ડરી મેમરી", "પ્રાઇમરી મેમરી", "કેશ મેમરી", "ઑક્સિલરી મેમરી"], answer: 1, explanation: "પ્રાઇમરી મેમરી (મુખ્ય મેમરી) સીપીયુ સાથે સીધી જોડાયેલી હોય છે અને પ્રોસેસર તેના ડેટાને સીધો એક્સેસ કરે છે. (સંદર્ભ: પાનું ૯)" },
-          { id: "c1_6", question: "પ્રથમ પેઢીના કમ્પ્યૂટર્સમાં શેનો ઉપયોગ થયો હતો?", options: ["ટ્રાન્ઝિસ્ટર", "વેક્યુમ ટ્યૂબ (નિર્વાત નલિકા)", "ઇન્ટિગ્રેટેડ સર્કિટ (IC)", "માઇક્રોપ્રોસેસર"], answer: 1, explanation: "૧૯૪૫ થી ૧૯૫૫ ના સમયગાળાના પ્રથમ પેઢીના કમ્પ્યૂટર્સમાં ગણતરી માટે વેક્યુમ ટ્યૂબનો ઉપયોગ થતો હતો. (સંદર્ભ: પાનું ૧૦)" },
-          { id: "c1_7", question: "IBM 1620 કઈ પેઢીનું કમ્પ્યૂટર છે?", options: ["પ્રથમ પેઢી", "બીજી પેઢી", "ત્રીજી પેઢી", "ચોથી પેઢી"], answer: 1, explanation: "IBM 1620 એ બીજી પેઢીનું (૧૯૫૫-૧૯૬૫) કમ્પ્યૂટર છે જેમાં ટ્રાન્ઝિસ્ટરનો ઉપયોગ કરવામાં આવ્યો હતો. (સંદર્ભ: પાનું ૧૦)" },
-          { id: "c1_8", question: "કમ્પ્યૂટરની કઈ પેઢીમાં માઇક્રોપ્રોસેસરનો ઉપયોગ શરૂ થયો?", options: ["બીજી પેઢી", "ત્રીજી પેઢી", "ચોથી પેઢી", "પાંચમી પેઢી"], answer: 2, explanation: "ચોથી પેઢીના કમ્પ્યૂટર્સમાં VLSI અને માઇક્રોપ્રોસેસર ચિપનો ઉપયોગ શરૂ થયો જેનાથી કમ્પ્યૂટરનું કદ ખૂબ નાનું બન્યું. (સંદર્ભ: પાનું ૧૧)" },
-          { id: "c1_9", question: "કઈ પેઢીમાં કમ્પ્યૂટર નેટવર્કનો વિકાસ થયો?", options: ["પ્રથમ પેઢી", "બીજી પેઢી", "ત્રીજી પેઢી", "ચોથી પેઢી"], answer: 3, explanation: "ચોથી પેઢીમાં પર્સનલ કમ્પ્યૂટર ક્રાંતિ સાથે લેન (LAN) અને વૈશ્વિક નેટવર્કિંગનો વ્યાપક વિકાસ થયો. (સંદર્ભ: પાનું ૧૧)" },
-          { id: "c1_10", question: "સોફ્ટવેરના મુખ્ય બે પ્રકાર કયા છે?", options: ["હાર્ડવેર અને લાઇવવેર", "સિસ્ટમ સોફ્ટવેર અને એપ્લિકેશન સોફ્ટવેર", "ઇનપુટ સોફ્ટવેર અને આઉટપુટ સોફ્ટવેર", "ટેક્સ્ટ અને ગ્રાફિક્સ સોફ્ટવેર"], answer: 1, explanation: "સોફ્ટવેરને બે મુખ્ય વિભાગોમાં વહેંચવામાં આવે છે: સિસ્ટમ સોફ્ટવેર (દા.ત. OS) અને એપ્લિકેશન સોફ્ટવેર (દા.ત. રાઇટર, બ્રાઉઝર). (સંદર્ભ: પાનું ૧૨)" }
-        ]
-      },
-      {
-        chapterId: "ch2",
-        chapterName: "પ્રકરણ 2 : કમ્પ્યૂટરના પ્રકારો અને ડેટાની રજૂઆતનો પરિચય",
-        questions: [
-          { id: "c2_1", question: "કમ્પ્યૂટર પર વિવિધ કાર્યો કરવા માટે રચાયેલા પ્રોગ્રામના સમૂહને શું કહેવામાં આવે છે?", options: ["હાર્ડવેર", "ડેટા", "સૉફ્ટવેર", "ઇનપુટ"], answer: 2, explanation: "કમ્પ્યૂટર પર વિવિધ કાર્યો કરવા માટે ડિઝાઇન કરાયેલા પ્રોગ્રામોના સંકલિત સમૂહને સૉફ્ટવેર કહે છે. (સંદર્ભ: પાનું ૧૫)" },
-          { id: "c2_2", question: "કયા પ્રકારનું કમ્પ્યૂટર ક્લાયન્ટ (clients) કહેવાતા અન્ય કમ્પ્યૂટરને સેવાઓ અથવા ડેટા પ્રદાન કરવા માટે રચાયેલ છે?", options: ["લેપટોપ", "સુપર કમ્પ્યૂટર", "ટેબ્લેટ", "સર્વર"], answer: 3, explanation: "સર્વર (Server) નેટવર્ક સંસાધનોનું સંચાલન કરે છે અને ક્લાયન્ટ કમ્પ્યૂટર્સની વિનંતીઓનો સતત જવાબ આપી ડેટા કે સેવાઓ પૂરી પાડે છે. (સંદર્ભ: પાનું ૧૮)" },
-          { id: "c2_3", question: "કદ અને કિંમતમાં સૌથી મોટા અને અતિ જટિલ ગણતરીઓ માટે વપરાતા કમ્પ્યૂટર કયા છે?", options: ["માઇક્રો કમ્પ્યૂટર", "મિની કમ્પ્યૂટર", "મેઇનફ્રેમ કમ્પ્યૂટર", "સુપર કમ્પ્યૂટર"], answer: 3, explanation: "હવામાન આગાહી, પરમાણુ સંશોધન અને વૈજ્ઞાનિક વિશ્લેષણ માટે અતિ ઝડપી સુપર કમ્પ્યૂટર વપરાય છે. (સંદર્ભ: પાનું ૧૯)" },
-          { id: "c2_4", question: "ડેસ્કટોપ, લેપટોપ અને ટેબ્લેટ એ કયા વર્ગના કમ્પ્યૂટરના ઉદાહરણો છે?", options: ["માઇક્રો કમ્પ્યૂટર (પર્સનલ કમ્પ્યૂટર)", "મેઇનફ્રેમ કમ્પ્યૂટર", "સુપર કમ્પ્યૂટર", "મિની કમ્પ્યૂટર"], answer: 0, explanation: "વ્યક્તિગત ઉપયોગ માટે રચાયેલા નાના કદના કમ્પ્યૂટર્સને માઇક્રો કમ્પ્યૂટર (PC) કહેવાય છે. (સંદર્ભ: પાનું ૧૭)" },
-          { id: "c2_5", question: "બાઇનરી સંખ્યા પદ્ધતિનો આધાર (Base) કેટલો હોય છે?", options: ["૨", "૮", "૧૦", "૧૬"], answer: 0, explanation: "બાઇનરી સંખ્યા પદ્ધતિ માત્ર બે જ અંકો (0 અને 1) નો ઉપયોગ કરતી હોવાથી તેનો આધાર ૨ છે. (સંદર્ભ: પાનું ૨૧)" },
-          { id: "c2_6", question: "કમ્પ્યૂટર મેમરીમાં ૮ બિટ્સ (Bits) ના સમૂહને શું કહેવામાં આવે છે?", options: ["૧ નિબલ (Nibble)", "૧ બાઇટ (Byte)", "૧ કિલોબાઇટ (KB)", "૧ વર્ડ (Word)"], answer: 1, explanation: "૮ બિટ્સ ભેગા મળીને ૧ બાઇટ (Byte) બનાવે છે, જ્યારે ૪ બિટ્સને ૧ નિબલ કહેવાય છે. (સંદર્ભ: પાનું ૨૨)" },
-          { id: "c2_7", question: "૧૦૨૪ બાઇટ્સ (Bytes) બરાબર કેટલા થાય?", options: ["૧ મેગાબાઇટ (MB)", "૧ કિલોબાઇટ (KB)", "૧ ગીગાબાઇટ (GB)", "૧ ટેરાબાઇટ (TB)"], answer: 1, explanation: "૨ ની ૧૦ ઘાત એટલે કે ૧૦૨૪ બાઇટ્સ = ૧ કિલોબાઇટ (1 KB) થાય છે. (સંદર્ભ: પાનું ૨૩)" },
-          { id: "c2_8", question: "દશાંશ (Decimal) સંખ્યા પદ્ધતિમાં કેટલા અંકોનો ઉપયોગ થાય છે?", options: ["૨", "૮", "૧૦", "૧૬"], answer: 2, explanation: "દશાંશ પદ્ધતિમાં ૦ થી ૯ સુધીના કુલ ૧૦ અંકો વપરાય છે, તેથી તેનો આધાર ૧૦ છે. (સંદર્ભ: પાનું ૨૦)" },
-          { id: "c2_9", question: "ASCII કોડિંગ સિસ્ટમમાં ASCII નું પૂરું નામ શું છે?", options: ["American Standard Code for Information Interchange", "All Standard Code for Internet Interface", "Asian System Code for Information Interchange", "American System Code for Input Interchange"], answer: 0, explanation: "ASCII એટલે American Standard Code for Information Interchange જે અક્ષરોને આંકડાકીય કોડ આપે છે. (સંદર્ભ: પાનું ૨૫)" },
-          { id: "c2_10", question: "ડિજિટલ ચિત્ર (Image) નો સૌથી નાનો ઘટક એકમ કયો છે?", options: ["ડોટ (Dot)", "પિક્સેલ (Pixel)", "બાઇટ (Byte)", "રિઝોલ્યુશન (Resolution)"], answer: 1, explanation: "પિક્સેલ (Picture Element - Pixel) એ સ્ક્રીન પર દર્શાવવામાં આવતા ડિજિટલ ચિત્રનો સૌથી નાનો મૂળભૂત એકમ છે. (સંદર્ભ: પાનું ૨૬)" }
-        ]
-      },
-      {
-        chapterId: "ch3",
-        chapterName: "પ્રકરણ 3 : ઑપરેટિંગ સિસ્ટમનો પરિચય",
-        questions: [
-          { id: "c3_1", question: "ઑપરેટિંગ સિસ્ટમનો મુખ્ય હેતુ શું છે?", options: ["યુઝર ઇન્ટરફેસ પૂરું પાડવા", "સંસાધન મેનેજર તરીકે કાર્ય કરવા", "A અને B બંને", "કમ્પ્યૂટરને બધો સમય કાર્યરત રાખવા"], answer: 2, explanation: "ઑપરેટિંગ સિસ્ટમના બે મુખ્ય ઉદ્દેશો છે: વપરાશકર્તાને સરળ ઇન્ટરફેસ પૂરો પાડવો અને કમ્પ્યૂટર હાર્ડવેર સંસાધનોનું કાર્યક્ષમ સંચાલન કરવું. (સંદર્ભ: પાનું ૨૯, ૩૦)" },
-          { id: "c3_2", question: "નીચેનામાંથી કઈ ઑપરેટિંગ સિસ્ટમ માત્ર ટેક્સ્ટ-આધારિત ઇન્ટરફેસ આપે છે?", options: ["MS-DOS", "Ubuntu ડેસ્કટોપ", "વિન્ડોઝ 11", "લિનક્સ"], answer: 0, explanation: "MS-DOS (Microsoft Disk Operating System) એ કમાન્ડ લાઇન આધારિત સંપૂર્ણપણે ટેક્સ્ટ-આધારિત (CLI) ઑપરેટિંગ સિસ્ટમ છે. (સંદર્ભ: પાનું ૩૧, ૩૫)" },
-          { id: "c3_3", question: "કમ્પ્યૂટર શરૂ કરતી વખતે મેમરીમાં ઑપરેટિંગ સિસ્ટમ લોડ થવાની પ્રક્રિયાને શું કહે છે?", options: ["બૂટિંગ (Booting)", "પ્રોસેસિંગ", "કમ્પાઇલિંગ", "એક્ઝિક્યુટિંગ"], answer: 0, explanation: "કમ્પ્યૂટર સ્વીચ ઓન થાય ત્યારે હાર્ડ ડિસ્કમાંથી OS મુખ્ય મેમરી (RAM) માં લોડ થાય તે પ્રક્રિયા બૂટિંગ કહેવાય છે. (સંદર્ભ: પાનું ૩૨)" },
-          { id: "c3_4", question: "GUI નું પૂરું નામ શું છે?", options: ["Graphical User Interface", "Global User Interaction", "General Utility Interface", "Group User Instruction"], answer: 0, explanation: "GUI એટલે Graphical User Interface જેમાં આઇકોન, વિન્ડો અને મેનુ દ્વારા માઉસથી સરળતાથી કામ થઈ શકે છે. (સંદર્ભ: પાનું ૩૧)" },
-          { id: "c3_5", question: "ઑપરેટિંગ સિસ્ટમના હાર્દ (મુખ્ય કોર પ્રોગ્રામ) સમાન ભાગને શું કહે છે?", options: ["શેલ (Shell)", "કર્નલ (Kernel)", "ડ્રાઇવર (Driver)", "ટાસ્ક મેનેજર"], answer: 1, explanation: "કર્નલ (Kernel) એ OS નો મુખ્ય પાયાનો ભાગ છે જે સીપીયુ, મેમરી અને ડિવાઇસીસનું સીધું સંચાલન કરે છે. (સંદર્ભ: પાનું ૩૨)" },
-          { id: "c3_6", question: "વપરાશકર્તા અને કર્નલ વચ્ચે મધ્યસ્થી તરીકે આદેશો સ્વીકારવાનું કાર્ય કોણ કરે છે?", options: ["શેલ (Shell)", "બાયોસ (BIOS)", "કમ્પાઇલર", "રેમ"], answer: 0, explanation: "શેલ (Shell) યુઝર પાસેથી કમાન્ડ સ્વીકારીને તેને કર્નલ સમજી શકે તેવા સ્વરૂપમાં રજૂ કરે છે. (સંદર્ભ: પાનું ૩૨)" },
-          { id: "c3_7", question: "કમ્પ્યૂટર ચાલુ થતાં હાર્ડવેર ચેક કરતી 'BIOS' ચિપનું પૂરું નામ શું છે?", options: ["Basic Input Output System", "Binary Internal Operating Service", "Basic Interface Operating Software", "Base Input Optical System"], answer: 0, explanation: "BIOS એટલે Basic Input Output System જે મધરબોર્ડ પર સ્થિત રોમ ચિપમાં સંગ્રહિત પ્રારંભિક પ્રોગ્રામ છે. (સંદર્ભ: પાનું ૩૨)" },
-          { id: "c3_8", question: "એક સાથે એક કરતાં વધુ પ્રોગ્રામ્સ ચલાવવાની OS ની ક્ષમતાને શું કહે છે?", options: ["મલ્ટી-પ્રોગ્રામિંગ / મલ્ટી-ટાસ્કિંગ", "સિંગલ-યુઝર", "ટાઇમ-શેરિંગ", "બેચ પ્રોસેસિંગ"], answer: 0, explanation: "મલ્ટીટાસ્કિંગ OS એક જ સમયે એકથી વધુ એપ્લિકેશનોને સીપીયુ સમય ફાળવીને ચલાવી શકે છે. (સંદર્ભ: પાનું ૩૩)" },
-          { id: "c3_9", question: "સ્માર્ટફોનમાં વ્યાપકપણે વપરાતી ઓપન-સોર્સ મોબાઇલ ઓપરેટિંગ સિસ્ટમ કઈ છે?", options: ["Android", "Windows Phone", "MS-DOS", "Ubuntu Server"], answer: 0, explanation: "Android એ લિનક્સ કર્નલ પર આધારિત ગૂગલ દ્વારા વિકસાવવામાં આવેલી સૌથી લોકપ્રિય મોબાઇલ OS છે. (સંદર્ભ: પાનું ૩૭)" },
-          { id: "c3_10", question: "નીચેનામાંથી કયું કાર્ય ઑપરેટિંગ સિસ્ટમનું નથી?", options: ["મેમરી મેનેજમેન્ટ", "ફાઇલ મેનેજમેન્ટ", "ઇન્ટરનેટ પર વેબસાઇટ બનાવવી", "પ્રોસેસ મેનેજમેન્ટ"], answer: 2, explanation: "વેબસાઇટ બનાવવી એ વેબ ડેવલપમેન્ટ સોફ્ટવેરનું કાર્ય છે, ઑપરેટિંગ સિસ્ટમનું મૂળભૂત કાર્ય નથી. (સંદર્ભ: પાનું ૩૦)" }
-        ]
-      },
-      {
-        chapterId: "ch4",
-        chapterName: "પ્રકરણ 4 : ઉબુન્ટુનો પરિચય",
-        questions: [
-          { id: "c4_1", question: "ઉબુન્ટુની રચના કઈ સંસ્થા દ્વારા કરવામાં આવી છે?", options: ["રેડહૅટ", "ફેડોરા", "કેનોનિકલ", "માઇક્રોસોફ્ટ"], answer: 2, explanation: "ઉબુન્ટુ લિનક્સનું નિર્માણ અને સંચાલન કેનોનિકલ લિમિટેડ (Canonical Ltd.) દ્વારા કરવામાં આવેલું છે. (સંદર્ભ: પાનું ૪૩)" },
-          { id: "c4_2", question: "ઉબુન્ટુમાં ફાઇલનું લિસ્ટ જોવા માટે કયા કમાન્ડનો ઉપયોગ થાય છે?", options: ["List", "Show", "ls", "dir"], answer: 2, explanation: "ઉબુન્ટુ લિનક્સમાં વર્તમાન ડિરેક્ટરીમાં રહેલી તમામ ફાઇલો અને ફોલ્ડર્સની યાદી દર્શાવવા માટે 'ls' (list) કમાન્ડ વપરાય છે. (સંદર્ભ: પાનું ૫૦)" },
-          { id: "c4_3", question: "ઉબુન્ટુ ડેસ્કટોપમાં ડાબી બાજુએ આવેલી ઊભી આઇકોન પટ્ટીને શું કહે છે?", options: ["ટાસ્ક બાર", "લૉન્ચર (Launcher)", "સ્ટેટસ બાર", "મેનુ બાર"], answer: 1, explanation: "લૉન્ચર (Launcher) વડે વારંવાર વપરાતી એપ્લિકેશન્સને સિંગલ ક્લિકથી ઝડપથી શરૂ કરી શકાય છે. (સંદર્ભ: પાનું ૪૪)" },
-          { id: "c4_4", question: "ઉબુન્ટુમાં એપ્લિકેશન્સ, ફાઇલો કે મીડિયા ઝડપથી શોધવા માટે સૌથી ઉપર કયું બટન હોય છે?", options: ["Trash", "Dash Home", "Files", "Terminal"], answer: 1, explanation: "Dash Home બટન પર ક્લિક કરીને કીબોર્ડથી ટાઇપ કરી કોઈપણ એપ કે ફાઇલ શોધી શકાય છે. (સંદર્ભ: પાનું ૪૫)" },
-          { id: "c4_5", question: "ઉબુન્ટુ લિનક્સમાં ડિલીટ કરેલી ફાઇલો ક્યાં સંગ્રહાય છે?", options: ["Recycle Bin", "Trash", "Temp", "Lost+Found"], answer: 1, explanation: "ઉબુન્ટુમાં કાઢી નાખેલી ફાઇલો Trash માં જાય છે, જ્યાંથી તેને પુનઃપ્રાપ્ત (Restore) કરી શકાય છે. (સંદર્ભ: પાનું ૪૫)" },
-          { id: "c4_6", question: "ઉબુન્ટુ લિનક્સમાં સર્વોચ્ચ વહીવટી સત્તા ધરાવતા સુપર-યુઝરને શું કહેવાય?", options: ["Administrator", "Root (રૂટ)", "Master", "Supervisor"], answer: 1, explanation: "Root યુઝર સિસ્ટમમાં કોઈપણ ફાઇલ કે સેટિંગ્સ બદલવાની સંપૂર્ણ પરવાનગી ધરાવે છે. (સંદર્ભ: પાનું ૪૬)" },
-          { id: "c4_7", question: "લિનક્સ ઓપરેટિંગ સિસ્ટમનું કર્નલ સૌપ્રથમ કોણે બનાવ્યું હતું?", options: ["બિલ ગેટ્સ", "લિનસ તોરવાલ્ડ્સ (Linus Torvalds)", "સ્ટીવ જોબ્સ", "માર્ક શટલવર્થ"], answer: 1, explanation: "ઈ.સ. ૧૯૯૧ માં ફિનલેન્ડના વિદ્યાર્થી લિનસ તોરવાલ્ડ્સે લિનક્સ કર્નલની શોધ કરી હતી. (સંદર્ભ: પાનું ૪૨)" },
-          { id: "c4_8", question: "ઉબુન્ટુમાં ડિફોલ્ટ વેબ બ્રાઉઝર કયું ઉપલબ્ધ હોય છે?", options: ["ગૂગલ ક્રોમ", "ઇન્ટરનેટ એક્સપ્લોરર", "મોઝિલા ફાયરફોક્સ (Mozilla Firefox)", "સફારી"], answer: 2, explanation: "ઉબુન્ટુમાં પૂર્વનિર્ધારિત વેબ બ્રાઉઝર તરીકે મોઝિલા ફાયરફોક્સ સામેલ હોય છે. (સંદર્ભ: પાનું ૪૬)" },
-          { id: "c4_9", question: "'ઉબુન્ટુ' શબ્દ કઈ ભાષા/સંસ્કૃતિનો છે, જેનો અર્થ 'અન્યો પ્રત્યે માનવતા' થાય છે?", options: ["લેટિન", "આફ્રિકન", "ફ્રેન્ચ", "જર્મન"], answer: 1, explanation: "ઉબુન્ટુ એ પ્રાચીન આફ્રિકન વિચારધારા છે જેનો અર્થ 'Humanity towards others' થાય છે. (સંદર્ભ: પાનું ૪૩)" },
-          { id: "c4_10", question: "ઉબુન્ટુમાં નવા સોફ્ટવેર ઇન્સ્ટોલ કરવા કે હટાવવા માટે કયું ગ્રાફિકલ ટૂલ વપરાય છે?", options: ["Ubuntu Software Center", "Control Panel", "Google Play", "Synaptic Package"], answer: 0, explanation: "Ubuntu Software Center દ્વારા કોઈપણ સોફ્ટવેર સરળતાથી શોધીને ઇન્સ્ટોલ કરી શકાય છે. (સંદર્ભ: પાનું ૪૭)" }
-        ]
-      },
-      {
-        chapterId: "ch5",
-        chapterName: "પ્રકરણ 5 : ઉબુન્ટુની યુટિલિટીઝ",
-        questions: [
-          { id: "c5_1", question: "નીચેનામાંથી કયો મોડ ઉબુન્ટુ કેલ્ક્યુલેટરમાં ડિફોલ્ટ રૂપે ઉપલબ્ધ નથી?", options: ["બેઝિક મોડ", "સાયન્ટીફિક મોડ", "ફાઇનાન્સિયલ મોડ", "ગ્રાફિંગ મોડ"], answer: 3, explanation: "ઉબુન્ટુ કેલ્ક્યુલેટરમાં બેઝિક, એડવાન્સ/સાયન્ટિફિક, ફાઇનાન્સિયલ અને પ્રોગ્રામિંગ મોડ હોય છે, પરંતુ ગ્રાફિંગ મોડ હોતો નથી. (સંદર્ભ: પાનું ૫૮)" },
-          { id: "c5_2", question: "ઉબુન્ટુ કેલ્ક્યુલેટરમાં ફાઇનાન્સિયલ મોડનો મુખ્ય હેતુ શો છે?", options: ["બીજગણિતીય સમીકરણો ઉકેલવા", "ચલણ રૂપાંતરિત કરવા", "વ્યાજ, વાર્ષિકી અને અન્ય નાણાંકીય-સંબંધિત મૂલ્યોની ગણતરી કરવા", "આંકડાકીય સમસ્યાઓ ઉકેલવા"], answer: 2, explanation: "ફાઇનાન્સિયલ મોડ વ્યાજ દર, લોન હપ્તા, મુદત, અને રોકાણના વળતર જેવી નાણાકીય બાબતોની ગણતરી કરવા માટે વપરાય છે. (સંદર્ભ: પાનું ૫૮, ૫૯)" },
-          { id: "c5_3", question: "ઉબુન્ટુમાં ડિફોલ્ટ પ્લેન ટેક્સ્ટ એડિટર કયું છે?", options: ["Notepad", "gedit", "WordPad", "LibreOffice"], answer: 1, explanation: "gedit એ ઉબુન્ટુનું અધિકૃત અને હળવું GUI ટેક્સ્ટ એડિટર સોફ્ટવેર છે. (સંદર્ભ: પાનું ૬૧)" },
-          { id: "c5_4", question: "ઉબુન્ટુમાં ફાઇલો અને ફોલ્ડર્સનું સંચાલન કરતા ફાઇલ મેનેજર પ્રોગ્રામને શું કહે છે?", options: ["Explorer", "Nautilus (Files)", "Finder", "Directory Manager"], answer: 1, explanation: "નોટીલસ (Nautilus) એ ઉબુન્ટુનું મૂળભૂત ફાઇલ મેનેજર છે, જેને સામાન્ય રીતે 'Files' કહેવાય છે. (સંદર્ભ: પાનું ૬૦)" },
-          { id: "c5_5", question: "ઉબુન્ટુમાં ડિજિટલ ઇમેજ એડિટિંગ અને ફોટો રીટચિંગ માટે કયું લોકપ્રિય ટૂલ વપરાય છે?", options: ["MS Paint", "GIMP", "Photoshop", "Picasa"], answer: 1, explanation: "GIMP (GNU Image Manipulation Program) ફોટો એડિટિંગ માટેનું શક્તિશાળી ઓપન-સોર્સ સોફ્ટવેર છે. (સંદર્ભ: પાનું ૬૬)" },
-          { id: "c5_6", question: "ટર્મિનલ (કમાન્ડ લાઇન) ખોલવા માટેની શૉર્ટકટ કી કઈ છે?", options: ["Ctrl + Alt + T", "Ctrl + Shift + T", "Alt + F2", "Ctrl + T"], answer: 0, explanation: "કીબોર્ડ પરથી 'Ctrl + Alt + T' દબાવતાં જ ઉબુન્ટુ ટર્મિનલ કન્સોલ ખુલી જાય છે. (સંદર્ભ: પાનું ૬૮)" },
-          { id: "c5_7", question: "ઉબુન્ટુમાં ઑડિયો અને ગીતો સાંભળવા માટેનું પૂર્વનિર્ધારિત મ્યુઝિક પ્લેયર કયું છે?", options: ["Rhythmbox", "VLC", "Windows Media Player", "Winamp"], answer: 0, explanation: "Rhythmbox મ્યુઝિક પ્લેયર દ્વારા ઑડિયો ફાઇલોનું લિસ્ટિંગ અને પ્લેબેક થાય છે. (સંદર્ભ: પાનું ૬૫)" },
-          { id: "c5_8", question: "કમ્પ્યૂટર સ્ક્રીનનો સ્ક્રીનશોટ પાડવા માટે કઈ કી દબાવવામાં આવે છે?", options: ["Print Screen (PrtScn)", "Ctrl + P", "F12", "Alt + S"], answer: 0, explanation: "કીબોર્ડની 'Print Screen' કી આખી સ્ક્રીનની છબી પાડીને સેવ કરવાનો વિકલ્પ આપે છે. (સંદર્ભ: પાનું ૬૩)" },
-          { id: "c5_9", question: "નોટીલસમાં નવું ફોલ્ડર બનાવવા માટેની શૉર્ટકટ કી કઈ છે?", options: ["Ctrl + N", "Ctrl + Shift + N", "Alt + N", "F2"], answer: 1, explanation: "કોઈપણ ડિરેક્ટરીમાં નવું ફોલ્ડર બનાવવા 'Ctrl + Shift + N' શૉર્ટકટ વપરાય છે. (સંદર્ભ: પાનું ૬૦)" },
-          { id: "c5_10", question: "ઉબુન્ટુ ટર્મિનલમાં કોઈપણ કમાન્ડને એડમિનિસ્ટ્રેટર (Root) અધિકાર સાથે ચલાવવા કયો શબ્દ આગળ લગાવાય છે?", options: ["admin", "root", "sudo", "run"], answer: 2, explanation: "'sudo' (Superuser Do) કમાન્ડ સામાન્ય યુઝરને ચોક્કસ કામ માટે સુપરયુઝર પરવાનગી આપે છે. (સંદર્ભ: પાનું ૬૯)" }
-        ]
-      },
-      {
-        chapterId: "ch6",
-        chapterName: "પ્રકરણ 6 : વર્ડ પ્રોસેસિંગના મૂળભૂત ખ્યાલો",
-        questions: [
-          { id: "c6_1", question: "નીચેનામાંથી કયું વર્ડ પ્રોસેસરનું ઉદાહરણ છે?", options: ["એમએસ પેઇન્ટ (MS Paint)", "લિબ્રેઑફિસ રાઇટર (LibreOffice Writer)", "વીએલસી પ્લેયર (VLC Player)", "ગૂગલ ક્રોમ (Google Chrome)"], answer: 1, explanation: "લિબ્રેઑફિસ રાઇટર એ દસ્તાવેજો લખવા અને તૈયાર કરવા માટેનું પ્રચલિત ઓપન-સોર્સ વર્ડ પ્રોસેસર સોફ્ટવેર છે. (સંદર્ભ: પાનું ૭૩, ૭૫)" },
-          { id: "c6_2", question: "વર્ડ પ્રોસેસરનું પ્રાથમિક કાર્ય શું છે?", options: ["ઑડિયો ફાઈલ વગાડવી", "ટેક્સ્ટ ડૉક્યુમેન્ટ બનાવવા અને એડિટ કરવા", "વેબસાઇટ્સ ડિઝાઇન કરવી", "ઇન્ટરનેટ બ્રાઉઝ કરવું"], answer: 1, explanation: "વર્ડ પ્રોસેસરનું પ્રાથમિક કાર્ય લખાણ આધારિત દસ્તાવેજો ટાઇપ કરવા, એડિટ કરવા, ફોર્મેટ કરવા અને પ્રિન્ટ કરવાનું છે. (સંદર્ભ: પાનું ૭૩)" },
-          { id: "c6_3", question: "નીચેનામાંથી કઈ સુવિધા વર્ડ પ્રોસેસરની મૂળભૂત લાક્ષણિકતા નથી?", options: ["સ્પેલિંગ અને વ્યાકરણ ચકાસણી", "ટેક્સ્ટ ફોર્મેટિંગ અને અલાઇનમેન્ટ", "વિડીયો એડિટિંગ અને કટિંગ", "કટ, કોપી અને પેસ્ટ"], answer: 2, explanation: "વિડીયો એડિટિંગ એ વિડીયો સોફ્ટવેરનું કાર્ય છે, વર્ડ પ્રોસેસર માત્ર લખાણ અને ચિત્રો આધારિત દસ્તાવેજો સંભાળે છે. (સંદર્ભ: પાનું ૭૪)" },
-          { id: "c6_4", question: "લિબ્રેઑફિસ રાઇટરમાં તૈયાર થતી ફાઇલનું ડિફોલ્ટ એક્સટેન્શન શું હોય છે?", options: [".docx", ".odt", ".txt", ".pdf"], answer: 1, explanation: "રાઇટર ફાઇલ ઓપન ડોક્યુમેન્ટ ટેક્સ્ટ એટલે કે '.odt' ફોર્મેટમાં સેવ થાય છે. (સંદર્ભ: પાનું ૭૮)" },
-          { id: "c6_5", question: "રાઇટર વિન્ડોમાં સૌથી નીચે આવેલા પટ્ટાને શું કહે છે જે પેજ નંબર અને શબ્દોની સંખ્યા દર્શાવે છે?", options: ["ટાસ્ક બાર", "સ્ટેટસ બાર", "ફોર્મેટિંગ બાર", "સ્ક્રોલ બાર"], answer: 1, explanation: "સ્ટેટસ બાર (Status bar) વિન્ડોના તળિયે વર્તમાન પાનું, કુલ પાના અને શબ્દોની સંખ્યા દર્શાવે છે. (સંદર્ભ: પાનું ૭૭)" },
-          { id: "c6_6", question: "રાઇટરમાં પહેલેથી તૈયાર કરેલા લેઆઉટ અને ડિઝાઇન ધરાવતા નમૂનારૂપ દસ્તાવેજને શું કહે છે?", options: ["ટેમ્પલેટ (Template)", "થીમ (Theme)", "ક્લિપઆર્ટ", "માસ્ટર પેજ"], answer: 0, explanation: "ટેમ્પલેટ પહેલેથી નક્કી કરેલા માર્જિન, ફોન્ટ અને શૈલી ધરાવે છે જેથી કામ ઝડપી બને છે. (સંદર્ભ: પાનું ૮૨)" },
-          { id: "c6_7", question: "હયાત દસ્તાવેજને નવા નામ કે અન્ય સ્થળે સાચવવા માટે કયો વિકલ્પ વપરાય છે?", options: ["Save", "Save As", "Export", "Send"], answer: 1, explanation: "'Save As' વિકલ્પ દ્વારા ફાઇલની નવી નકલ નવા નામે અથવા નવી જગ્યાએ સંગ્રહી શકાય છે. (સંદર્ભ: પાનું ૭૯)" },
-          { id: "c6_8", question: "દસ્તાવેજમાં ઉપર-નીચે કે ડાબે-જમણે જોવા માટે કયા બારનો ઉપયોગ થાય છે?", options: ["ટાઇટલ બાર", "મેનુ બાર", "સ્ક્રોલ બાર (Scroll bar)", "ટૂલબાર"], answer: 2, explanation: "સ્ક્રોલ બાર દ્વારા દસ્તાવેજના જે ભાગ સ્ક્રીન પર ન દેખાતા હોય તેને ખસેડીને જોઈ શકાય છે. (સંદર્ભ: પાનું ૭૭)" },
-          { id: "c6_9", question: "રાઇટરમાં નવી ખાલી ફાઇલ બનાવવા માટેનો કીબોર્ડ શૉર્ટકટ કયો છે?", options: ["Ctrl + N", "Ctrl + O", "Ctrl + S", "Ctrl + W"], answer: 0, explanation: "નવો દસ્તાવેજ શરૂ કરવા 'Ctrl + N' (New) શૉર્ટકટ કી વપરાય છે. (સંદર્ભ: પાનું ૭૮)" },
-          { id: "c6_10", question: "ટેમ્પલેટ મેનેજર વિન્ડો ખોલવા માટેની શૉર્ટકટ કી કઈ છે?", options: ["Ctrl + Shift + N", "Ctrl + Alt + N", "Alt + T", "Shift + F11"], answer: 0, explanation: "રાઇટરમાં 'Ctrl + Shift + N' દબાવવાથી ટેમ્પલેટ મેનેજમેન્ટ બોક્સ ખુલે છે. (સંદર્ભ: પાનું ૮૩)" }
-        ]
-      },
-      {
-        chapterId: "ch7",
-        chapterName: "પ્રકરણ 7 : ડૉક્યુમેન્ટ સાથે કામગીરી",
-        questions: [
-          { id: "c7_1", question: "લિબ્રેઑફિસ રાઇટરમાં શબ્દ ને સિલેક્ટ કરવા માટે નીચેનામાંથી કઈ તકનીકનો ઉપયોગ થાય છે?", options: ["સિંગલ ક્લિક", "ડબલ ક્લિક", "ટ્રિપલ ક્લિક", "રાઈટ ક્લિક"], answer: 1, explanation: "કોઈપણ એક શબ્દ પર ઝડપથી બે વાર માઉસ ક્લિક (ડબલ ક્લિક) કરવાથી તે શબ્દ સિલેક્ટ થઈ જાય છે. (સંદર્ભ: પાનું ૯૨)" },
-          { id: "c7_2", question: "નીચેનામાંથી અનડૂ ઓપરેશન માટેની શૉર્ટકટ કી કઈ છે?", options: ["Ctrl + X", "Ctrl + Y", "Ctrl + Z", "Ctrl + R"], answer: 2, explanation: "છેલ્લે કરેલા ફેરફારને રદ કરવા (Undo) માટે કીબોર્ડ શૉર્ટકટ 'Ctrl + Z' વપરાય છે (Redo માટે Ctrl + Y). (સંદર્ભ: પાનું ૯૭)" },
-          { id: "c7_3", question: "પસંદ કરેલા લખાણના ફોન્ટનું કદ વધારવા માટે કયો શૉર્ટકટ વપરાય છે?", options: ["Ctrl + Shift + P", "Ctrl + Shift + B", "Ctrl + ]", "Ctrl + ["], answer: 2, explanation: "'Ctrl + ]' દબાવવાથી ફોન્ટ સાઇઝ ૧ પોઇન્ટ વધે છે અને 'Ctrl + [' થી ઘટે છે. (સંદર્ભ: પાનું ૧૦૨)" },
-          { id: "c7_4", question: "સામાન્ય સ્પેલિંગની ટાઇપિંગ ભૂલો આપમેળે સુધારવા કયું ફીચર ઉપયોગી છે?", options: ["AutoText", "AutoCorrect", "AutoComplete", "AutoFormat"], answer: 1, explanation: "AutoCorrect ફીચર વારંવાર થતી અક્ષરદોષની ભૂલોને આપમેળે સુધારી લે છે. (સંદર્ભ: પાનું ૧૦૦)" },
-          { id: "c7_5", question: "ફાઇન્ડ એન્ડ રિપ્લેસમાં કોઈપણ એક સિંગલ કેરેક્ટર શોધવા કયો વાઇલ્ડકાર્ડ વપરાય છે?", options: ["#", ".", "*", "?"], answer: 1, explanation: "રેગ્યુલર એક્સપ્રેશનમાં ડોટ (.) કોઈપણ એક સિંગલ કેરેક્ટર સાથે મેળ ખાય છે. (સંદર્ભ: પાનું ૯૮)" },
-          { id: "c7_6", question: "રાઇટરમાં ડિફોલ્ટ પેજ સાઇઝ કઈ સેટ કરેલી હોય છે?", options: ["A4", "Legal", "Letter", "A3"], answer: 2, explanation: "લિબ્રેઑફિસ રાઇટરમાં પૂર્વનિર્ધારિત પેજ સાઇઝ 'Letter' હોય છે, જેને આપણે A4 માં બદલી શકીએ છીએ. (સંદર્ભ: પાનું ૧૦૪)" },
-          { id: "c7_7", question: "પેજની ઊંચાઈ કરતાં પહોળાઈ વધારે હોય તેવા પેજ ઓરિએન્ટેશનને શું કહે છે?", options: ["Portrait", "Landscape", "Vertical", "Square"], answer: 1, explanation: "લેન્ડસ્કેપ (Landscape) માં પેજ આડું ગોઠવાય છે, જ્યારે પોર્ટ્રેટ (Portrait) માં પેજ ઊભું હોય છે. (સંદર્ભ: પાનું ૧૦૪)" },
-          { id: "c7_8", question: "લખાણને પેજની મધ્યમાં ગોઠવવા (Center Align) કઈ શૉર્ટકટ કી વપરાય છે?", options: ["Ctrl + L", "Ctrl + E", "Ctrl + R", "Ctrl + J"], answer: 1, explanation: "સેન્ટર અલાઇનમેન્ટ માટે 'Ctrl + E' કી વપરાય છે (ડાબે: Ctrl+L, જમણે: Ctrl+R, જસ્ટિફાય: Ctrl+J). (સંદર્ભ: પાનું ૧૦૧)" },
-          { id: "c7_9", question: "પુસ્તક બાઇન્ડિંગ માટે પેજના હાંસિયામાં વધારાની જગ્યા છોડવા કયું માર્જિન વપરાય છે?", options: ["Left margin", "Top margin", "Gutter margin (ગટર)", "Header margin"], answer: 2, explanation: "બાઇન્ડિંગ વખતે લખાણ દબાઈ ન જાય તે માટે છોડાતી ખાસ જગ્યાને 'Gutter' માર્જિન કહે છે. (સંદર્ભ: પાનું ૧૦૫)" },
-          { id: "c7_10", question: "જ્યારે મુદ્દાઓનો ચોક્કસ ક્રમ મહત્વનો ન હોય ત્યારે શેનો ઉપયોગ થાય છે?", options: ["નંબર્ડ લિસ્ટ (1, 2, 3)", "બુલેટેડ લિસ્ટ (અન-ઓર્ડર્ડ બુલેટ્સ)", "આઉટલાઇન", "ટેબલ"], answer: 1, explanation: "ક્રમ વગરની માહિતીની યાદી માટે બુલેટ્સ (ગોળ, ચોરસ ટપકાં) નો ઉપયોગ થાય છે. (સંદર્ભ: પાનું ૧૦૩)" }
-        ]
-      },
-      {
-        chapterId: "ch8",
-        chapterName: "પ્રકરણ 8 : ટેબલ અને પિક્ચર સાથેનાં કાર્યો તથા મેઈલ મર્જ",
-        questions: [
-          { id: "c8_1", question: "કયા સાધન દ્વારા જટિલ વિગતોને રો અને કૉલમમાં વહેંચીને સુવ્યવસ્થિત અને સમજી શકાય તેવા સ્વરૂપમાં ગોઠવી શકાય છે?", options: ["ઇમેજ", "ટેબલ", "મેઇલ મર્જ", "પ્રિન્ટ"], answer: 1, explanation: "ટેબલ (Table) માહિતીને આડી રો અને ઊભી કૉલમ ધરાવતી ગ્રીડમાં વિભાજીત કરી સુવ્યવસ્થિત અને તુલનાત્મક બનાવે છે. (સંદર્ભ: પાનું ૧૧૫)" },
-          { id: "c8_2", question: "પસંદ કરેલ લખાણના બ્લૉકને પ્રિન્ટ કરવા માટે પ્રિન્ટ ડાયલોગ બોક્સના કયા વિકલ્પનો ઉપયોગ કરવામાં આવે છે?", options: ["Pages", "All pages", "Selection", "Block"], answer: 2, explanation: "Print ડાયલોગ બૉક્સમાં 'Selection' વિકલ્પ પસંદ કરવાથી ફક્ત હાઇલાઇટ કે સિલેક્ટ કરેલો ભાગ જ પ્રિન્ટ થાય છે. (સંદર્ભ: પાનું ૧૨૭)" },
-          { id: "c8_3", question: "ટેબલમાં આડી રો અને ઊભી કૉલમના છેદનથી બનતા ચોરસ ખાનાને શું કહે છે?", options: ["બ્લોક", "સેલ (Cell)", "ગ્રીડ", "બોક્સ"], answer: 1, explanation: "ટેબલના દરેક વ્યક્તિગત લંબચોરસ ખાનાને સેલ (Cell) કહેવાય છે જેમાં લખાણ કે આંકડા લખાય છે. (સંદર્ભ: પાનું ૧૧૫)" },
-          { id: "c8_4", question: "ટેબલમાં નવો સેલ કે નવી રો કઈ રીતે ઉમેરી શકાય છે?", options: ["વર્તમાન રોની ઉપર", "વર્તમાન રોની નીચે", "ટેબલ મેનુ / ટૂલબારથી", "આપેલ તમામ"], answer: 3, explanation: "ટેબલ ટૂલબાર અથવા રાઇટ-ક્લિક મેનુથી ઉપર કે નીચે ગમે ત્યાં નવી રો ઉમેરી શકાય છે. (સંદર્ભ: પાનું ૧૧૭)" },
-          { id: "c8_5", question: "એક સેલની અંદર અન્ય ટેબલ મૂકવાની પ્રક્રિયાને શું કહે છે?", options: ["નેસ્ટેડ ટેબલ (Nested Table)", "જોઇન્ટ ટેબલ", "મર્જ ટેબલ", "સ્પ્લિટ ટેબલ"], answer: 0, explanation: "જ્યારે એક ટેબલના સેલની અંદર બીજું ટેબલ બનાવવામાં આવે તેને નેસ્ટેડ ટેબલ કહે છે. (સંદર્ભ: પાનું ૧૨૦)" },
-          { id: "c8_6", question: "પસંદ કરેલા ચિત્રની કિનારીઓ પર દેખાતા લીલા રંગના નાના ચોરસ પોઇન્ટ્સને શું કહેવાય?", options: ["હેન્ડલ્સ / સિલેક્શન પોઇન્ટ્સ", "ડક્સ", "બોર્ડર પોઇન્ટ્સ", "એન્કર"], answer: 0, explanation: "ગ્રીન સિલેક્શન હેન્ડલ્સ પર માઉસ ડ્રેગ કરીને ચિત્રનું કદ નાનું-મોટું (Resize) કરી શકાય છે. (સંદર્ભ: પાનું ૧૨૨)" },
-          { id: "c8_7", question: "રાઇટરમાં રેખા, વર્તુળ અને લંબચોરસ જેવા આકારો દોરવા કયો ટૂલબાર વપરાય છે?", options: ["ડ્રોઇંગ ટૂલબાર (Drawing Toolbar)", "ઇમેજ ટૂલબાર", "ફોર્મેટિંગ ટૂલબાર", "ડિઝાઇન બાર"], answer: 0, explanation: "Drawing Toolbar માં વિવિધ પાયાના ભૌમિતિક આકારો અને સિમ્બોલ્સ દોરવાના સાધનો હોય છે. (સંદર્ભ: પાનું ૧૨૪)" },
-          { id: "c8_8", question: "પ્રિન્ટ ડાયલોગ બૉક્સ ખોલવા માટેની યુનિવર્સલ શૉર્ટકટ કી કઈ છે?", options: ["Ctrl + P", "Alt + P", "Ctrl + Shift + P", "F5"], answer: 0, explanation: "'Ctrl + P' દબાવવાથી પ્રિન્ટર સેટિંગ્સ અને પ્રિન્ટ આઉટ કાઢવા માટેનો ડાયલોગ બોક્સ ખુલે છે. (સંદર્ભ: પાનું ૧૨૬)" },
-          { id: "c8_9", question: "કાગળ પર છાપેલા દસ્તાવેજને કમ્પ્યૂટર પરિભાષામાં શું કહેવાય?", options: ["સોફ્ટ કોપી", "હાર્ડ કોપી (Hard Copy)", "ડિજિટલ કોપી", "લાઇવ કોપી"], answer: 1, explanation: "સ્ક્રીન પર દેખાતી ફાઇલ સોફ્ટ કોપી છે, જ્યારે પ્રિન્ટરથી કાગળ પર છપાયેલ પ્રિન્ટ હાર્ડ કોપી કહેવાય છે. (સંદર્ભ: પાનું ૧૨૬)" },
-          { id: "c8_10", question: "એક જ પત્ર કે નોટિસ ઘણા બધા વ્યક્તિઓને તેમના જુદા જુદા સરનામે એકસાથે મોકલવા કઈ સુવિધા વપરાય છે?", options: ["મેઇલ મર્જ (Mail Merge)", "ઓટોમેઇલ", "ટેબલ મર્જ", "કૉપિ મર્જ"], answer: 0, explanation: "મેઇલ મર્જ મુખ્ય દસ્તાવેજને એડ્રેસ લિસ્ટ (ડેટાબેઝ) સાથે જોડીને આપોઆપ વ્યક્તિગત પત્રો તૈયાર કરે છે. (સંદર્ભ: પાનું ૧૨૮)" }
-        ]
-      },
-      {
-        chapterId: "ch9",
-        chapterName: "પ્રકરણ 9 : પ્રેઝન્ટેશન સોફ્ટવેરનો પરિચય",
-        questions: [
-          { id: "c9_1", question: "નીચેનામાંથી કયું પ્રેઝન્ટેશન સૉફ્ટવેર છે?", options: ["Impress", "Writer", "Base", "Calc"], answer: 0, explanation: "લિબ્રેઑફિસ સ્યુટમાં પ્રેઝન્ટેશન અને સ્લાઇડ શો તૈયાર કરવા માટેનું સોફ્ટવેર 'ઇમ્પ્રેસ' (Impress) છે. (સંદર્ભ: પાનું ૧૩૭)" },
-          { id: "c9_2", question: "ઇમ્પ્રેસ વિન્ડોમાં સૌથી ઉપર આવેલા આડા પટ્ટાને શું કહે છે?", options: ["સ્ટેટસ બાર", "સ્ટાન્ડર્ડ ટૂલબાર", "ટાઇટલ બાર", "ડ્રોઇંગ ટૂલબાર"], answer: 2, explanation: "વિન્ડોના સૌથી ઉપરના પટ્ટાને ટાઇટલ બાર (Title bar) કહે છે, જે એપ્લિકેશન અને ફાઇલનું નામ દર્શાવે છે. (સંદર્ભ: પાનું ૧૩૮)" },
-          { id: "c9_3", question: "New, Open અને Save જેવા સામાન્ય કમાન્ડ્સ કયા ટૂલબાર પર આવેલા હોય છે?", options: ["ડ્રોઇંગ ટૂલબાર", "સ્ટાન્ડર્ડ ટૂલબાર (Standard Toolbar)", "ફોર્મેટિંગ ટૂલબાર", "સ્ટેટસ બાર"], answer: 1, explanation: "સ્ટાન્ડર્ડ ટૂલબાર ફાઇલ વ્યવસ્થાપન માટેના સૌથી વધુ વપરાતા આદેશો ધરાવે છે. (સંદર્ભ: પાનું ૧૩૮)" },
-          { id: "c9_4", question: "ઇમ્પ્રેસમાં તમામ સ્લાઇડ્સની નાની થમ્બનેઇલ છબીઓ ડાબી બાજુ કયા વિભાગમાં દેખાય છે?", options: ["ટાસ્ક પેન", "સ્લાઇડ પેન (Slide Pane)", "વર્કસ્પેસ", "સ્ટેટસ બાર"], answer: 1, explanation: "Slide Pane માં પ્રેઝન્ટેશનની બધી સ્લાઇડ્સ ક્રમબદ્ધ થમ્બનેઇલ રૂપે દેખાય છે. (સંદર્ભ: પાનું ૧૩૯)" },
-          { id: "c9_5", question: "માસ્ટર પેજિસ, લેઆઉટ્સ અને એનિમેશન જેવા વિભાગો જમણી બાજુ કઈ પેનલમાં આવેલા હોય છે?", options: ["ટાસ્ક પેન (Tasks Pane / Sidebar)", "સ્લાઇડ પેન", "ટાઇટલ પેન", "નેવિગેટર"], answer: 0, explanation: "જમણી બાજુની ટાસ્ક પેનમાં ડિઝાઇન, માસ્ટર સ્લાઇડ અને એનિમેશનના વિવિધ વિકલ્પો હોય છે. (સંદર્ભ: પાનું ૧૪૦)" },
-          { id: "c9_6", question: "ઇમ્પ્રેસમાં શરૂઆતમાં પૂર્વનિર્ધારિત સ્લાઇડ માસ્ટર કયું હોય છે?", options: ["Default / Blank", "Designed", "Bordered", "Gradient"], answer: 0, explanation: "નવું પ્રેઝન્ટેશન બનાવતી વખતે પૂર્વનિર્ધારિત સ્લાઇડ માસ્ટર સાદું અને કોરું (Default/Blank) હોય છે. (સંદર્ભ: પાનું ૧૪૧)" },
-          { id: "c9_7", question: "સમય સાથે સ્લાઇડ પરના ઘટકોમાં થતા ગતિશીલ વિઝ્યુઅલ ફેરફારને શું કહેવાય?", options: ["ચિત્ર", "ઓડિયો", "એનિમેશન (Animation)", "ટેક્સ્ટ"], answer: 2, explanation: "લખાણ કે ચિત્ર સ્ક્રીન પર હલનચલન સાથે રજૂ થાય તે અસરને એનિમેશન કહે છે. (સંદર્ભ: પાનું ૧૪૫)" },
-          { id: "c9_8", question: "એક સ્લાઇડ બદલાઈને બીજી સ્લાઇડ આવે ત્યારે રજૂ થતી વિઝ્યુઅલ અસરને શું કહે છે?", options: ["સ્લાઇડ ટ્રાન્ઝિશન (Slide Transition)", "કસ્ટમ એનિમેશન", "ઓબ્જેક્ટ મોશન", "સ્લાઇડ ટ્રાન્સફોર્મેશન"], answer: 0, explanation: "સ્લાઇડ શો દરમિયાન એક સ્લાઇડમાંથી બીજી સ્લાઇડમાં જતી વખતે થતી વિઝ્યુઅલ અસર Slide Transition કહેવાય છે. (સંદર્ભ: પાનું ૧૪૬)" },
-          { id: "c9_9", question: "સ્લાઇડનું ઝૂમ લેવલ વધારવા કે ઘટાડવા માટે ઝૂમ સ્લાઇડર કયા બાર પર આવેલું હોય છે?", options: ["ટાઇટલ બાર", "મેનુ બાર", "સ્ટેટસ બાર (Status bar)", "ટૂલબાર"], answer: 2, explanation: "વિન્ડોના સૌથી નીચેના જમણા ખૂણે સ્ટેટસ બાર પર ઝૂમ સ્લાઇડર હોય છે. (સંદર્ભ: પાનું ૧૪૦)" },
-          { id: "c9_10", question: "આખી સ્ક્રીન પર સ્લાઇડ શો શરૂ કરવા માટેની શૉર્ટકટ કી કઈ છે?", options: ["F3", "F5", "F7", "F11"], answer: 1, explanation: "'F5' કી દબાવવાથી પ્રથમ સ્લાઇડથી પૂર્ણ સ્ક્રીન સ્લાઇડ શો શરૂ થાય છે (વર્તમાન સ્લાઇડથી: Shift + F5). (સંદર્ભ: પાનું ૧૪૭)" }
-        ]
-      },
-      {
-        chapterId: "ch10",
-        chapterName: "પ્રકરણ 10 : પ્રેઝન્ટેશનમાં અન્ય સુધારા",
-        questions: [
-          { id: "c10_1", question: "ઇમ્પ્રેસમાં સેવ કરેલ પ્રેઝન્ટેશન ખોલવા માટે કઈ શૉર્ટકટ કીનો ઉપયોગ કરવામાં આવે છે?", options: ["Ctrl + P", "Ctrl + S", "Ctrl + X", "Ctrl + O"], answer: 3, explanation: "પહેલેથી સંગ્રહિત (સેવ કરેલ) કોઈપણ પ્રેઝન્ટેશન ફાઇલ ખોલવા માટે 'Ctrl + O' શૉર્ટકટ કી વપરાય છે. (સંદર્ભ: પાનું ૧૫૩)" },
-          { id: "c10_2", question: "સ્લાઇડના ઘટકોને એનિમેશન અસર આપવા માટે 'Tasks Panes'ના કયા વિભાગનો ઉપયોગ કરવામાં આવે છે?", options: ["સ્લાઇડ ટ્રાન્ઝિશન", "માસ્ટર સ્લાઇડ", "ટેબલ ડિઝાઇન", "કસ્ટમ એનિમેશન"], answer: 3, explanation: "સ્લાઇડ પરના ચોક્કસ ઑબ્જેક્ટ્સ (લખાણ, ચિત્રો વગેરે) ને એનિમેશન આપવા ટાસ્ક પેનમાંથી 'Custom Animation' પસંદ કરાય છે. (સંદર્ભ: પાનું ૧૫૩-૧૫૪)" },
-          { id: "c10_3", question: "'Slide Master' વિકલ્પ કયા મેનુમાં આપવામાં આવેલ છે?", options: ["File", "Edit", "View", "Tools"], answer: 2, explanation: "View મેનુમાં જઈને 'Master > Slide Master' પસંદ કરી સમગ્ર સ્લાઇડ્સની મૂળભૂત શૈલી બદલી શકાય છે. (સંદર્ભ: પાનું ૧૫૬)" },
-          { id: "c10_4", question: "ડ્રોઇંગ ટૂલબારના કયા ટૂલ વડે લંબગોળ અને સંપૂર્ણ વર્તુળ દોરી શકાય છે?", options: ["Circle", "Ellipse", "Rectangle", "Curve"], answer: 1, explanation: "ઇમ્પ્રેસમાં 'Ellipse' ટૂલ પસંદ કરી Shift કી સાથે ડ્રેગ કરવાથી સંપૂર્ણ ગોળ વર્તુળ દોરી શકાય છે. (સંદર્ભ: પાનું ૧૫૮)" },
-          { id: "c10_5", question: "કલાત્મક અને ત્રિપરિમાણીય (3D) આકર્ષક અક્ષરો ઉમેરવા કઈ સુવિધા વપરાય છે?", options: ["WordArt", "Fontwork Gallery", "Text Box", "ClipArt"], answer: 1, explanation: "લિબ્રેઑફિસમાં કલાત્મક હેડિંગ્સ અને ટેક્સ્ટ ડિઝાઇન માટે 'Fontwork Gallery' નો ઉપયોગ થાય છે. (સંદર્ભ: પાનું ૧૬૦)" },
-          { id: "c10_6", question: "સ્લાઇડનું પેપર કદ અને માર્જિન નક્કી કરવા કયો વિકલ્પ વપરાય છે?", options: ["Page Setup / Slide Setup", "Print Setup", "View Setup", "Format Shape"], answer: 0, explanation: "Slide Setup (અથવા Page Setup) દ્વારા સ્લાઇડની પહોળાઈ, ઊંચાઈ અને હાંસિયા નક્કી થાય છે. (સંદર્ભ: પાનું ૧૬૧)" },
-          { id: "c10_7", question: "સ્લાઇડના બેકગ્રાઉન્ડમાં ફોટો કે ચિત્ર ગોઠવવા માટે Background ટેબમાં કયો વિકલ્પ પસંદ કરાય છે?", options: ["Color", "Gradient", "Bitmap", "Hatching"], answer: 2, explanation: "બેકગ્રાઉન્ડમાં પોતાની પસંદગીની ઇમેજ ગોઠવવા માટે 'Bitmap' વિકલ્પ ઉપયોગી છે. (સંદર્ભ: પાનું ૧૬૨)" },
-          { id: "c10_8", question: "પ્રેઝન્ટેશનમાંથી ફક્ત પસંદ કરેલી સ્લાઇડ્સ જ દર્શકોને બતાવવા કઈ સુવિધા વપરાય છે?", options: ["Custom Slide Show", "Hidden Slide Show", "Filtered Show", "Quick Show"], answer: 0, explanation: "Custom Slide Show દ્વારા મૂળ પ્રેઝન્ટેશનમાંથી ગમે તે ચોક્કસ સ્લાઇડ્સનો અલગ શો બનાવી શકાય છે. (સંદર્ભ: પાનું ૧૬૪)" },
-          { id: "c10_9", question: "કસ્ટમ સ્લાઇડ શો બનાવતી વખતે પસંદ કરેલી સ્લાઇડને ઉમેરવા કયું બટન દબાવવામાં આવે છે?", options: [">", "<", ">>", "+"], answer: 0, explanation: "ડાબી બાજુની ઉપલબ્ધ સ્લાઇડ્સમાંથી જમણી બાજુ કસ્ટમ શોમાં સ્લાઇડ ઉમેરવા '>' તીર બટન વપરાય છે. (સંદર્ભ: પાનું ૧૬૫)" },
-          { id: "c10_10", question: "સ્લાઇડ શો દરમિયાન સ્લાઇડ બદલવાનો સમય નક્કી કરવા માટેનું 'Rehearse Timings' કયા મેનુમાં હોય છે?", options: ["Slide Show", "Tools", "Format", "Insert"], answer: 0, explanation: "Slide Show મેનુમાં રહેલા 'Rehearse Timings' દ્વારા સ્પીકર પોતાના ભાષણ મુજબ દરેક સ્લાઇડનો સમય સેટ કરી શકે છે. (સંદર્ભ: પાનું ૧૬૬)" }
-        ]
-      },
-      {
-        chapterId: "ch11",
-        chapterName: "પ્રકરણ 11 : કમ્પ્યૂટર સુરક્ષાનો પરિચય",
-        questions: [
-          { id: "c11_1", question: "સાઇબર સુરક્ષાનો પ્રાથમિક ઉદ્દેશ શું છે?", options: ["કમ્પ્યૂટરની ઝડપ વધારવી", "ડિજિટલ ડેટાને અનધિકૃત એક્સેસથી સુરક્ષા આપવી", "ઇન્ટરનેટ બેન્ડવિડ્થ વધારવી", "ગ્રાફિકની ગુણવત્તા સુધારવી"], answer: 1, explanation: "સાઇબર સુરક્ષાનો મુખ્ય હેતુ કમ્પ્યૂટર સિસ્ટમ, નેટવર્ક અને ડેટાને હેકર્સ તથા અનધિકૃત પ્રવેશ સામે સુરક્ષિત રાખવાનો છે. (સંદર્ભ: પાનું ૧૭૦, ૧૭૧)" },
-          { id: "c11_2", question: "સુરક્ષિત બ્રાઉઝિંગ ટેવ અનુસરવી શા માટે મહત્વનું છે?", options: ["તમારા ઇન્ટરનેટ કનેક્શનને ઝડપી બનાવવું", "સાઇબર જોખમોના સંપર્કમાં આવવાથી બચવા અને વ્યક્તિગત માહિતીનું રક્ષણ કરવા માટે", "વધુ વેબસાઇટની મુલાકાત લેવી", "કમ્પ્યૂટર ગ્રાફિક સુધારવા"], answer: 1, explanation: "સલામત બ્રાઉઝિંગ ટેવો માલવેર અને ફિશિંગ જેવા જોખમો સામે રક્ષણ આપી અંગત વિગતોની ગુપ્તતા જાળવે છે. (સંદર્ભ: પાનું ૧૭૪)" },
-          { id: "c11_3", question: "ઉપયોગી સોફ્ટવેર જેવો ઢોંગ કરીને કમ્પ્યૂટરમાં પ્રવેશી નુકસાન પહોંચાડતા માલવેરને શું કહે છે?", options: ["વાયરસ", "ટ્રોજન હોર્સ (Trojan Horse)", "સ્પાયવેર", "વોર્મ"], answer: 1, explanation: "ટ્રોજન હોર્સ નિર્દોષ કે ઉપયોગી ફાઇલ જેવો દેખાવ કરે છે પરંતુ અંદરથી ગુપ્ત રીતે સિસ્ટમ પર હુમલો કરે છે. (સંદર્ભ: પાનું ૧૭૫)" },
-          { id: "c11_4", question: "કમ્પ્યૂટરના ડેટાને લોક/એન્ક્રિપ્ટ કરી તેને છોડાવવા માટે નાણાંની ખંડણી માંગતા સોફ્ટવેરને શું કહેવાય?", options: ["રેન્સમવેર (Ransomware)", "એડવેર", "સ્પામ", "ટ્રોજન"], answer: 0, explanation: "રેન્સમવેર યુઝરના મહત્વપૂર્ણ ડેટાને લોક કરી દે છે અને ડીક્રિપ્ટ કરવા માટે ખંડણી (Ransom) માંગે છે. (સંદર્ભ: પાનું ૧૭૬)" },
-          { id: "c11_5", question: "સાઇબર સુરક્ષા માટે નીચેનામાંથી શું કરવું યોગ્ય (Do's) ગણાય?", options: ["બધા એકાઉન્ટ્સ માટે સમાન પાસવર્ડ રાખવો", "તમારા સોફ્ટવેર અને ઑપરેટિંગ સિસ્ટમને નિયમિતપણે અપડેટ કરવી", "અજાણી લિંક્સ પર વારંવાર ક્લિક કરવું", "મિત્રો સાથે પાસવર્ડ શેર કરવો"], answer: 1, explanation: "સોફ્ટવેર અને સિક્યોરિટી પેચ અપડેટ રાખવાથી સિસ્ટમની નબળાઈઓ દૂર થાય છે. (સંદર્ભ: પાનું ૧૭૮)" },
-          { id: "c11_6", question: "સાઇબર સલામતી માટે શું ન કરવું (Don'ts) જોઈએ?", options: ["મજબૂત પાસવર્ડ બનાવવો", "અસુરક્ષિત (HTTP) વેબસાઇટ્સ પર સંવેદનશીલ વ્યક્તિગત ડેટા શેર કરવો", "ટુ-ફેક્ટર ઓથેન્ટિકેશન વાપરવું", "પબ્લિક કમ્પ્યૂટરમાંથી લૉગઆઉટ થવું"], answer: 1, explanation: "સુરક્ષિત ન હોય (HTTPS ન હોય) તેવી અજાણી સાઇટ્સ પર ક્યારેય પાસવર્ડ કે અંગત માહિતી દાખલ ન કરવી. (સંદર્ભ: પાનું ૧૭૮)" },
-          { id: "c11_7", question: "સોશિયલ મીડિયા કે ઇન્ટરનેટ માધ્યમ દ્વારા કોઈને ત્રાસ આપવો, ડરાવવો કે બદનામ કરવાના કૃત્યને શું કહે છે?", options: ["સાઇબર બુલિંગ (Cyberbullying)", "ડેટા ચોરી", "સાઇબર ક્રેકિંગ", "ફિશિંગ"], answer: 0, explanation: "ડિજિટલ પ્લેટફોર્મ પર કોઈપણ વ્યક્તિને અપમાનિત કે હેરાન કરવી તે સાઇબર બુલિંગ ગુનો છે. (સંદર્ભ: પાનું ૧૭૭)" },
-          { id: "c11_8", question: "જાહેર સ્થળોએ આવેલા ફ્રી Wi-Fi નેટવર્કનો ઉપયોગ કરવામાં કયું મોટું જોખમ રહેલું છે?", options: ["ઇન્ટરનેટ ધીમું ચાલે છે", "હેકર્સ તમારા ટ્રાફિક અને પાસવર્ડની ચોરી કરી શકે છે", "બેટરી વધુ વપરાય છે", "સ્ક્રીન બંધ થઈ જાય છે"], answer: 1, explanation: "સાર્વજનિક ઓપન વાઇ-ફાઇ અનએન્ક્રિપ્ટેડ હોય છે જેથી હેકર્સ સરળતાથી ડેટા ચોરી (Sniffing) કરી શકે છે. (સંદર્ભ: પાનું ૧૭૮)" },
-          { id: "c11_9", question: "શંકાસ્પદ કે અજાણી ફિશિંગ લિંક્સ પર ક્લિક કરવાથી શું નુકસાન થઈ શકે છે?", options: ["કમ્પ્યૂટરની સ્પીડ બમણી થાય છે", "ડિવાઇસમાં આપોઆપ માલવેર ડાઉનલોડ થઈ શકે છે", "નવું બ્રાઉઝર ઇન્સ્ટોલ થાય છે", "સ્ક્રીન સાઇઝ વધે છે"], answer: 1, explanation: "અજાણી સ્પામ લિંક્સ બેકગ્રાઉન્ડમાં માલવેર ડાઉનલોડ કરીને સિસ્ટમનો કંટ્રોલ લઈ શકે છે. (સંદર્ભ: પાનું ૧૭૪)" },
-          { id: "c11_10", question: "નીચેનામાંથી કયો માલવેર (Malware) નો સૌથી સામાન્ય પ્રકાર છે?", options: ["ફાયરવૉલ", "વાઇરસ (Virus)", "એન્ક્રિપ્શન", "બ્રાઉઝર"], answer: 1, explanation: "વાઇરસ (Virus) એ માલવેર (Malware) નો સૌથી સામાન્ય પ્રકાર છે, જ્યારે ફાયરવૉલ અને એન્ક્રિપ્શન સુરક્ષા સાધનો છે. (સંદર્ભ: પાનું ૧૭૫)" }
-        ]
-      }
-    ];
-
-    let CURRENT_DATABASE = [...DEFAULT_COMPUTER_DB];
-
-    function loadSavedDatabase() {
-      const localData = localStorage.getItem('singapuri_std9_db');
-      if (localData) {
-        try {
-          CURRENT_DATABASE = JSON.parse(localData);
-        } catch(e) {}
-      }
-    }
-    loadSavedDatabase();
+    // સંપૂર્ણ ડેટા હવે માત્ર ગૂગલ શીટમાંથી ડાયનેમિક સિંક થશે
+    let CURRENT_DATABASE = [];
 
     function getAllQuestions() {
       let list = [];
@@ -544,152 +290,12 @@
     }
 
     let activeFilter = 'all';
-    let currentQuestions = getAllQuestions();
+    let currentQuestions = [];
     let currentQuizIndex = 0;
+    let userAnswers = {};
     let earnedStars = 0;
     let isMuted = false;
     let audioCtx = null;
-
-    /* ================= GOOGLE SHEETS LIVE SYNC (SMART PARSER) ================= */
-    async function syncWithGoogleSheet() {
-      const sheetUrl = localStorage.getItem('singapuri_std9_sheet_url') || document.getElementById('sheetUrlInput')?.value;
-      if (!sheetUrl) {
-        alert("ગૂગલ શીટની લિંક સેટ કરેલી નથી! Admin Panel માં જઈને Google Sheet CSV Link સેવ કરો.");
-        openAdminModal();
-        return;
-      }
-
-      const syncBtn = document.getElementById('syncBtn');
-      if (syncBtn) syncBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> સિંક થાય છે...';
-
-      try {
-        const response = await fetch(sheetUrl);
-        if (!response.ok) throw new Error("નેટવર્ક પ્રતિસાદ મળ્યો નથી.");
-        const csvText = await response.text();
-        parseGoogleSheetCSV(csvText);
-        alert("અભિનંદન! ગૂગલ શીટમાંથી તમારી નવી શીટ મુજબ તમામ પ્રશ્નો પ્રકરણ પ્રમાણે સફળતાપૂર્વક સિંક થઈ ગયા છે!");
-      } catch (err) {
-        alert("ગૂગલ શીટમાંથી ડેટા લાવવામાં ભૂલ થઈ: " + err.message + "\nખાતરી કરો કે શીટ 'Publish to web' માં CSV તરીકે પ્રકાશિત કરેલી છે.");
-      } finally {
-        if (syncBtn) syncBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate text-indigo-600"></i> <span class="hidden sm:inline">રિફ્રેશ શીટ</span>';
-      }
-    }
-
-    function parseGoogleSheetCSV(text) {
-      const rawRows = text.split(/\r?\n/).filter(r => r.trim() !== '');
-      if (rawRows.length < 2) return;
-
-      // સ્માર્ટ હેડર ડિટેક્શન
-      let headerRowIdx = -1;
-      let colMap = { ch: -1, q: -1, optA: -1, optB: -1, optC: -1, optD: -1, ans: -1, exp: -1, ref: -1 };
-
-      for (let r = 0; r < Math.min(10, rawRows.length); r++) {
-        const rowStr = rawRows[r];
-        if (rowStr.includes('વિકલ્પ A') || rowStr.includes('વિકલ્પ_A') || (rowStr.includes('પ્રશ્ન') && rowStr.includes('જવાબ'))) {
-          headerRowIdx = r;
-          const cols = rowStr.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
-          cols.forEach((cn, idx) => {
-            if (cn.includes('પ્રકરણ ક્રમાંક')) colMap.ch = idx;
-            else if (cn.includes('પ્રકરણ') && colMap.ch === -1) colMap.ch = idx;
-            else if (cn === 'પ્રશ્ન' || (cn.includes('પ્રશ્ન') && !cn.includes('નં'))) colMap.q = idx;
-            else if (cn.includes('વિકલ્પ A') || cn.includes('વિકલ્પ (A)') || cn.includes('વિકલ્પ_A')) colMap.optA = idx;
-            else if (cn.includes('વિકલ્પ B') || cn.includes('વિકલ્પ (B)') || cn.includes('વિકલ્પ_B')) colMap.optB = idx;
-            else if (cn.includes('વિકલ્પ C') || cn.includes('વિકલ્પ (C)') || cn.includes('વિકલ્પ_C')) colMap.optC = idx;
-            else if (cn.includes('વિકલ્પ D') || cn.includes('વિકલ્પ (D)') || cn.includes('વિકલ્પ_D')) colMap.optD = idx;
-            else if (cn.includes('જવાબ')) colMap.ans = idx;
-            else if (cn.includes('સમજૂતી') || cn.includes('નોંધ')) colMap.exp = idx;
-            else if (cn.includes('સંદર્ભ') || cn.includes('પાનું') || cn.includes('પૃષ્ઠ')) colMap.ref = idx;
-          });
-          break;
-        }
-      }
-
-      // જો હેડર ન મળે તો સામાન્ય ક્રમ
-      if (headerRowIdx === -1) {
-        headerRowIdx = 0;
-        colMap = { ch: 1, q: 4, optA: 5, optB: 6, optC: 7, optD: 8, ans: 9, exp: 10, ref: 11 };
-      }
-
-      const parsedChMap = {};
-
-      for (let i = headerRowIdx + 1; i < rawRows.length; i++) {
-        const cols = rawRows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
-        const qIdx = colMap.q !== -1 ? colMap.q : 1;
-        if (cols.length <= qIdx) continue;
-
-        const qText = cols[qIdx];
-        if (!qText || qText === 'પ્રશ્ન' || qText.includes('સ્વાધ્યાય')) continue;
-
-        const chRaw = colMap.ch !== -1 && cols[colMap.ch] ? cols[colMap.ch] : cols[0];
-        const numMatch = chRaw.match(/\d+/);
-        const chNum = numMatch ? numMatch[0] : "1";
-        const chKey = "ch" + chNum;
-
-        const optA = colMap.optA !== -1 ? cols[colMap.optA] : cols[2];
-        const optB = colMap.optB !== -1 ? cols[colMap.optB] : cols[3];
-        const optC = colMap.optC !== -1 ? cols[colMap.optC] : cols[4];
-        const optD = colMap.optD !== -1 ? cols[colMap.optD] : cols[5];
-
-        const ansRaw = (colMap.ans !== -1 ? cols[colMap.ans] : cols[6]).toLowerCase();
-        let ansIdx = 0;
-        if (ansRaw.startsWith('(b)') || ansRaw.startsWith('b)') || ansRaw.includes('(b)') || ansRaw === 'b' || ansRaw === '1') ansIdx = 1;
-        else if (ansRaw.startsWith('(c)') || ansRaw.startsWith('c)') || ansRaw.includes('(c)') || ansRaw === 'c' || ansRaw === '2') ansIdx = 2;
-        else if (ansRaw.startsWith('(d)') || ansRaw.startsWith('d)') || ansRaw.includes('(d)') || ansRaw === 'd' || ansRaw === '3') ansIdx = 3;
-
-        let expText = colMap.exp !== -1 && cols[colMap.exp] ? cols[colMap.exp] : "સાચો ઉત્તર.";
-        const refText = colMap.ref !== -1 && cols[colMap.ref] ? cols[colMap.ref] : "";
-        if (refText && !expText.includes('સંદર્ભ:')) {
-          expText += ` (સંદર્ભ: ${refText})`;
-        }
-
-        const defCh = DEFAULT_COMPUTER_DB.find(d => d.chapterId === chKey);
-        const chTitle = defCh ? defCh.chapterName : `પ્રકરણ ${chNum}`;
-
-        if (!parsedChMap[chKey]) {
-          parsedChMap[chKey] = {
-            chapterId: chKey,
-            chapterName: chTitle,
-            questions: []
-          };
-        }
-
-        parsedChMap[chKey].questions.push({
-          id: `sheet_${i}`,
-          question: qText,
-          options: [optA, optB, optC, optD],
-          answer: ansIdx,
-          explanation: expText
-        });
-      }
-
-      const newDB = Object.values(parsedChMap);
-      if (newDB.length > 0) {
-        CURRENT_DATABASE = newDB;
-        localStorage.setItem('singapuri_std9_db', JSON.stringify(CURRENT_DATABASE));
-        handleChapterFilterChange();
-      }
-    }
-
-    function saveGoogleSheetUrl() {
-      const url = document.getElementById('sheetUrlInput').value.trim();
-      if (!url) {
-        alert("કૃપા કરીને માન્ય Google Sheets CSV લિંક દાખલ કરો!");
-        return;
-      }
-      localStorage.setItem('singapuri_std9_sheet_url', url);
-      alert("ગૂગલ શીટ લિંક સેવ થઈ ગઈ છે!");
-      syncWithGoogleSheet();
-    }
-
-    function resetToDefaultData() {
-      if (confirm("શું તમે ખરેખર મૂળ પાઠ્યપુસ્તકના ૧૧૦ પ્રશ્નો પાછા લાવવા માંગો છો?")) {
-        localStorage.removeItem('singapuri_std9_db');
-        localStorage.removeItem('singapuri_std9_sheet_url');
-        CURRENT_DATABASE = [...DEFAULT_COMPUTER_DB];
-        handleChapterFilterChange();
-        alert("ડેટા સફળતાપૂર્વક મૂળ સ્થિતિમાં રીસેટ થઈ ગયો!");
-      }
-    }
 
     /* ================= SOUND ENGINE ================= */
     function playTone(freq, type = 'sine', duration = 0.15, vol = 0.2) {
@@ -727,6 +333,176 @@
       document.getElementById('muteBtn').innerHTML = isMuted ? '<i class="fa-solid fa-volume-xmark text-sm"></i>' : '<i class="fa-solid fa-volume-high text-sm"></i>';
     }
 
+    /* ================= GOOGLE SHEETS AUTO-SYNC ================= */
+    async function syncWithGoogleSheet(manualAlert = false) {
+      const sheetUrl = localStorage.getItem('singapuri_std9_sheet_url') || document.getElementById('sheetUrlInput')?.value;
+      const syncBtn = document.getElementById('syncBtn');
+
+      if (!sheetUrl) {
+        document.getElementById('quizQuestionText').innerText = "કૃપા કરીને Admin Panel માં Google Sheet ની CSV લિંક સેટ કરો.";
+        if (manualAlert) openAdminModal();
+        return;
+      }
+
+      if (syncBtn) syncBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> સિંક થાય છે...';
+
+      try {
+        const response = await fetch(sheetUrl);
+        if (!response.ok) throw new Error("નેટવર્ક પ્રતિસાદ મળ્યો નથી.");
+        const csvText = await response.text();
+        parseGoogleSheetCSV(csvText);
+        if (manualAlert) alert("ગૂગલ શીટમાંથી પ્રશ્નો સફળતાપૂર્વક અપડેટ થઈ ગયા છે!");
+      } catch (err) {
+        console.error(err);
+        // જો નેટવર્ક એરર આવે તો લોકલ સ્ટોરેજમાંથી બેકઅપ ડેટા લોડ કરવો
+        const localData = localStorage.getItem('singapuri_std9_db');
+        if (localData) {
+          CURRENT_DATABASE = JSON.parse(localData);
+          populateChapterFilter();
+          handleChapterFilterChange();
+        } else {
+          document.getElementById('quizQuestionText').innerText = "ડેટા લોડ કરવામાં મુશ્કેલી આવી. શીટ પબ્લિશ થયેલી છે તેની ખાતરી કરો.";
+        }
+        if (manualAlert) alert("સિંક કરવામાં ભૂલ: " + err.message);
+      } finally {
+        if (syncBtn) syncBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate text-indigo-600"></i> <span class="hidden sm:inline">રિફ્રેશ શીટ</span>';
+      }
+    }
+
+    function parseGoogleSheetCSV(text) {
+      const rawRows = text.split(/\r?\n/).filter(r => r.trim() !== '');
+      if (rawRows.length < 2) return;
+
+      let headerRowIdx = -1;
+      let colMap = { ch: -1, q: -1, optA: -1, optB: -1, optC: -1, optD: -1, ans: -1, exp: -1, ref: -1 };
+
+      for (let r = 0; r < Math.min(10, rawRows.length); r++) {
+        const rowStr = rawRows[r];
+        if (rowStr.includes('વિકલ્પ A') || rowStr.includes('વિકલ્પ_A') || (rowStr.includes('પ્રશ્ન') && rowStr.includes('જવાબ'))) {
+          headerRowIdx = r;
+          const cols = rowStr.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
+          cols.forEach((cn, idx) => {
+            if (cn.includes('પ્રકરણ ક્રમાંક')) colMap.ch = idx;
+            else if (cn.includes('પ્રકરણ') && colMap.ch === -1) colMap.ch = idx;
+            else if (cn === 'પ્રશ્ન' || (cn.includes('પ્રશ્ન') && !cn.includes('નં'))) colMap.q = idx;
+            else if (cn.includes('વિકલ્પ A') || cn.includes('વિકલ્પ (A)') || cn.includes('વિકલ્પ_A')) colMap.optA = idx;
+            else if (cn.includes('વિકલ્પ B') || cn.includes('વિકલ્પ (B)') || cn.includes('વિકલ્પ_B')) colMap.optB = idx;
+            else if (cn.includes('વિકલ્પ C') || cn.includes('વિકલ્પ (C)') || cn.includes('વિકલ્પ_C')) colMap.optC = idx;
+            else if (cn.includes('વિકલ્પ D') || cn.includes('વિકલ્પ (D)') || cn.includes('વિકલ્પ_D')) colMap.optD = idx;
+            else if (cn.includes('જવાબ')) colMap.ans = idx;
+            else if (cn.includes('સમજૂતી') || cn.includes('નોંધ')) colMap.exp = idx;
+            else if (cn.includes('સંદર્ભ') || cn.includes('પાનું') || cn.includes('પૃષ્ઠ')) colMap.ref = idx;
+          });
+          break;
+        }
+      }
+
+      if (headerRowIdx === -1) {
+        headerRowIdx = 0;
+        colMap = { ch: 1, q: 4, optA: 5, optB: 6, optC: 7, optD: 8, ans: 9, exp: 10, ref: 11 };
+      }
+
+      const parsedChMap = {};
+
+      for (let i = headerRowIdx + 1; i < rawRows.length; i++) {
+        const cols = rawRows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
+        const qIdx = colMap.q !== -1 ? colMap.q : 1;
+        if (cols.length <= qIdx) continue;
+
+        const qText = cols[qIdx];
+        if (!qText || qText === 'પ્રશ્ન' || qText.includes('સ્વાધ્યાય')) continue;
+
+        const chRaw = colMap.ch !== -1 && cols[colMap.ch] ? cols[colMap.ch] : cols[0];
+        const numMatch = chRaw.match(/\d+/);
+        const chNum = numMatch ? numMatch[0] : "1";
+        const chKey = "ch" + chNum;
+
+        const optA = colMap.optA !== -1 ? cols[colMap.optA] : cols[2];
+        const optB = colMap.optB !== -1 ? cols[colMap.optB] : cols[3];
+        const optC = colMap.optC !== -1 ? cols[colMap.optC] : cols[4];
+        const optD = colMap.optD !== -1 ? cols[colMap.optD] : cols[5];
+
+        const ansRaw = (colMap.ans !== -1 ? cols[colMap.ans] : cols[6]).toLowerCase();
+        let ansIdx = 0;
+        if (ansRaw.startsWith('(b)') || ansRaw.startsWith('b)') || ansRaw.includes('(b)') || ansRaw === 'b' || ansRaw === '1') ansIdx = 1;
+        else if (ansRaw.startsWith('(c)') || ansRaw.startsWith('c)') || ansRaw.includes('(c)') || ansRaw === 'c' || ansRaw === '2') ansIdx = 2;
+        else if (ansRaw.startsWith('(d)') || ansRaw.startsWith('d)') || ansRaw.includes('(d)') || ansRaw === 'd' || ansRaw === '3') ansIdx = 3;
+
+        let expText = colMap.exp !== -1 && cols[colMap.exp] ? cols[colMap.exp] : "સાચો ઉત્તર.";
+        const refText = colMap.ref !== -1 && cols[colMap.ref] ? cols[colMap.ref] : "";
+        if (refText && !expText.includes('સંદર્ભ:')) {
+          expText += ` (સંદર્ભ: ${refText})`;
+        }
+
+        const chTitle = `પ્રકરણ ${chNum}`;
+
+        if (!parsedChMap[chKey]) {
+          parsedChMap[chKey] = {
+            chapterId: chKey,
+            chapterName: chTitle,
+            questions: []
+          };
+        }
+
+        parsedChMap[chKey].questions.push({
+          id: `sheet_${i}`,
+          question: qText,
+          options: [optA, optB, optC, optD],
+          answer: ansIdx,
+          explanation: expText
+        });
+      }
+
+      const newDB = Object.values(parsedChMap);
+      if (newDB.length > 0) {
+        CURRENT_DATABASE = newDB;
+        localStorage.setItem('singapuri_std9_db', JSON.stringify(CURRENT_DATABASE));
+        populateChapterFilter();
+        handleChapterFilterChange();
+      }
+    }
+
+    // ગૂગલ શીટના પ્રકરણો મુજબ ડ્રોપડાઉન આપમેળે તૈયાર કરવું
+    function populateChapterFilter() {
+      const select = document.getElementById('chapterFilterSelect');
+      const curVal = select.value;
+      select.innerHTML = `
+        <option value="all">સંપૂર્ણ અભ્યાસક્રમ (તમામ MCQs)</option>
+        <option value="combine50">🔥 Combine Mega Test (૫૦ પ્રશ્નો)</option>
+      `;
+
+      CURRENT_DATABASE.forEach(ch => {
+        const opt = document.createElement('option');
+        opt.value = ch.chapterId;
+        opt.innerText = `${ch.chapterName} (${ch.questions.length} MCQs)`;
+        select.appendChild(opt);
+      });
+
+      if (curVal && select.querySelector(`option[value="${curVal}"]`)) {
+        select.value = curVal;
+      }
+    }
+
+    function saveGoogleSheetUrl() {
+      const url = document.getElementById('sheetUrlInput').value.trim();
+      if (!url) {
+        alert("કૃપા કરીને માન્ય Google Sheets CSV લિંક દાખલ કરો!");
+        return;
+      }
+      localStorage.setItem('singapuri_std9_sheet_url', url);
+      alert("ગૂગલ શીટ લિંક સેવ થઈ ગઈ છે! હવે ડેટા ઓટો-સિંક થશે.");
+      syncWithGoogleSheet(true);
+      closeAdminModal();
+    }
+
+    function clearCacheAndReload() {
+      if (confirm("શું તમે સેવ કરેલ કેશ ડેટા સાફ કરી ફરીથી શીટમાંથી ડેટા લાવવા માંગો છો?")) {
+        localStorage.removeItem('singapuri_std9_db');
+        syncWithGoogleSheet(true);
+      }
+    }
+
+    /* ================= TAB & FILTER ================= */
     function switchMainTab(tab) {
       playSound('click');
       const secQuiz = document.getElementById('sectionQuiz');
@@ -762,13 +538,22 @@
       }
 
       currentQuizIndex = 0;
+      userAnswers = {};
       renderQuiz();
       renderStudyCards();
     }
 
+    /* ================= QUIZ ENGINE ================= */
     function renderQuiz() {
       const total = currentQuestions.length;
-      if (total === 0) return;
+      if (total === 0) {
+        document.getElementById('quizTotalCount').innerText = "૦";
+        document.getElementById('quizProgressBar').style.width = "0%";
+        document.getElementById('btnNextQuiz').disabled = true;
+        document.getElementById('btnPrevQuiz').disabled = true;
+        return;
+      }
+
       const q = currentQuestions[currentQuizIndex];
 
       document.getElementById('quizCurrentIndex').innerText = (currentQuizIndex + 1).toLocaleString('gu-IN');
@@ -777,12 +562,16 @@
       document.getElementById('quizQuestionText').innerText = q.question;
 
       document.getElementById('quizProgressBar').style.width = `${((currentQuizIndex + 1) / total) * 100}%`;
-      document.getElementById('quizFeedbackBox').classList.add('hidden');
-      document.getElementById('btnNextQuiz').disabled = true;
+
+      const prevBtn = document.getElementById('btnPrevQuiz');
+      if (prevBtn) {
+        prevBtn.disabled = (currentQuizIndex === 0);
+      }
 
       const box = document.getElementById('quizOptionsBox');
       box.innerHTML = '';
       const letters = ['A', 'B', 'C', 'D'];
+      const alreadyAnswered = userAnswers[currentQuizIndex] !== undefined;
 
       q.options.forEach((opt, idx) => {
         const btn = document.createElement('button');
@@ -792,9 +581,48 @@
         btn.innerHTML = `<span class="w-7 h-7 rounded-xl bg-white border border-slate-300 flex items-center justify-center text-xs font-black text-indigo-700 shrink-0">${letters[idx]}</span><span class="mt-0.5">${opt}</span>`;
         box.appendChild(btn);
       });
+
+      const feedbackBox = document.getElementById('quizFeedbackBox');
+      const nextBtn = document.getElementById('btnNextQuiz');
+
+      if (alreadyAnswered) {
+        const selectedIdx = userAnswers[currentQuizIndex];
+        q.options.forEach((_, i) => {
+          const b = document.getElementById(`optBtn_${i}`);
+          if (b) b.disabled = true;
+        });
+        feedbackBox.classList.remove('hidden');
+
+        if (selectedIdx === q.answer) {
+          const selBtn = document.getElementById(`optBtn_${selectedIdx}`);
+          if (selBtn) selBtn.className = "p-3.5 sm:p-4 rounded-2xl bg-emerald-500 border-2 border-emerald-600 text-white font-black text-xs sm:text-sm shadow-md flex items-start gap-2.5";
+
+          feedbackBox.className = "p-4 rounded-2xl border transition-all text-xs sm:text-sm font-semibold mb-4 bg-emerald-50 border-emerald-300 text-emerald-950";
+          document.getElementById('quizFeedbackIcon').innerText = "🎉";
+          document.getElementById('quizFeedbackTitle').innerText = "ખૂબ સરસ! સાચો જવાબ છે!";
+          document.getElementById('quizFeedbackExplain').innerText = q.explanation;
+        } else {
+          const wrongBtn = document.getElementById(`optBtn_${selectedIdx}`);
+          if (wrongBtn) wrongBtn.className = "p-3.5 sm:p-4 rounded-2xl bg-rose-100 border-2 border-rose-300 text-rose-900 font-bold text-xs sm:text-sm flex items-start gap-2.5";
+          const correctBtn = document.getElementById(`optBtn_${q.answer}`);
+          if (correctBtn) correctBtn.className = "p-3.5 sm:p-4 rounded-2xl bg-emerald-100 border-2 border-emerald-400 text-emerald-900 font-black text-xs sm:text-sm flex items-start gap-2.5";
+
+          feedbackBox.className = "p-4 rounded-2xl border transition-all text-xs sm:text-sm font-semibold mb-4 bg-rose-50 border-rose-200 text-rose-950";
+          document.getElementById('quizFeedbackIcon').innerText = "💡";
+          document.getElementById('quizFeedbackTitle').innerText = `સાચો જવાબ: (${['A','B','C','D'][q.answer]}) ${q.options[q.answer]}`;
+          document.getElementById('quizFeedbackExplain').innerText = q.explanation;
+        }
+        if (nextBtn) nextBtn.disabled = false;
+      } else {
+        feedbackBox.classList.add('hidden');
+        if (nextBtn) nextBtn.disabled = true;
+      }
     }
 
     function handleAnswer(selectedIdx) {
+      if (userAnswers[currentQuizIndex] !== undefined) return;
+      userAnswers[currentQuizIndex] = selectedIdx;
+
       const q = currentQuestions[currentQuizIndex];
       const feedbackBox = document.getElementById('quizFeedbackBox');
       feedbackBox.classList.remove('hidden');
@@ -827,6 +655,14 @@
       document.getElementById('btnNextQuiz').disabled = false;
     }
 
+    function prevQuizQuestion() {
+      playSound('click');
+      if (currentQuizIndex > 0) {
+        currentQuizIndex--;
+        renderQuiz();
+      }
+    }
+
     function nextQuizQuestion() {
       playSound('click');
       if (currentQuizIndex < currentQuestions.length - 1) {
@@ -836,13 +672,14 @@
         if (typeof confetti === 'function') confetti({ particleCount: 70, spread: 80 });
         alert(`અભિનંદન દીકરીઓ! તમે કુલ ${earnedStars} સ્ટાર્સ પ્રાપ્ત કર્યા છે! - Hemantsir`);
         currentQuizIndex = 0;
+        userAnswers = {};
         renderQuiz();
       }
     }
 
     function speakQuestionText() {
       const q = currentQuestions[currentQuizIndex];
-      if (!('speechSynthesis' in window)) return;
+      if (!q || !('speechSynthesis' in window)) return;
       window.speechSynthesis.cancel();
       const utter = new SpeechSynthesisUtterance(q.question);
       utter.lang = 'gu-IN';
@@ -853,6 +690,11 @@
       const container = document.getElementById('studyCardsContainer');
       if (!container) return;
       container.innerHTML = '';
+
+      if (currentQuestions.length === 0) {
+        container.innerHTML = '<p class="text-xs text-slate-500 text-center py-4">ગૂગલ શીટમાંથી પ્રશ્નો લોડ થઈ રહ્યા છે...</p>';
+        return;
+      }
 
       currentQuestions.forEach((item, index) => {
         const card = document.createElement('div');
@@ -908,67 +750,9 @@
       openAdminModal();
     }
 
-    function handleAddNewQuestion() {
-      const chId = document.getElementById('newQChapter').value;
-      const qText = document.getElementById('newQText').value.trim();
-      const a = document.getElementById('newOptA').value.trim();
-      const b = document.getElementById('newOptB').value.trim();
-      const c = document.getElementById('newOptC').value.trim();
-      const d = document.getElementById('newOptD').value.trim();
-      const ans = parseInt(document.getElementById('newQAnswer').value);
-      const exp = document.getElementById('newQExplain').value.trim();
-
-      if (!qText || !a || !b || !c || !d) {
-        alert("કૃપા કરીને પ્રશ્ન અને ચારેય વિકલ્પો ભરો!");
-        return;
-      }
-
-      const chapter = CURRENT_DATABASE.find(item => item.chapterId === chId);
-      if (chapter) {
-        chapter.questions.push({
-          id: `custom_${Date.now()}`,
-          question: qText,
-          options: [a, b, c, d],
-          answer: ans,
-          explanation: exp || "સાચો વિકલ્પ."
-        });
-
-        localStorage.setItem('singapuri_std9_db', JSON.stringify(CURRENT_DATABASE));
-        alert("પ્રશ્ન સફળતાપૂર્વક ઉમેરાઈ ગયો!");
-        handleChapterFilterChange();
-
-        document.getElementById('newQText').value = '';
-        document.getElementById('newOptA').value = '';
-        document.getElementById('newOptB').value = '';
-        document.getElementById('newOptC').value = '';
-        document.getElementById('newOptD').value = '';
-        document.getElementById('newQExplain').value = '';
-      }
-    }
-
-    function exportUpdatedCodeFile() {
-      const currentDocHtml = document.documentElement.outerHTML;
-      const regex = /let CURRENT_DATABASE = \[[\s\S]*?\];\s*\/\/\s*LocalStorage/m;
-      const replacement = `let CURRENT_DATABASE = ${JSON.stringify(CURRENT_DATABASE, null, 2)};\n\n    // LocalStorage`;
-      
-      let finalHtml = currentDocHtml.replace(regex, replacement);
-
-      const blob = new Blob([finalHtml], { type: 'text/html;charset=utf-8' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'index.html';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-
+    // પેજ લોડ થતાં જ ગૂગલ શીટમાંથી ઓટો-સિંક
     window.addEventListener('DOMContentLoaded', () => {
-      renderQuiz();
-      renderStudyCards();
-      const savedSheet = localStorage.getItem('singapuri_std9_sheet_url');
-      if (savedSheet) {
-        syncWithGoogleSheet();
-      }
+      syncWithGoogleSheet(false);
     });
 
     // Right-Click & Inspect Protection
