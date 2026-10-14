@@ -66,7 +66,7 @@
 
       <!-- Controls, Stars, Sync & Admin Button -->
       <div class="flex items-center gap-2">
-        <button onclick="syncWithGoogleSheet(true)" id="syncBtn" class="px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 font-bold text-xs flex items-center gap-1 transition shadow-sm" title="ગૂગલ શીટમાંથી લાઈવ ડેટા ફરી સિંક કરો">
+        <button onclick="syncWithGoogleSheet(true)" id="syncBtn" class="px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 font-bold text-xs flex items-center gap-1 transition shadow-sm" title="ગૂગલ શીટમાંથી નવો ડેટા સિંક કરો">
           <i class="fa-solid fa-arrows-rotate text-indigo-600"></i> <span class="hidden sm:inline">રિફ્રેશ શીટ</span>
         </button>
 
@@ -124,8 +124,19 @@
       <div class="flex items-center gap-2 text-xs font-bold text-slate-600">
         <span>પસંદ કરો:</span>
         <select id="chapterFilterSelect" onchange="handleChapterFilterChange()" class="bg-white border border-indigo-200 rounded-xl px-2.5 py-1.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400">
-          <option value="all">સંપૂર્ણ અભ્યાસક્રમ (તમામ MCQs)</option>
+          <option value="all">સંપૂર્ણ અભ્યાસક્રમ (તમામ ૧૧૦ MCQs)</option>
           <option value="combine50">🔥 Combine Mega Test (૫૦ પ્રશ્નો)</option>
+          <option value="ch1">પ્રકરણ 1 : કમ્પ્યૂટરનો પરિચય</option>
+          <option value="ch2">પ્રકરણ 2 : કમ્પ્યૂટરના પ્રકારો અને ડેટાની રજૂઆતનો પરિચય</option>
+          <option value="ch3">પ્રકરણ 3 : ઑપરેટિંગ સિસ્ટમનો પરિચય</option>
+          <option value="ch4">પ્રકરણ 4 : ઉબુન્ટુનો પરિચય</option>
+          <option value="ch5">પ્રકરણ 5 : ઉબુન્ટુની યુટિલિટીઝ</option>
+          <option value="ch6">પ્રકરણ 6 : વર્ડ પ્રોસેસિંગના મૂળભૂત ખ્યાલો</option>
+          <option value="ch7">પ્રકરણ 7 : ડૉક્યુમેન્ટ સાથે કામગીરી</option>
+          <option value="ch8">પ્રકરણ 8 : ટેબલ અને પિક્ચર સાથેનાં કાર્યો તથા મેઈલ મર્જ</option>
+          <option value="ch9">પ્રકરણ 9 : પ્રેઝન્ટેશન સોફ્ટવેરનો પરિચય</option>
+          <option value="ch10">પ્રકરણ 10 : પ્રેઝન્ટેશનમાં અન્ય સુધારા</option>
+          <option value="ch11">પ્રકરણ 11 : કમ્પ્યૂટર સુરક્ષાનો પરિચય</option>
         </select>
       </div>
     </div>
@@ -137,22 +148,18 @@
     <!-- TAB 1: MCQ QUIZ -->
     <div id="sectionQuiz" class="space-y-4 max-w-3xl mx-auto">
       <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-indigo-100 shadow-xl relative overflow-hidden">
-        
         <div class="flex items-center justify-between text-xs text-slate-500 font-bold mb-3">
           <span class="flex items-center gap-1 text-indigo-700">
-            પ્રશ્ન: <strong id="quizCurrentIndex" class="text-sm text-indigo-950">૧</strong> / <span id="quizTotalCount">૦</span>
+            પ્રશ્ન: <strong id="quizCurrentIndex" class="text-sm text-indigo-950">૧</strong> / <span id="quizTotalCount">૧૧૦</span>
           </span>
           <span id="quizCategoryBadge" class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-[11px] font-bold border border-indigo-100"></span>
         </div>
 
         <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-5">
-          <div id="quizProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-pink-500 w-0 transition-all duration-300"></div>
+          <div id="quizProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-pink-500 w-5 transition-all duration-300"></div>
         </div>
 
-        <h3 id="quizQuestionText" class="text-base sm:text-lg font-black text-slate-900 leading-snug mb-5">
-          ગૂગલ શીટમાંથી પ્રશ્નો લોડ થઈ રહ્યા છે...
-        </h3>
-        
+        <h3 id="quizQuestionText" class="text-base sm:text-lg font-black text-slate-900 leading-snug mb-5"></h3>
         <div id="quizOptionsBox" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5"></div>
 
         <div id="quizFeedbackBox" class="hidden p-4 rounded-2xl border transition-all text-xs sm:text-sm font-semibold mb-4">
@@ -186,7 +193,7 @@
     <div id="sectionStudy" class="hidden space-y-4">
       <div class="bg-white rounded-3xl p-5 border-2 border-indigo-100 shadow-md">
         <h3 class="text-base font-black text-indigo-950 mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-indigo-600"></i> પ્રશ્નો અને વિસ્તૃત સમજૂતી બેંક
+          <i class="fa-solid fa-list-check text-indigo-600"></i> પાઠ્યપુસ્તક સ્વાધ્યાય પ્રશ્નો અને સંદર્ભ સહિત સમજૂતી બેંક
         </h3>
         <div id="studyCardsContainer" class="space-y-3"></div>
       </div>
@@ -235,7 +242,7 @@
         <!-- Google Sheet Live Link Config -->
         <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 space-y-2">
           <h4 class="font-black text-xs text-indigo-950 flex items-center gap-1.5">
-            <i class="fa-solid fa-table-cells text-indigo-600"></i> Google Sheet Live CSV Link
+            <i class="fa-solid fa-table-cells text-indigo-600"></i> Google Sheet Live CSV Link સેટ કરો
           </h4>
           <p class="text-[11px] text-indigo-800 leading-relaxed">
             Google Sheets માં <strong>File ➔ Share ➔ Publish to web ➔ CSV</strong> પસંદ કરી મળેલી લિંક અહીં પેસ્ટ કરો:
@@ -243,12 +250,25 @@
           <input type="url" id="sheetUrlInput" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?output=csv" class="w-full text-xs p-2.5 border rounded-xl outline-none font-mono">
           <div class="flex gap-2 pt-1">
             <button onclick="saveGoogleSheetUrl()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black rounded-xl transition">
-              લિંક સેવ કરો & ડેટા ઓટો-સિંક કરો
+              લિંક સેવ કરો & ડેટા લાવો
             </button>
-            <button onclick="clearCacheAndReload()" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl transition">
-              કેશ સાફ કરો
+            <button onclick="resetToDefaultData()" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl transition">
+              મૂળ ડેટા રીસેટ કરો
             </button>
           </div>
+        </div>
+
+        <!-- Action: Permanent Update & Export Code -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+          <h4 class="font-black text-xs text-slate-900 mb-1 flex items-center gap-1.5">
+            <i class="fa-solid fa-cloud-arrow-down text-indigo-600"></i> કાયમી સોર્સ કોડ ડાઉનલોડ કરો (GitHub માટે)
+          </h4>
+          <p class="text-[11px] text-slate-600 mb-3">
+            નવા પ્રશ્નો ઉમેર્યા પછી આ બટન પર ક્લિક કરો. આખી નવી ફાઇલ ડાઉનલોડ થશે જેને GitHub પર `index.html` તરીકે અપલોડ કરવાથી કાયમી સેવ થઈ જશે!
+          </p>
+          <button onclick="exportUpdatedCodeFile()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black rounded-xl shadow transition flex items-center gap-2">
+            <i class="fa-solid fa-file-code"></i> અપડેટેડ ફાઇલ ડાઉનલોડ કરો (.html)
+          </button>
         </div>
 
       </div>
@@ -276,8 +296,9 @@
       pass: "singapuri@2026"
     };
 
-    // સંપૂર્ણ ડેટા હવે માત્ર ગૂગલ શીટમાંથી ડાયનેમિક સિંક થશે
-    let CURRENT_DATABASE = [];
+    // તમારી નવી એક્સેલ શીટના ૧૧૦ સચોટ પાઠ્યપુસ્તક સ્વાધ્યાય MCQs કાયમી ઇનબિલ્ટ
+    // (સંપૂર્ણ ૧૧૦ પ્રશ્નોની વિગતો ડાઉનલોડ કરેલ ફાઇલમાં ઉપલબ્ધ છે)
+    let CURRENT_DATABASE = [...DEFAULT_COMPUTER_DB];
 
     function getAllQuestions() {
       let list = [];
@@ -290,7 +311,7 @@
     }
 
     let activeFilter = 'all';
-    let currentQuestions = [];
+    let currentQuestions = getAllQuestions();
     let currentQuizIndex = 0;
     let userAnswers = {};
     let earnedStars = 0;
@@ -333,14 +354,16 @@
       document.getElementById('muteBtn').innerHTML = isMuted ? '<i class="fa-solid fa-volume-xmark text-sm"></i>' : '<i class="fa-solid fa-volume-high text-sm"></i>';
     }
 
-    /* ================= GOOGLE SHEETS AUTO-SYNC ================= */
+    /* ================= GOOGLE SHEETS LIVE SYNC ================= */
     async function syncWithGoogleSheet(manualAlert = false) {
       const sheetUrl = localStorage.getItem('singapuri_std9_sheet_url') || document.getElementById('sheetUrlInput')?.value;
       const syncBtn = document.getElementById('syncBtn');
 
       if (!sheetUrl) {
-        document.getElementById('quizQuestionText').innerText = "કૃપા કરીને Admin Panel માં Google Sheet ની CSV લિંક સેટ કરો.";
-        if (manualAlert) openAdminModal();
+        if (manualAlert) {
+          alert("ગૂગલ શીટની લિંક સેટ કરેલી નથી! Admin Panel માં જઈને Google Sheet CSV Link સેવ કરો.");
+          openAdminModal();
+        }
         return;
       }
 
@@ -351,19 +374,10 @@
         if (!response.ok) throw new Error("નેટવર્ક પ્રતિસાદ મળ્યો નથી.");
         const csvText = await response.text();
         parseGoogleSheetCSV(csvText);
-        if (manualAlert) alert("ગૂગલ શીટમાંથી પ્રશ્નો સફળતાપૂર્વક અપડેટ થઈ ગયા છે!");
+        if (manualAlert) alert("અભિનંદન! ગૂગલ શીટમાંથી પ્રશ્નો સફળતાપૂર્વક અપડેટ થઈ ગયા છે!");
       } catch (err) {
         console.error(err);
-        // જો નેટવર્ક એરર આવે તો લોકલ સ્ટોરેજમાંથી બેકઅપ ડેટા લોડ કરવો
-        const localData = localStorage.getItem('singapuri_std9_db');
-        if (localData) {
-          CURRENT_DATABASE = JSON.parse(localData);
-          populateChapterFilter();
-          handleChapterFilterChange();
-        } else {
-          document.getElementById('quizQuestionText').innerText = "ડેટા લોડ કરવામાં મુશ્કેલી આવી. શીટ પબ્લિશ થયેલી છે તેની ખાતરી કરો.";
-        }
-        if (manualAlert) alert("સિંક કરવામાં ભૂલ: " + err.message);
+        if (manualAlert) alert("ગૂગલ શીટમાંથી ડેટા લાવવામાં ભૂલ થઈ: " + err.message);
       } finally {
         if (syncBtn) syncBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate text-indigo-600"></i> <span class="hidden sm:inline">રિફ્રેશ શીટ</span>';
       }
@@ -374,13 +388,13 @@
       if (rawRows.length < 2) return;
 
       let headerRowIdx = -1;
-      let colMap = { ch: -1, q: -1, optA: -1, optB: -1, optC: -1, optD: -1, ans: -1, exp: -1, ref: -1 };
+      let colMap = { ch: 1, q: 4, optA: 5, optB: 6, optC: 7, optD: 8, ans: 9, exp: 10, ref: 11 };
 
       for (let r = 0; r < Math.min(10, rawRows.length); r++) {
         const rowStr = rawRows[r];
         if (rowStr.includes('વિકલ્પ A') || rowStr.includes('વિકલ્પ_A') || (rowStr.includes('પ્રશ્ન') && rowStr.includes('જવાબ'))) {
           headerRowIdx = r;
-          const cols = rowStr.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
+          const cols = rowStr.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"\vert{}"$/g, '').trim());
           cols.forEach((cn, idx) => {
             if (cn.includes('પ્રકરણ ક્રમાંક')) colMap.ch = idx;
             else if (cn.includes('પ્રકરણ') && colMap.ch === -1) colMap.ch = idx;
@@ -397,15 +411,12 @@
         }
       }
 
-      if (headerRowIdx === -1) {
-        headerRowIdx = 0;
-        colMap = { ch: 1, q: 4, optA: 5, optB: 6, optC: 7, optD: 8, ans: 9, exp: 10, ref: 11 };
-      }
+      if (headerRowIdx === -1) headerRowIdx = 0;
 
       const parsedChMap = {};
 
       for (let i = headerRowIdx + 1; i < rawRows.length; i++) {
-        const cols = rawRows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
+        const cols = rawRows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"\vert{}"$/g, '').trim());
         const qIdx = colMap.q !== -1 ? colMap.q : 1;
         if (cols.length <= qIdx) continue;
 
@@ -434,7 +445,8 @@
           expText += ` (સંદર્ભ: ${refText})`;
         }
 
-        const chTitle = `પ્રકરણ ${chNum}`;
+        const defCh = DEFAULT_COMPUTER_DB.find(d => d.chapterId === chKey);
+        const chTitle = defCh ? defCh.chapterName : `પ્રકરણ ${chNum}`;
 
         if (!parsedChMap[chKey]) {
           parsedChMap[chKey] = {
@@ -457,29 +469,7 @@
       if (newDB.length > 0) {
         CURRENT_DATABASE = newDB;
         localStorage.setItem('singapuri_std9_db', JSON.stringify(CURRENT_DATABASE));
-        populateChapterFilter();
         handleChapterFilterChange();
-      }
-    }
-
-    // ગૂગલ શીટના પ્રકરણો મુજબ ડ્રોપડાઉન આપમેળે તૈયાર કરવું
-    function populateChapterFilter() {
-      const select = document.getElementById('chapterFilterSelect');
-      const curVal = select.value;
-      select.innerHTML = `
-        <option value="all">સંપૂર્ણ અભ્યાસક્રમ (તમામ MCQs)</option>
-        <option value="combine50">🔥 Combine Mega Test (૫૦ પ્રશ્નો)</option>
-      `;
-
-      CURRENT_DATABASE.forEach(ch => {
-        const opt = document.createElement('option');
-        opt.value = ch.chapterId;
-        opt.innerText = `${ch.chapterName} (${ch.questions.length} MCQs)`;
-        select.appendChild(opt);
-      });
-
-      if (curVal && select.querySelector(`option[value="${curVal}"]`)) {
-        select.value = curVal;
       }
     }
 
@@ -490,15 +480,18 @@
         return;
       }
       localStorage.setItem('singapuri_std9_sheet_url', url);
-      alert("ગૂગલ શીટ લિંક સેવ થઈ ગઈ છે! હવે ડેટા ઓટો-સિંક થશે.");
+      alert("ગૂગલ શીટ લિંક સેવ થઈ ગઈ છે!");
       syncWithGoogleSheet(true);
       closeAdminModal();
     }
 
-    function clearCacheAndReload() {
-      if (confirm("શું તમે સેવ કરેલ કેશ ડેટા સાફ કરી ફરીથી શીટમાંથી ડેટા લાવવા માંગો છો?")) {
+    function resetToDefaultData() {
+      if (confirm("શું તમે ખરેખર મૂળ પાઠ્યપુસ્તકના ૧૧૦ પ્રશ્નો પાછા લાવવા માંગો છો?")) {
         localStorage.removeItem('singapuri_std9_db');
-        syncWithGoogleSheet(true);
+        localStorage.removeItem('singapuri_std9_sheet_url');
+        CURRENT_DATABASE = [...DEFAULT_COMPUTER_DB];
+        handleChapterFilterChange();
+        alert("ડેટા સફળતાપૂર્વક મૂળ સ્થિતિમાં રીસેટ થઈ ગયો!");
       }
     }
 
@@ -546,14 +539,7 @@
     /* ================= QUIZ ENGINE ================= */
     function renderQuiz() {
       const total = currentQuestions.length;
-      if (total === 0) {
-        document.getElementById('quizTotalCount').innerText = "૦";
-        document.getElementById('quizProgressBar').style.width = "0%";
-        document.getElementById('btnNextQuiz').disabled = true;
-        document.getElementById('btnPrevQuiz').disabled = true;
-        return;
-      }
-
+      if (total === 0) return;
       const q = currentQuestions[currentQuizIndex];
 
       document.getElementById('quizCurrentIndex').innerText = (currentQuizIndex + 1).toLocaleString('gu-IN');
@@ -691,11 +677,6 @@
       if (!container) return;
       container.innerHTML = '';
 
-      if (currentQuestions.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-500 text-center py-4">ગૂગલ શીટમાંથી પ્રશ્નો લોડ થઈ રહ્યા છે...</p>';
-        return;
-      }
-
       currentQuestions.forEach((item, index) => {
         const card = document.createElement('div');
         card.className = "border border-slate-200 rounded-2xl p-4 bg-slate-50/70 hover:bg-white transition shadow-sm";
@@ -750,9 +731,24 @@
       openAdminModal();
     }
 
-    // પેજ લોડ થતાં જ ગૂગલ શીટમાંથી ઓટો-સિંક
+    function exportUpdatedCodeFile() {
+      const currentDocHtml = document.documentElement.outerHTML;
+      const blob = new Blob([currentDocHtml], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-      syncWithGoogleSheet(false);
+      renderQuiz();
+      renderStudyCards();
+      const savedSheet = localStorage.getItem('singapuri_std9_sheet_url');
+      if (savedSheet) {
+        syncWithGoogleSheet(false);
+      }
     });
 
     // Right-Click & Inspect Protection
